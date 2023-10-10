@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAC CubeTimer</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="js/scramble/mathlib.js"></script>
+    <script src="js/scramble/scramble.js"></script>
+    <script src="js/scramble/1x3x3.js"></script>
+    <script src="js/scramble/2x2x2.js"></script>
+    <script src="js/scramble/2x2x3.js"></script>
+    <script src="js/scramble/cross.js"></script>
+    <script src="js/scramble/fto.js"></script>
+    <script src="js/scramble/megascramble.js"></script>
+    <script src="js/scramble/pyraminx.js"></script>
+    <script src="js/scramble/scramble_333_edit.js"></script>
+    <script src="js/scramble/scramble_444.js"></script>
+    <script src="js/scramble/scramble_sq1.js"></script>
+    <script src="js/scramble/skewb.js"></script>
+    <script src="js/scramble/utilscramble.js"></script>
+
+    <script src="https://cdn.cubing.net/js/cubing/twisty" type="module"></script>
+    <script src="js/lib/json2.js"></script>
+    <script src="js/lib/jaaulde-cookies.js"></script>
+</head>
+<body>
+    <div id="top">
+        <div class="center">
+            <select id="cube-select"></select>
+            <p id="change-scramble"><span class="click" id="next-sc">next</span> scramble</p>
+        </div>
+        <scramble></scramble>
+    </div>
+
+    <div id="side">
+        <h1 id="title">HAC CubeTimer</h1>
+        <br>
+        <table id="staticLog">
+            <tr>
+                <th class="th-idx" > - </th>
+                <th class="th-time">time</th>
+                <th class="th-ao5" >Ao5</th>
+                <th class="th-ao12">Ao12</th>
+            </tr>
+            <tr>
+                <td> BEST </td>
+                <td id="static-time"> - </td>
+                <td id="static-ao5"> - </td>
+                <td id="static-ao12"> - </td>
+            </tr>
+        </table>
+        <h2 id="solveCount">Solves: 0/0</h2>
+        <table id="table-head">
+            <tr>
+                <th class="th-idx" >idx</th>
+                <th class="th-time">time</th>
+                <th class="th-ao5" >Ao5</th>
+                <th class="th-ao12">Ao12</th>
+            </tr>
+        </table>
+        <div id="timeLogDiv">
+            <table id="timeLog">
+                <tr>
+                    <td class="idx"> - </td>
+                    <td> - </td>
+                    <td> - </td>
+                    <td> - </td>
+                </tr>
+            </table>
+        </div>
+
+        <twisty-player id="sc-display" visualization="2D" background="none" control-panel="none"></twisty-player>
+    </div>
+
+    <div id="center">
+        <h1 id="timer">0:00.000</h1>
+    </div>
+
+    <div id="TMD">
+        <button id="TMD-Close">✕</button>
+
+        <h1 id="TMD-SolveN">No. 1</h1>
+        <h1 id="TMD-SolveT">0:00.000</h1>
+        <p id="TMD-Cube">Cube: <a>3x3</a></p>
+        <p id="TMD-Scramble">Scramble: <a>placeholder</a></p>
+        <p id="TMD-Date">Date: <a>2023/10/9 16:57:56</a></p>
+
+        <br><br><br><br><br><br>
+        <button id="TMD-Delete">Delete</button>
+    </div>
+
+    <script src="js/cubes.js"> </script>
+    <script src="js/script.js"></script>
+    <script src="js/timer.js"> </script>
+</body>
+</html>

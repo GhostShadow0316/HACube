@@ -1,0 +1,273 @@
+@import url(font.css);
+
+html {
+    color: #fff;
+    background: #000;
+    font-family: "jf";
+}
+
+#top {
+    height: 16%;
+    width: 80%;
+    position: fixed;
+    left: auto;
+    right: 0;
+    top: 0;
+    /* border: 1px solid #fff; */
+    background: #151515;
+}
+
+select {
+    appearance:none;
+
+    font-size: 18px;
+    padding: 2px;
+    border-radius: 5px;
+    height: 40px;
+    width:  100px;
+    color: #fff;
+    background: #303030;
+    border: none;
+    text-align: center;
+    margin: 15px 5px;
+
+    /* display: table-cell;
+    margin: 20px auto; */
+}
+
+p#change-scramble {
+    font-size: 28px;
+    margin: 15px 5px;
+}
+
+span.click {
+    color: #40eeee;
+    cursor: pointer;
+    padding: 0px 10px;
+    border-radius: 5px;
+    user-select: none;
+}
+span:hover { background: #808080; }
+
+.center {
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+}
+
+scramble {
+    font-size: 2vw;
+    font-family: "Fira Code";
+    width: 90%;
+    padding-top: 0.5vw;
+    text-align: center;
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#side {
+    height: 100%;
+    width: 20%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+    text-align: center;
+    background: #202020;
+
+    /* border: 1px solid #fff; */
+}
+
+#side>div>p, #side>div>a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+
+#title {
+    color: #818181;
+    background: #202020;
+    font-size: 40px;
+    cursor: pointer;
+    user-select: none;
+}
+
+#title:hover {
+    background: #101010;
+}
+
+#side>twisty-player {
+    width: 90%;
+    /* margin-left: 11px; */
+    padding: 5px;
+    background: #808080;
+    border-radius: 5px;
+
+    position: absolute;
+    bottom: 3.5%;
+
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%, 0%);
+}
+
+table, td, tr, th {
+    border-collapse: collapse;
+    border: 1px solid #fff;
+    text-align: center;
+}
+
+#side>table, #timeLogDiv>table {
+    position: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#table-head {
+    margin-bottom: -1px;
+}
+
+#solveCount {
+    border: 1px solid #fff;
+    height: 30px;
+    width: 307px;
+    padding: 5px 0px;
+    margin-bottom: -1px;
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* #timeLog, #staticLog { margin-left: 8px; } */
+
+th, td { height: 40px; }
+
+
+.idx, .th-idx  { width: 40px; padding: 0px 3px; }
+.th-time, .th-ao5, .th-ao12, .px80 {
+    width: 80px;
+    padding: 0px 3px;
+}
+
+.idx { cursor: pointer; }
+.idx:hover  { background: #101010; }
+
+#timeLogDiv::-webkit-scrollbar { display: none; }
+#timeLogDiv {
+    width: 100%;
+    height: 32vh;
+    overflow: auto;
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#center {
+    width:  80%;
+    height: 84%;
+    text-align: center;
+
+    position: absolute;
+    bottom: 0%;
+    right: 0%;
+}
+
+#timer {
+    font-size: 10vw;
+
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#TMD {
+    display: none;
+
+    background: #101010;
+    border-radius: 10px;
+    opacity:0.99;
+    width:50%;
+    height: 50%;
+    text-align: center;
+    align-items: center;
+
+    z-index: 5;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#TMD-Close {
+    color: #fff;
+    background: #404040;
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+
+    margin: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#TMD-SolveN {
+    font-size: 30px;
+    height: 0px;
+}
+
+#TMD-SolveT { font-size: 50px; }
+
+#TMD-Cube {
+    font-size: 30px;
+    height: 0px;
+    padding-bottom: 20px;
+}
+
+#TMD-Scramble { font-size: 20px; }
+#TMD-Scramble>a {
+    font-size: 18px;
+    padding: 0px 5px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+#TMD-Scramble>a:hover { background: #404040; }
+
+#TMD-Date { font-size: 20px; }
+#TMD-Date>a {
+    font-size: 18px;
+    padding: 0px 5px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+#TMD-Date>a:hover { background: #404040; }
+
+#TMD-Delete {
+    color: #fff;
+    background: #404040;
+    width: 100px;
+    height: 40px;
+    font-size: 30px;
+    margin: 5px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+
