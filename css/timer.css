@@ -135,14 +135,22 @@ table, td, tr, th {
 
 #solveCount {
     border: 1px solid #fff;
-    height: 30px;
+    /* height: 30px; */
     width: 307px;
     padding: 5px 0px;
+    margin-top: 15px;
     margin-bottom: -1px;
+    padding: 10px 0px;
 
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+#solveCount>* {
+    height: 30px;
+    margin-top: -1px;
+    margin-bottom: -1px;
 }
 
 /* #timeLog, #staticLog { margin-left: 8px; } */
@@ -162,7 +170,7 @@ th, td { height: 40px; }
 #timeLogDiv::-webkit-scrollbar { display: none; }
 #timeLogDiv {
     width: 100%;
-    height: 32vh;
+    height: 30vh;
     overflow: auto;
 
     display: block;
@@ -269,5 +277,3 @@ th, td { height: 40px; }
     border: none;
     cursor: pointer;
 }
-
-

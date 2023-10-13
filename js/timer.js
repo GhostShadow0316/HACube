@@ -112,14 +112,20 @@ var endTimer = () => {
     setTimeout(detect, 0);
 }
 
+var time_to_list = (l=all_times) => { return l.map((x)=>{ return x["time"] }) }
+
 var getBest = (l=all_times.map((x)=>{ return x["time"] })) =>  { return Math.min.apply(Math, l); }
 
-var getAvg  = (l=all_times) => {
-    l = l.map((x)=>{ return x["time"] })
-    l.sort((a, b)=>{ return a - b });
-    l.pop(); l.shift();
+var getMean  = (l=time_to_list()) => {
     sum = l.reduce((x, y)=>{return x+y}, 0).toFixed(3);
     return (sum/l.length).toFixed(3);
+}
+
+var getAvg  = (l=all_times) => {
+    l = time_to_list(l);
+    l.sort((a, b)=>{ return a - b });
+    l.pop(); l.shift();
+    return getMean(l);
 }
 
 var logTime = () => {
@@ -142,7 +148,7 @@ var logTime = () => {
     if (all_times.length>=12) { static_ao12.innerHTML = getAvg(all_times.slice(0, 13)); }
     all_times.reverse();
 
-    solveCount.innerHTML = `Solves: ${all_times.length}`
+    solveCount.innerHTML = `<h1>Solves: ${all_times.length}</h1><br><h2>Mean: ${getMean()}</h2>`
 
 
     // add show TMD event to table
