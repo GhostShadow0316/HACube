@@ -5,21 +5,32 @@ var top_div     = document.getElementById("top");
 var next_sc     = document.getElementById("next-sc");
 var sc_display  = document.getElementById("sc-display");
 var title       = document.getElementById("title");
-
+var timeLogDiv  = document.getElementById("timeLogDiv");
 
 for (let i=0; i<cubes.length; i++) {
     opt = document.createElement("option");
     opt.value = i;
     opt.innerHTML = cubes[i];
-    if (cubes[i]=="3x3") { opt.toggleAttribute("selected"); }
+    if (cubes[i]==(localStorage.getItem("selected_cube") || "3x3")) { opt.toggleAttribute("selected"); }
     cube_select.add(opt);
 }
 
 const delay = (ms=0) => new Promise(res => setTimeout(res, ms));
 
+var hide_display = () => {
+    sc_display.style["display"] = "none";
+    timeLogDiv.style["height"] = "55vh";
+}
+
+var show_display = () => {
+    sc_display.style["display"] = "grid";
+    timeLogDiv.style["height"] = "30vh";
+}
+
 var setScramble = async () => {
     var sc = ""
-    cube = cubes[cube_select.value]
+    cube = cubes[cube_select.value];
+    localStorage.setItem("selected_cube", cube);
     switch (cube) {
         case ("2x2"):
             sc = sc222.getRandomScramble();
@@ -31,38 +42,23 @@ var setScramble = async () => {
             break;
         case ("4x4"):
             scramble.innerHTML = "loading scramble";
-            sc_display.style["display"] = "none";
+            hide_display();
             await delay(0);
 
             sc = sc444.getRandomScramble();
-            sc_display.style["display"] = "grid";
+            show_display();
             scramble.style["font-size"] = "1.5vw";
             break;
         case ("5x5"):
-            scramble.innerHTML = "loading scramble";
-            sc_display.style["display"] = "none";
-            await delay(0);
-
             sc = sc555.get555WCAScramble();
-            sc_display.style["display"] = "grid";
             scramble.style["font-size"] = "1.1vw";
             break;
         case ("6x6"):
-            scramble.innerHTML = "loading scramble";
-            sc_display.style["display"] = "none";
-            await delay(0);
-
             sc = sc666.get666WCAScramble();
-            sc_display.style["display"] = "grid";
             scramble.style["font-size"] = "1vw";
             break;
         case ("7x7"):
-            scramble.innerHTML = "loading scramble";
-            sc_display.style["display"] = "none";
-            await delay(0);
-
             sc = sc777.get777WCAScramble();
-            sc_display.style["display"] = "grid";
             scramble.style["font-size"] = "0.9vw";
             break;
 
@@ -80,7 +76,11 @@ var setScramble = async () => {
             break;
         case ("Square-1"):
             sc = scSq1.getRandomScramble();
-            scramble.style["font-size"] = "1.25vw";
+            scramble.style["font-size"] = "1.1vw";
+            break;
+        case ("Clock"):
+            sc = scClock.getClockWCAScramble();
+            scramble.style["font-size"] = "1.5vw";
             break;
     }
 

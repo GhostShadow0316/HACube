@@ -9,6 +9,7 @@ cubes = [
     "Megaminx",
     "Skewb",
     "Square-1",
+    "Clock",
 ]
 
 // https://github.com/cubing/cubing.js/blob/c90731a/src/cubing/puzzles/index.ts#L20
@@ -23,6 +24,7 @@ puzzles = {
     "Megaminx": "megaminx",
     "Skewb": "skewb",
     "Square-1": "square1",
+    "Clock": "clock",
 }
 
 var sc222 = scramble_222;
@@ -88,3 +90,10 @@ var scSq1 = {
 var scSkewb = skewb_scrambler;
 // for (let k in scSkewb) { console.log(k); }
 // for (let k in scSkewb) { console.log(scSkewb[k]()); }
+
+var scClock = {
+    getClockWCAScramble: scUtil["getClockWCAScramble"],
+    getClockJaapScramble: scUtil["getClockJaapScramble"],
+    getClockConciseScramble: scUtil["getClockConciseScramble"],
+    getClockEfficientPinOrderScramble: scUtil["getClockEfficientPinOrderScramble"],
+}

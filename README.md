@@ -14,8 +14,17 @@
 
 - [ ] Export times
 
+- [ ] Keyboard Control
+
 - [ ] Config menu
+
+- [ ] Mobile support
 
 ---
 
-- [ ] Mobile support
+### Known Error
+
+- Square-1 scramble image problem
+- 4x4 scramble generation slow (library problem)
+- some typo
+

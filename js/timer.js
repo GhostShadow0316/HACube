@@ -7,11 +7,11 @@ var num = (n, digit) => {
     }
 }
 
-var timer = document.getElementById("timer");
+var timer       = document.getElementById("timer");
 var cube_select = document.getElementById("cube-select");
-var staticLog = document.getElementById("staticLog");
-var timeLog = document.getElementById("timeLog");
-var solveCount = document.getElementById("solveCount");
+var staticLog   = document.getElementById("staticLog");
+var timeLog     = document.getElementById("timeLog");
+var solveCount  = document.getElementById("solveCount");
 
 var static_time = document.getElementById("static-time");
 var static_ao5  = document.getElementById("static-ao5");
