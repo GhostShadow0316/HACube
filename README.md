@@ -1,15 +1,21 @@
 # Math Practice
 ## A cube timer project
 
-Use directly on [https://cube.hac.rf.gd](https://cube.hac.rf.gd)
+#### Use directly on [https://cube.hac.rf.gd](https://cube.hac.rf.gd)
+
+---
 
 ### TODO
-[] More cubes support
+- [x] More cubes support
 
-[] Submenu for cubes
+- [ ] Submenu for cubes
 
-[] Previous scramble
+- [ ] Input time
 
-[] Export times
+- [ ] Export times
 
-[] Mobile support
+- [ ] Config menu
+
+---
+
+- [ ] Mobile support
