@@ -71,7 +71,6 @@ var setScramble = async () => {
             scramble.innerHTML = "loading scramble";
             hide_display();
             await delay(0);
-
             sc = sc444.getRandomScramble();
             show_display();
             scramble.style["font-size"] = "1.5vw";
@@ -88,7 +87,6 @@ var setScramble = async () => {
             sc = sc777.get777WCAScramble();
             scramble.style["font-size"] = "0.9vw";
             break;
-
         case ("Pyraminx"):
             sc = scPyra.getPyraWCAScramble();
             scramble.style["font-size"] = "2vw";
@@ -215,13 +213,13 @@ var logTime = () => {
     for (let i=0; i<all_times.length; i++) {
         if (i>= 4) { ao5  = getAvg(all_times.slice(i- 4, i+1)); } else { ao5  = "-" }
         if (i>=11) { ao12 = getAvg(all_times.slice(i-11, i+1)); } else { ao12 = "-" }
-        timeLog.innerHTML +=
+        timeLog.innerHTML =
         `<tr>
-            <td class="idx">${i+1}</td>
+            <td class="idx"> ${i+1}</td>
             <td class="px80">${formatTime(all_times[i]["time"])}</td>
             <td class="px80">${ao5}</td>
             <td class="px80">${ao12}</td>
-        </tr>`;
+        </tr>` + timeLog.innerHTML;
     }
 
     if (all_times.length>1) { static_time.innerHTML = getBest(); }
@@ -235,8 +233,9 @@ var logTime = () => {
 
     // add show TMD event to table
     var idxs = document.getElementsByClassName("idx");
+    var len = idxs.length-1;
     for (let i=0; i<idxs.length; i++) {
-        idxs[i].addEventListener("click", ()=>{ ShowTimeModifyDialog(i) })
+        idxs[i].addEventListener("click", ()=>{ ShowTimeModifyDialog(len-i) })
     }
 }
 
@@ -265,6 +264,7 @@ TMD_Close.addEventListener("click", () => { close_dialog(TMD); })
 
 TMD_Delete.addEventListener("click", () => {
     all_times.splice(TMD_idx, 1);
+    localStorage.setItem("all_times", JSON.stringify(all_times));
     logTime();
 
     close_dialog(TMD);
@@ -287,4 +287,4 @@ for (let i=0; i<cubes.length; i++) {
 }
 
 logTime();
-setScramble().then(((result)=>{ sc = result }));
+setScramble().then(((result)=>{ sc = result; }));

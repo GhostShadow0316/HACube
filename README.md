@@ -29,4 +29,4 @@
 - [Fixed] Square-1 scramble image problem
 - 4x4 scramble generation slow (library problem)
 - scramble font
-- time log problem
+- [Fixed] time log problem
