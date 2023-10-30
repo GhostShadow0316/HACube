@@ -1,4 +1,23 @@
 
+Object.defineProperties(Array.prototype, {
+    count: {
+        value: function(value) {
+            return this.filter(x => x==value).length;
+        }
+    }
+});
+
+Object.defineProperties(Array.prototype, {
+    removeAll: {
+        value: function(elem) {
+            while (this.count(elem)) {
+                this.splice(this.indexOf(elem), 1)
+            }
+            return this;
+        }
+    }
+});
+
 const num = (n, digit, replacement="") => {
     if (("" + n).length < digit) {
         return (replacement.repeat(digit - ("" + n).length) + n);
@@ -10,6 +29,8 @@ const num = (n, digit, replacement="") => {
 const delay = (ms=0) => new Promise(res => setTimeout(res, ms));
 
 const logLocalStorage = () => { localStorage.setItem("all_times", JSON.stringify(all_times)); }
+
+const clearAllTimes = () => { localStorage.setItem("all_times", "[]"); }
 
 var cube_select = document.getElementById("cube-select");
 var scramble    = document.getElementsByTagName("scramble")[0];
@@ -54,12 +75,12 @@ const DNF   = "DNF";
 
 const hide_display = () => {
     sc_display.style["display"] = "none";
-    timeLogDiv.style["height"] = "55vh";
+    // timeLogDiv.style["height"] = "55vh";
 }
 
 const show_display = () => {
     sc_display.style["display"] = "grid";
-    timeLogDiv.style["height"] = "30vh";
+    // timeLogDiv.style["height"] = "28vh";
 }
 
 var setScramble = async () => {
@@ -73,7 +94,7 @@ var setScramble = async () => {
             break;
         case ("3x3"):
             sc = sc333.getRandomScramble();
-            scramble.style["font-size"] = "2vw";
+            scramble.style["font-size"] = "1.8vw";
             break;
         case ("4x4"):
             scramble.innerHTML = "loading scramble";
@@ -217,7 +238,7 @@ var endTimer = () => {
     now = new Date();
     date = [now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds()];
 
-    all_times.push({"cube": cubes[cube_select.value], "scramble": sc, "time": result, "punish": null, "date": date});
+    all_times.push({"cube": cubes[cube_select.value], "scramble": sc, "time": result, "punish": null, "date": date, "comment": ""});
     logLocalStorage();
     logTime();
 
@@ -226,18 +247,29 @@ var endTimer = () => {
     setTimeout(detect, 0);
 }
 
-var time_to_list = (l=all_times) => { return l.map((x)=>{ return x["time"] }) }
+var time_to_list = (l=all_times) => {
+    return l.map((x) => {
+        if (x["punish"]==null)  { return x["time"] }
+        if (x["punish"]==PLUS2) { return x["time"]+2 }
+        if (x["punish"]==DNF)   { return DNF }
+    })
+}
 
 var getBest = (l=all_times.map((x)=>{ return x["time"] })) =>  { return Math.min.apply(Math, l); }
 
 var getMean  = (l=time_to_list()) => {
+    l.removeAll(DNF);
     sum = l.reduce((x, y)=>{return x+y}, 0).toFixed(3);
     return (sum/l.length).toFixed(3);
 }
 
 var getAvg  = (l=all_times) => {
     l = time_to_list(l);
+    // let DNFs = l.count(DNF);
+    // if (DNFs>1) { return DNF; }
+    l.removeAll(DNF);
     l.sort((a, b)=>{ return a - b });
+    // if (DNFs==1) { l.push(DNF) };
     l.pop(); l.shift();
     return getMean(l);
 }
@@ -274,7 +306,7 @@ var logTime = () => {
 }
 
 var punish = (type) => {
-    if (timer.innerHTML!=all_times[all_times.length-1].time) { return; }
+    if (timer.innerHTML!=formatTime(all_times[all_times.length-1].time)) { return; }
 
     if (all_times[all_times.length-1].punish!=type) {
         all_times[all_times.length-1].punish = type

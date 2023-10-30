@@ -32,4 +32,6 @@
 - [Fixed] scramble font
 - [Fixed] time log problem
 - 4x4 scramble generation slow (library problem)
-- +2 doesn't count in Ao5 & Ao12
+- [Fixed] +2 doesn't count in Ao5 & Ao12
+- [Fixed] last few moves of 3x3 scramble sometimes gone to the second line
+- timer stays red when holding space then switch tab
