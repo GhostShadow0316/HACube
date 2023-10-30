@@ -35,11 +35,14 @@ var sc333 = scramble_333;
 // for (let k in sc333) { console.log(k); }
 // for (let k in sc333) { console.log(sc333[k]()); }
 
-var sc444 = scramble_444;
+var scBig = megaScrambler;
+
+var sc444 = {
+    getRandomScramble:   () => { return scramble_444["getRandomScramble"](40); },
+    get444edgesScramble: () => { return megaScrambler["get444edgesScramble"](8); }
+}
 // for (let k in sc444) { console.log(k); }
 // for (let k in sc444) { console.log(sc444[k]()); }
-
-var scBig = megaScrambler;
 
 var sc555 = {
     get555WCAScramble:   () => { return scBig["get555WCAScramble"] (60); },

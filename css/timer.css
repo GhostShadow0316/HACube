@@ -193,10 +193,35 @@ th, td { height: 40px; }
 
     margin: 0;
     position: absolute;
-    top: 50%;
+    top: 45%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+}
+
+#punishments {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, 0%);
+}
+
+.punishment {
+    color: #fff;
+    background: #404040;
+    font-size: 30px;
+    font-family: "Fira Code";
+    width: 100px;
+    height: 50px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
 }
 
 #TMD {
@@ -241,6 +266,28 @@ th, td { height: 40px; }
 }
 
 #TMD-SolveT { font-size: 50px; }
+
+#TMD-Punishes {
+    margin-top: -20px;
+    margin-bottom: -20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.TMD-Punish {
+    color: #fff;
+    background: #404040;
+    font-size: 20px;
+    font-family: "Fira Code";
+    width: 60px;
+    height: 40px;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
 
 #TMD-Cube {
     font-size: 30px;

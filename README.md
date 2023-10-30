@@ -8,17 +8,19 @@
 ### TODO
 - [x] More cubes support
 
+- [x] Punishment
+
 - [ ] Submenu for cubes
 
-- [ ] Punishment
-
-- [ ] Input time
+- [ ] More time input method
 
 - [ ] Export times
 
 - [ ] Keyboard Control
 
 - [ ] Config menu
+
+- [ ] Inspect
 
 - [ ] Mobile support
 
@@ -27,6 +29,7 @@
 ### Known Error
 
 - [Fixed] Square-1 scramble image problem
-- 4x4 scramble generation slow (library problem)
-- scramble font
+- [Fixed] scramble font
 - [Fixed] time log problem
+- 4x4 scramble generation slow (library problem)
+- +2 doesn't count in Ao5 & Ao12

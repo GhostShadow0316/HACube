@@ -1,7 +1,7 @@
 
-var num = (n, digit) => {
+const num = (n, digit, replacement="") => {
     if (("" + n).length < digit) {
-        return ("0".repeat(digit - ("" + n).length) + n);
+        return (replacement.repeat(digit - ("" + n).length) + n);
     } else {
         return ("" + n);
     }
@@ -9,25 +9,37 @@ var num = (n, digit) => {
 
 const delay = (ms=0) => new Promise(res => setTimeout(res, ms));
 
-var timer       = document.getElementById("timer");
+const logLocalStorage = () => { localStorage.setItem("all_times", JSON.stringify(all_times)); }
+
 var cube_select = document.getElementById("cube-select");
+var scramble    = document.getElementsByTagName("scramble")[0];
+var top_div     = document.getElementById("top");
+var next_sc     = document.getElementById("next-sc");
+var sc_display  = document.getElementById("sc-display");
+var title       = document.getElementById("title");
+
+var timer       = document.getElementById("timer");
+var punish_2    = document.getElementById("+2");
+var punish_DNF  = document.getElementById("DNF");
+
 var staticLog   = document.getElementById("staticLog");
 var timeLogDiv  = document.getElementById("timeLogDiv");
 var timeLog     = document.getElementById("timeLog");
 var solveCount  = document.getElementById("solveCount");
-
 var static_time = document.getElementById("static-time");
 var static_ao5  = document.getElementById("static-ao5");
 var static_ao12 = document.getElementById("static-ao12");
 
-var TMD          = document.getElementById("TMD");
-var TMD_Close    = document.getElementById("TMD-Close");
-var TMD_SolveN   = document.getElementById("TMD-SolveN");
-var TMD_SolveT   = document.getElementById("TMD-SolveT");
-var TMD_Cube     = document.getElementById("TMD-Cube");
-var TMD_Scramble = document.getElementById("TMD-Scramble");
-var TMD_Date     = document.getElementById("TMD-Date");
-var TMD_Delete   = document.getElementById("TMD-Delete");
+var TMD            = document.getElementById("TMD");
+var TMD_Close      = document.getElementById("TMD-Close");
+var TMD_SolveN     = document.getElementById("TMD-SolveN");
+var TMD_SolveT     = document.getElementById("TMD-SolveT");
+var TMD_punish_2   = document.getElementById("TMD-+2");
+var TMD_punish_DNF = document.getElementById("TMD-DNF");
+var TMD_Cube       = document.getElementById("TMD-Cube");
+var TMD_Scramble   = document.getElementById("TMD-Scramble");
+var TMD_Date       = document.getElementById("TMD-Date");
+var TMD_Delete     = document.getElementById("TMD-Delete");
 var TMD_idx;
 
 var hold = false;
@@ -37,19 +49,15 @@ var all_times = (JSON.parse(localStorage.getItem("all_times")) || []);
 var sc;
 var dialog_shown = false;
 
-var cube_select = document.getElementById("cube-select");
-var scramble    = document.getElementsByTagName("scramble")[0];
-var top_div     = document.getElementById("top");
-var next_sc     = document.getElementById("next-sc");
-var sc_display  = document.getElementById("sc-display");
-var title       = document.getElementById("title");
+const PLUS2 = "+2";
+const DNF   = "DNF";
 
-var hide_display = () => {
+const hide_display = () => {
     sc_display.style["display"] = "none";
     timeLogDiv.style["height"] = "55vh";
 }
 
-var show_display = () => {
+const show_display = () => {
     sc_display.style["display"] = "grid";
     timeLogDiv.style["height"] = "30vh";
 }
@@ -164,16 +172,42 @@ var getTime = () => {
     return [resultStr, result];
 }
 
-var formatTime = (time) => {
-    var resultM  = Math.floor(time/60);
-    var resultS  = Math.floor(time - resultM*60);
-    var resultMS = (time - Math.floor(time)).toFixed(3)*1000;
-
-    return `${num(resultM, 1)}:${num(resultS, 2)}.${num(resultMS, 3)}`;
+var add_punish = (time, punish) => {
+    switch (punish) {
+        case null:
+            return `${time}`
+        case PLUS2:
+            return `${time}+`
+        case DNF:
+            return `${time} (DNF)`
+    }
 }
 
-var formatDate = (date=["2023", "10", "9", "16", "57", "56"]) => {
-    return `${date[0]}/${date[1]}/${date[2]} ${date[3]}:${date[4]}:${date[5]}`;
+var formatTime = (time, punish=null) => {
+    let resultM  = num(Math.floor(time/60), 1);
+    let resultMS = num((time - Math.floor(time)).toFixed(3)*1000, 3);
+
+    let resultS;
+    if (punish!=PLUS2) { resultS  = num(Math.floor(time - resultM*60), 2); }
+    else { resultS  = num(Math.floor(time - resultM*60)+2, 2); }
+
+    let result;
+    if (resultM==0) {
+        if (resultS==0) {
+            result = `0.${resultMS}`;
+        } else {
+            result = `${resultS}.${resultMS}`;
+        }
+    } else {
+        result = `${resultM}:${resultS}.${resultMS}`;
+    }
+
+    return add_punish(result, punish);
+}
+
+var formatDate = (date=["2023", "10", "09", "16", "57", "56"]) => {
+    return `${date[0]}/${date[1]}/${date[2]} ` +
+           `${num(date[3], 2, "0")}:${num(date[4], 2, "0")}:${num(date[5], 2, "0")}`;
 }
 
 var endTimer = () => {
@@ -184,7 +218,7 @@ var endTimer = () => {
     date = [now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds()];
 
     all_times.push({"cube": cubes[cube_select.value], "scramble": sc, "time": result, "punish": null, "date": date});
-    localStorage.setItem("all_times", JSON.stringify(all_times));
+    logLocalStorage();
     logTime();
 
     setScramble().then(((result)=>{ sc = result }));
@@ -216,7 +250,7 @@ var logTime = () => {
         timeLog.innerHTML =
         `<tr>
             <td class="idx"> ${i+1}</td>
-            <td class="px80">${formatTime(all_times[i]["time"])}</td>
+            <td class="px80">${formatTime(all_times[i]["time"], all_times[i]["punish"])}</td>
             <td class="px80">${ao5}</td>
             <td class="px80">${ao12}</td>
         </tr>` + timeLog.innerHTML;
@@ -232,11 +266,35 @@ var logTime = () => {
 
 
     // add show TMD event to table
-    var idxs = document.getElementsByClassName("idx");
-    var len = idxs.length-1;
+    let idxs = document.getElementsByClassName("idx");
+    const len = idxs.length-1;
     for (let i=0; i<idxs.length; i++) {
         idxs[i].addEventListener("click", ()=>{ ShowTimeModifyDialog(len-i) })
     }
+}
+
+var punish = (type) => {
+    if (timer.innerHTML!=all_times[all_times.length-1].time) { return; }
+
+    if (all_times[all_times.length-1].punish!=type) {
+        all_times[all_times.length-1].punish = type
+    } else {
+        all_times[all_times.length-1].punish = null
+    }
+
+    logLocalStorage();
+    logTime();
+}
+
+var edit_punish = (type) => {
+    item = all_times[TMD_idx];
+
+    if (item.punish!=type) { item.punish = type }
+    else { item.punish = null }
+
+    logLocalStorage();
+    logTime();
+    TMD_SolveT.innerHTML = formatTime(item["time"], item["punish"]);
 }
 
 var ShowTimeModifyDialog = (idx) => {
@@ -244,7 +302,7 @@ var ShowTimeModifyDialog = (idx) => {
 
     TMD_idx                = idx;
     TMD_SolveN.innerHTML   = `No. ${TMD_idx+1}`;
-    TMD_SolveT.innerHTML   = formatTime(item["time"]);
+    TMD_SolveT.innerHTML   = formatTime(item["time"], item["punish"]);
     TMD_Cube  .innerHTML   = `Cube: <a>${item["cube"]}</a>`;
     TMD_Scramble.innerHTML = `Scramble: <a>${item["scramble"]}</a>`;
     TMD_Date  .innerHTML   = `Date: <a>${formatDate(item["date"])}</a>`;
@@ -260,21 +318,26 @@ var close_dialog = (dialog) => {
 
 
 // bind
-TMD_Close.addEventListener("click", () => { close_dialog(TMD); })
+window.addEventListener('keydown', function(e) {
+    node = e.target.nodeName;
+    if (e.code=="Space" && node!="TEXTAREA" && node!="INPUT") { e.preventDefault(); }
+});
 
+punish_2.addEventListener("click"  , () => { punish(PLUS2) })
+punish_DNF.addEventListener("click", () => { punish(DNF) })
+TMD_punish_2.addEventListener("click"  , () => { console.log(PLUS2); edit_punish(PLUS2) })
+TMD_punish_DNF.addEventListener("click", () => { console.log(DNF); edit_punish(DNF) })
+
+cube_select.addEventListener("change", () => { setScramble().then(((result)=>{ sc = result; })) })
+next_sc.addEventListener("click"     , () => { setScramble().then(((result)=>{ sc = result; })) })
+
+TMD_Close.addEventListener("click", () => { close_dialog(TMD); })
 TMD_Delete.addEventListener("click", () => {
     all_times.splice(TMD_idx, 1);
-    localStorage.setItem("all_times", JSON.stringify(all_times));
+    logLocalStorage();
     logTime();
 
     close_dialog(TMD);
-});
-
-cube_select.addEventListener("change", () => { setScramble() })
-next_sc.addEventListener("click", () => { setScramble() })
-window.addEventListener('keydown', function(e) {
-    node = e.target.nodeName;
-    if(e.code=="Space" && node!="TEXTAREA" && node!="INPUT") { e.preventDefault(); }
 });
 
 // main
