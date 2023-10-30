@@ -86,7 +86,7 @@ var setScramble = async () => {
 
     scramble.innerHTML = sc;
     sc_display.setAttribute("puzzle", puzzles[cube]);
-    sc_display.setAttribute("alg", sc);
+    sc_display.setAttribute("alg", sc.replaceAll("/", " / "));
 
     return sc;
 }

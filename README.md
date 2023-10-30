@@ -10,6 +10,8 @@
 
 - [ ] Submenu for cubes
 
+- [ ] Punishment
+
 - [ ] Input time
 
 - [ ] Export times
@@ -24,7 +26,7 @@
 
 ### Known Error
 
-- Square-1 scramble image problem
+- [Fixed] Square-1 scramble image problem
 - 4x4 scramble generation slow (library problem)
-- some typo
-
+- scramble font
+- time log problem
