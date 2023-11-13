@@ -32,6 +32,8 @@ const logLocalStorage = () => { localStorage.setItem("all_times", JSON.stringify
 
 const clearAllTimes = () => { localStorage.setItem("all_times", "[]"); }
 
+const copy = (text) => { navigator.clipboard.writeText(text); }
+
 var cube_select = document.getElementById("cube-select");
 var scramble    = document.getElementsByTagName("scramble")[0];
 var top_div     = document.getElementById("top");
@@ -234,6 +236,7 @@ var formatDate = (date=["2023", "10", "09", "16", "57", "56"]) => {
 var endTimer = () => {
     var [resultStr, result] = getTime();
     timer.innerHTML = resultStr;
+    timer.value = resultStr;
 
     now = new Date();
     date = [now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds()];
@@ -334,10 +337,18 @@ var ShowTimeModifyDialog = (idx) => {
 
     TMD_idx                = idx;
     TMD_SolveN.innerHTML   = `No. ${TMD_idx+1}`;
+
     TMD_SolveT.innerHTML   = formatTime(item["time"], item["punish"]);
+    TMD_SolveT.value   = formatTime(item["time"], item["punish"]);
+
     TMD_Cube  .innerHTML   = `Cube: <a>${item["cube"]}</a>`;
+    TMD_Cube  .value   = `${item["cube"]}`;
+
     TMD_Scramble.innerHTML = `Scramble: <a>${item["scramble"]}</a>`;
+    TMD_Scramble.value = `${item["scramble"]}`;
+
     TMD_Date  .innerHTML   = `Date: <a>${formatDate(item["date"])}</a>`;
+    TMD_Date  .value   = `${formatDate(item["date"])}`;
 
     TMD.style["display"] = "block";
     dialog_shown = true;
@@ -357,8 +368,8 @@ window.addEventListener('keydown', function(e) {
 
 punish_2.addEventListener("click"  , () => { punish(PLUS2) })
 punish_DNF.addEventListener("click", () => { punish(DNF) })
-TMD_punish_2.addEventListener("click"  , () => { console.log(PLUS2); edit_punish(PLUS2) })
-TMD_punish_DNF.addEventListener("click", () => { console.log(DNF); edit_punish(DNF) })
+TMD_punish_2.addEventListener("click"  , () => { edit_punish(PLUS2) })
+TMD_punish_DNF.addEventListener("click", () => { edit_punish(DNF) })
 
 cube_select.addEventListener("change", () => { setScramble().then(((result)=>{ sc = result; })) })
 next_sc.addEventListener("click"     , () => { setScramble().then(((result)=>{ sc = result; })) })
@@ -371,6 +382,11 @@ TMD_Delete.addEventListener("click", () => {
 
     close_dialog(TMD);
 });
+
+timer.addEventListener("click", ()=> { copy(timer.value) })
+
+TMD_Scramble.addEventListener("click", ()=> { copy(TMD_Scramble.value) })
+TMD_Date.addEventListener("click", ()=> { copy(TMD_Date.value) })
 
 // main
 for (let i=0; i<cubes.length; i++) {
