@@ -148,7 +148,7 @@ var setScramble = async () => {
     return sc;
 }
 
-var pressedKeys = { "Space": 0 };
+var pressedKeys = { "Space": 0, "Escape": 0 };
 window.onkeyup   = (e) => { if (!dialog_shown) { pressedKeys[e.code] = 0 } }
 window.onkeydown = (e) => { if (!dialog_shown) { pressedKeys[e.code] += 1 } }
 
@@ -161,7 +161,8 @@ var detect = async function() {
 
     await delay(1)
 
-    var spaceKey = pressedKeys["Space"]
+    var spaceKey = pressedKeys["Space"];
+    var escKey = pressedKeys["Escape"];
     if (spaceKey==0) { timer.style["color"] = "#fff"; }
     else if (spaceKey==1) {
         if (started) {
@@ -183,10 +184,16 @@ var detect = async function() {
         hold = false;
     }
 
+    if (escKey>0) {
+        hold = false;
+        timer.style["color"] = "white";
+        setTimeout(detect, 0);
+        return;
+    }
+
     detect();
 }
 setTimeout(detect, 0);
-
 
 var getTime = () => {
     var nowS      = new Date().getTime()
@@ -403,5 +410,16 @@ for (let i=0; i<cubes.length; i++) {
     cube_select.add(opt);
 }
 
-logTime();
-setScramble().then(((result)=>{ sc = result; }));
+const main = async() => {
+    logTime();
+    if (cubes[cube_select.value]=="4x4") {
+        scramble.innerHTML = "loading scramble";
+        hide_display();
+        await delay(200);
+    }
+    setScramble().then(((result)=>{ sc = result; }));
+}
+
+main();
+
+
