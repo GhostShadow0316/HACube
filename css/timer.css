@@ -1,3 +1,4 @@
+/* font */
 @import url(font.css);
 
 /* variable */
@@ -14,12 +15,22 @@
     --btn-bg: #404040;
     --top-bg: #151515;
     --side-bg: #202020;
+    --sc-display-bg: #808080;
 
-    /* hover */
-    --tmd-hover: #404040;
+    /* hover&click */
+    --main-hover: #404040;
+    --main-click: #303030;
+    --alt-hover: #303030;
+    --alt-click: #202020;
+
+    --idx-hover: #151515;
+
+    --copy-hover: #404040;
+    --copy-click: #202020;
 }
 
 html {
+    font-feature-settings: "cv01", "cv02";
     color: var(--text-fg);
     background: #000;
     font-family: var(--main-font);
@@ -54,6 +65,9 @@ select {
     margin: 20px auto; */
 }
 
+select:hover { background: var(--alt-hover); }
+select:active { background: var(--alt-click); }
+
 p#change-scramble {
     font-size: 28px;
     margin: 15px 5px;
@@ -66,7 +80,8 @@ span.click {
     border-radius: 5px;
     user-select: none;
 }
-span.click:hover { background: var(--btn-bg); }
+span.click:hover { background: var(--main-hover); }
+span.click:active { background: var(--main-click); }
 
 .center {
     display: flex;
@@ -85,6 +100,14 @@ scramble {
     margin-left: auto;
     margin-right: auto;
 }
+scramble>a {
+    padding: 0px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+scramble>a:hover  { background: var(--main-hover); }
+scramble>a:active { background: var(--main-click); }
 
 #side {
     height: 100%;
@@ -105,7 +128,7 @@ scramble {
     padding: 6px 8px 6px 16px;
     text-decoration: none;
     font-size: 25px;
-    color: #818181;
+    /* color: #818181; */
     display: block;
 }
 
@@ -117,15 +140,13 @@ scramble {
     user-select: none;
 }
 
-#title:hover {
-    background: #101010;
-}
+/* #title:hover { background: #101010; } */
 
 #side>twisty-player {
     width: 90%;
     /* margin-left: 11px; */
     padding: 5px;
-    background: #808080;
+    background: var(--sc-display-bg);
     border-radius: 5px;
 
     position: absolute;
@@ -184,7 +205,7 @@ th, td { height: 45px; }
 }
 
 .idx { cursor: pointer; }
-.idx:hover  { background: #101010; }
+.idx:hover  { background: var(--idx-hover); }
 
 #timeLogDiv::-webkit-scrollbar { display: none; }
 #timeLogDiv {
@@ -223,7 +244,8 @@ th, td { height: 45px; }
     transform: translate(-50%, -50%);
 }
 
-#timer:hover { background: #606060; }
+#timer:hover { background: var(--main-hover); }
+#timer:active { background: var(--main-click); }
 
 #punishments {
     display: flex;
@@ -249,6 +271,9 @@ th, td { height: 45px; }
     border: none;
     cursor: pointer;
 }
+
+.punishment:hover { background: var(--alt-hover); }
+.punishment:active { background: var(--alt-click); }
 
 #TMD {
     display: none;
@@ -292,6 +317,12 @@ th, td { height: 45px; }
 }
 
 #TMD-SolveT { font-size: 50px; }
+#TMD-SolveT>a {
+    font-size: 50px;
+    padding: 0px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
 #TMD-Punishes {
     margin-top: -20px;
@@ -320,6 +351,12 @@ th, td { height: 45px; }
     height: 0px;
     padding-bottom: 20px;
 }
+#TMD-Cube>a {
+    font-size: 30px;
+    padding: 0px 5px;
+    border-radius: 3px;
+    cursor: pointer;
+}
 
 #TMD-Scramble { font-size: 20px; }
 #TMD-Scramble>a {
@@ -328,7 +365,6 @@ th, td { height: 45px; }
     border-radius: 3px;
     cursor: pointer;
 }
-#TMD-Scramble>a:hover { background: var(--tmd-hover); }
 
 #TMD-Date { font-size: 20px; }
 #TMD-Date>a {
@@ -337,16 +373,36 @@ th, td { height: 45px; }
     border-radius: 3px;
     cursor: pointer;
 }
-#TMD-Date>a:hover { background: var(--tmd-hover); }
 
 #TMD-Delete {
     color: #fff;
     background: var(--btn-bg);
     width: 100px;
-    height: 40px;
+    height: 50px;
     font-size: 30px;
-    margin: 5px;
-    border-radius: 10px;
+    margin: 10px;
+    border-radius: 5px;
     border: none;
     cursor: pointer;
 }
+
+#TMD-Close:hover  { background: var(--alt-hover); }
+#TMD-Close:active { background: var(--alt-click); }
+
+#TMD-SolveT>a:hover  { background: var(--copy-hover); }
+#TMD-SolveT>a:active { background: var(--copy-click); }
+
+#TMD-Cube>a:hover  { background: var(--copy-hover); }
+#TMD-Cube>a:active { background: var(--copy-click); }
+
+#TMD-Scramble>a:hover  { background: var(--copy-hover); }
+#TMD-Scramble>a:active { background: var(--copy-click); }
+
+#TMD-Date>a:hover  { background: var(--copy-hover); }
+#TMD-Date>a:active { background: var(--copy-click); }
+
+.TMD-Punish:hover  { background: var(--alt-hover); }
+.TMD-Punish:active { background: var(--alt-click); }
+
+#TMD-Delete:hover  { background: var(--alt-hover); }
+#TMD-Delete:active { background: var(--alt-click); }

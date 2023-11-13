@@ -140,7 +140,8 @@ var setScramble = async () => {
             break;
     }
 
-    scramble.innerHTML = sc;
+    scramble.innerHTML = `<a>${sc}</a>`;
+    scramble.value = sc;
     sc_display.setAttribute("puzzle", puzzles[cube]);
     sc_display.setAttribute("alg", sc.replaceAll("/", " / "));
 
@@ -338,17 +339,17 @@ var ShowTimeModifyDialog = (idx) => {
     TMD_idx                = idx;
     TMD_SolveN.innerHTML   = `No. ${TMD_idx+1}`;
 
-    TMD_SolveT.innerHTML   = formatTime(item["time"], item["punish"]);
-    TMD_SolveT.value   = formatTime(item["time"], item["punish"]);
+    TMD_SolveT.innerHTML   = `<a>${formatTime(item["time"], item["punish"])}</a>`;
+    TMD_SolveT.value       = formatTime(item["time"], item["punish"]);
 
     TMD_Cube  .innerHTML   = `Cube: <a>${item["cube"]}</a>`;
-    TMD_Cube  .value   = `${item["cube"]}`;
+    TMD_Cube  .value       = `${item["cube"]}`;
 
     TMD_Scramble.innerHTML = `Scramble: <a>${item["scramble"]}</a>`;
-    TMD_Scramble.value = `${item["scramble"]}`;
+    TMD_Scramble.value     = `${item["scramble"]}`;
 
     TMD_Date  .innerHTML   = `Date: <a>${formatDate(item["date"])}</a>`;
-    TMD_Date  .value   = `${formatDate(item["date"])}`;
+    TMD_Date  .value       = `${formatDate(item["date"])}`;
 
     TMD.style["display"] = "block";
     dialog_shown = true;
@@ -383,8 +384,13 @@ TMD_Delete.addEventListener("click", () => {
     close_dialog(TMD);
 });
 
+
+// copy
+scramble.addEventListener("click", ()=> { copy(scramble.value) })
 timer.addEventListener("click", ()=> { copy(timer.value) })
 
+TMD_SolveT.addEventListener("click", ()=> { copy(TMD_SolveT.value) })
+TMD_Cube.addEventListener("click", ()=> { copy(TMD_Cube.value) })
 TMD_Scramble.addEventListener("click", ()=> { copy(TMD_Scramble.value) })
 TMD_Date.addEventListener("click", ()=> { copy(TMD_Date.value) })
 
