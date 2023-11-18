@@ -1,5 +1,6 @@
-/* font */
+/* import */
 @import url(font.css);
+@import url(kbctrl.css);
 
 /* variable */
 :root {

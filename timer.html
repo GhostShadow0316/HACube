@@ -26,6 +26,11 @@
     <script src="js/lib/json2.js"></script>
 </head>
 <body>
+    <p class="kbstatus">status</p>
+    <div class="kbctrl">
+        <input type="text" placeholder="Input Command" maxlength="50" class="kbinput">
+    </div>
+
     <div id="top">
         <div class="center">
             <select id="cube-select"></select>
@@ -104,8 +109,10 @@
         <button id="TMD-Delete">Delete</button>
     </div>
 
-    <script src="js/cubes.js"> </script>
-    <!-- <script src="js/script.js"></script> -->
-    <script src="js/timer.js"> </script>
+    <script src="js/cubes.js"></script>
+    <script src="js/hactool.js"></script>
+    <script defer src="js/timer.js"></script>
+    <script defer src="js/commands.js"></script>
+    <script defer src="js/timer_kbctrl.js"></script>
 </body>
 </html>

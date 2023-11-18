@@ -1,4 +1,5 @@
-cubes = [
+
+var cubes = [
     "2x2",
     "3x3",
     "4x4",
@@ -12,8 +13,36 @@ cubes = [
     "Clock",
 ]
 
+var command_cubes = {
+    "2x2": "2x2",
+    "22": "2x2",
+    "3x3": "3x3",
+    "33": "3x3",
+    "4x4": "4x4",
+    "44": "4x4",
+    "5x5": "5x5",
+    "55": "5x5",
+    "6x6": "6x6",
+    "66": "6x6",
+    "7x7": "7x7",
+    "77": "7x7",
+
+    "pyraminx": "Pyraminx",
+    "py": "Pyraminx",
+    "megaminx": "Megaminx",
+    "mega": "Megaminx",
+
+    "skewb": "Skewb",
+
+    "square-1": "Square-1",
+    "square1": "Square-1",
+    "sq1": "Square-1",
+
+    "clock": "Clock",
+}
+
 // https://github.com/cubing/cubing.js/blob/c90731a/src/cubing/puzzles/index.ts#L20
-puzzles = {
+var puzzles = {
     "2x2": "2x2x2",
     "3x3": "3x3x3",
     "4x4": "4x4x4",

@@ -1,0 +1,39 @@
+
+.kbctrl {
+    position: absolute;
+    z-index: 99;
+
+    top:  20%;
+    left: 60%;
+    transform: translate(-50%, 0%);
+
+    display: none;
+}
+
+.kbctrl>input {
+    font-family: var(--alt-font);
+    font-size: 45px;
+    height: 50px;
+}
+
+.kbstatus {
+    font-family: var(--alt-font);
+    font-size: 30px;
+    min-width: 400px;
+    min-height: 40px;
+
+    border-radius: 5px;
+    border: 1px solid #fff;
+    padding: 5px 30px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.3);
+
+    position: absolute;
+    z-index: 99;
+
+    bottom: 0%;
+    right:  1%;
+    /* transform: translate(-50%, 0%); */
+
+    display: none;
+}

@@ -1,22 +1,4 @@
-
-Object.defineProperties(Array.prototype, {
-    count: {
-        value: function(value) {
-            return this.filter(x => x==value).length;
-        }
-    }
-});
-
-Object.defineProperties(Array.prototype, {
-    removeAll: {
-        value: function(elem) {
-            while (this.count(elem)) {
-                this.splice(this.indexOf(elem), 1)
-            }
-            return this;
-        }
-    }
-});
+// timer.js
 
 const num = (n, digit, replacement="") => {
     if (("" + n).length < digit) {
@@ -26,13 +8,9 @@ const num = (n, digit, replacement="") => {
     }
 }
 
-const delay = (ms=0) => new Promise(res => setTimeout(res, ms));
-
 const logLocalStorage = () => { localStorage.setItem("all_times", JSON.stringify(all_times)); }
 
 const clearAllTimes = () => { localStorage.setItem("all_times", "[]"); }
-
-const copy = (text) => { navigator.clipboard.writeText(text); }
 
 var cube_select = document.getElementById("cube-select");
 var scramble    = document.getElementsByTagName("scramble")[0];
@@ -148,9 +126,16 @@ var setScramble = async () => {
     return sc;
 }
 
+const not_focused = () => {
+    return (
+        !dialog_shown &&
+        getStyle(kbctrl, "display") == "none"
+    );
+}
+
 var pressedKeys = { "Space": 0, "Escape": 0 };
-window.onkeyup   = (e) => { if (!dialog_shown) { pressedKeys[e.code] = 0 } }
-window.onkeydown = (e) => { if (!dialog_shown) { pressedKeys[e.code] += 1 } }
+window.onkeyup   = (e) => { if (not_focused()) { pressedKeys[e.code] = 0 } }
+window.onkeydown = (e) => { if (not_focused()) { pressedKeys[e.code] += 1 } }
 
 var detect = async function() {
     if (started) {
@@ -317,7 +302,9 @@ var logTime = () => {
 }
 
 var punish = (type) => {
-    if (timer.innerHTML!=formatTime(all_times[all_times.length-1].time)) { return; }
+    if (timer.innerHTML!=formatTime(all_times[all_times.length-1].time)) {
+        return [`Start a solve first!`, BAD];
+    }
 
     if (all_times[all_times.length-1].punish!=type) {
         all_times[all_times.length-1].punish = type
@@ -327,10 +314,13 @@ var punish = (type) => {
 
     logLocalStorage();
     logTime();
+
+    if (type != null) { return [`Punish set to ${type}!`, GOOD]; }
+    else { return [`Punish cleared!`, GOOD]; }
 }
 
-var edit_punish = (type) => {
-    item = all_times[TMD_idx];
+var edit_punish = (idx, type) => {
+    item = all_times[idx] || all_times[TMD_idx];
 
     if (item.punish!=type) { item.punish = type }
     else { item.punish = null }
@@ -338,13 +328,16 @@ var edit_punish = (type) => {
     logLocalStorage();
     logTime();
     TMD_SolveT.innerHTML = formatTime(item["time"], item["punish"]);
+
+    if (type != null) { return [`Punish of index ${idx+1} set to ${type}!`, GOOD]; }
+    else { return [`Punish of index ${idx+1} cleared!`, GOOD]; }
 }
 
 var ShowTimeModifyDialog = (idx) => {
     item = all_times[idx];
 
     TMD_idx                = idx;
-    TMD_SolveN.innerHTML   = `No. ${TMD_idx+1}`;
+    TMD_SolveN.innerHTML   = `No. ${Number(TMD_idx)+1}`;
 
     TMD_SolveT.innerHTML   = `<a>${formatTime(item["time"], item["punish"])}</a>`;
     TMD_SolveT.value       = formatTime(item["time"], item["punish"]);
@@ -383,6 +376,7 @@ cube_select.addEventListener("change", () => { setScramble().then(((result)=>{ s
 next_sc.addEventListener("click"     , () => { setScramble().then(((result)=>{ sc = result; })) })
 
 TMD_Close.addEventListener("click", () => { close_dialog(TMD); })
+document.addEventListener("keydown", (e) => { if (e.code == "Escape") { close_dialog(TMD); } })
 TMD_Delete.addEventListener("click", () => {
     all_times.splice(TMD_idx, 1);
     logLocalStorage();
@@ -394,7 +388,7 @@ TMD_Delete.addEventListener("click", () => {
 
 // copy
 scramble.addEventListener("click", ()=> { copy(scramble.value) })
-timer.addEventListener("click", ()=> { copy(timer.value) })
+timer.addEventListener("click", ()=> { copy(timer.value || "0:00.000") })
 
 TMD_SolveT.addEventListener("click", ()=> { copy(TMD_SolveT.value) })
 TMD_Cube.addEventListener("click", ()=> { copy(TMD_Cube.value) })
@@ -421,5 +415,3 @@ const main = async() => {
 }
 
 main();
-
-
