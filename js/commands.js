@@ -6,7 +6,7 @@ const $cube_commands = {
         if (Object.keys(command_cubes).includes(cube)) {
             cube_select.value = cubes.indexOf(command_cubes[cube]);
             setScramble().then(((result)=>{ sc = result }));
-            return [`Cube selected to ${cube_select.value}!`, GOOD]
+            return [`Cube selected to ${command_cubes[cube]}!`, GOOD]
         } else {
             return [`Invalid Cube: ${cube}`, BAD];
         }
