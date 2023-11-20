@@ -23,7 +23,6 @@ follow these steps:
 1. ONLY select **CACHE** then press clear
 1. refresh HAC-Cube
 1. press <kbd>ctrl+shift+p</kbd> then type `fix`
-1. refresh again
 1. this should fix the problem
 1. but if it's not, submit it to [Issues](https://github.com/GhostShadow0316/HAC-Cube/issues)
 

@@ -85,12 +85,15 @@ const $cube_commands = {
 };
 
 const $other_commands = {
-    "refresh": () => { location.href = location.href },
+    "refresh": () => { location.href = location.href; },
     "reload": "refresh",
 
     "fix": () => {
         localStorage.setItem("sessions", JSON.stringify({"0": localStorage.getItem("all_times"), "1": `"[]"`, "2": `"[]"`}));
         localStorage.setItem("current_session", 0);
+
+        // refresh the page
+        location.href = location.href;
     }
 };
 
