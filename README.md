@@ -15,15 +15,43 @@
 ### !!! NEW FEATURE !!!
 #### Keyboard Control
 > press <kbd>ctrl+shift+p</kbd> to open up command palette
+
+commands:
+- `fix`: if there's any problem, try this command!
+<br><br>
+
 - `cube [cube]`: change cube
+
 - `next`: next scramble
+
 - `punish [+2/DNF]`: set punish to current solve (leave empty for clear punish)
+
 - `view [index]`: view solve to no. ***[index]***
+
 - `edit punish [index] [+2/DNF]`: set punish to solve no. ***[index]*** (leave empty for clear punish)
+
 - `remove [idx]`: remove solve no. ***[index]***
+
 - `copy`
     - `scramble` or `sc`: copy current scramble
+
     - `time`: copy current solve time
 
 ---
 
+### !!! NEW FEATURE !!!
+#### Sessions
+> Save your solves in different sessions
+
+now there's a drop down menu to switch different sessions
+
+![drop down menu](static/screeenshots/drop-down.png)
+
+or you can use the command:
+- `session change [session]` or `session = [session]`
+
+---
+
+<br><br><br>
+
+latest update on 2023-11-20

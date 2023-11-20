@@ -57,12 +57,41 @@ const $cube_commands = {
             copy(timer.value || "0:00.000")
             return [`Copied Solve Time!`, GOOD];
         },
+    },
+
+    // session controls
+    "session": {
+        // change current session
+        "=": "change",
+        "change": (idx) => {
+            if (!((idx-1 <session_length) && (0 <= idx-1))) {
+                return [`Invalid Session: ${idx}`, BAD];
+            }
+            sessionSelect.value = idx-1;
+
+            current_session = sessionSelect.value;
+            localStorage.setItem("current_session", current_session);
+            if (typeof(sessions[current_session])=="string") {
+                all_times = (JSON.parse(sessions[current_session]) || []);
+            } else {
+                all_times = (sessions[current_session]);
+            }
+            logLocalStorage();
+            logTime();
+
+            return [`Session ${idx} Selected`, GOOD];
+        }
     }
 };
 
 const $other_commands = {
     "refresh": () => { location.href = location.href },
     "reload": "refresh",
+
+    "fix": () => {
+        localStorage.setItem("sessions", JSON.stringify({"0": localStorage.getItem("all_times"), "1": `"[]"`, "2": `"[]"`}));
+        localStorage.setItem("current_session", 0);
+    }
 };
 
 const $commands = mergeObjects($cube_commands, $other_commands);

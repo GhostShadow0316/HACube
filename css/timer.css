@@ -139,6 +139,8 @@ scramble>a:active { background: var(--main-click); }
     font-size: 40px;
     cursor: pointer;
     user-select: none;
+    margin-top: -5px;
+    margin-bottom: -5px;
 }
 
 /* #title:hover { background: #101010; } */
@@ -174,7 +176,7 @@ table, td, tr, th {
     margin-bottom: -1px;
 }
 
-#solveCount {
+#sessionStatic {
     border: 1px solid #fff;
     /* height: 30px; */
     width: 307px;
@@ -188,8 +190,8 @@ table, td, tr, th {
     margin-right: auto;
 }
 
-#solveCount>* {
-    height: 30px;
+#sessionStatic>* {
+    height: 40px;
     margin-top: -1px;
     margin-bottom: -1px;
 }

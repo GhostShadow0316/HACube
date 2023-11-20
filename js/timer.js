@@ -8,11 +8,17 @@ const num = (n, digit, replacement="") => {
     }
 }
 
-const logLocalStorage = () => { localStorage.setItem("all_times", JSON.stringify(all_times)); }
+const logLocalStorage = () => {
+    sessions[current_session] = all_times;
+    localStorage.setItem("sessions", JSON.stringify(sessions));
+}
 
-const clearAllTimes = () => { localStorage.setItem("all_times", "[]"); }
+const clearAllTimes = () => {
+    sessions[current_session] = null;
+    localStorage.setItem("sessions", JSON.stringify(sessions));
+}
 
-var cube_select = document.getElementById("cube-select");
+var cubeSelect  = document.getElementById("cube-select");
 var scramble    = document.getElementsByTagName("scramble")[0];
 var top_div     = document.getElementById("top");
 var next_sc     = document.getElementById("next-sc");
@@ -23,13 +29,16 @@ var timer       = document.getElementById("timer");
 var punish_2    = document.getElementById("+2");
 var punish_DNF  = document.getElementById("DNF");
 
-var staticLog   = document.getElementById("staticLog");
-var timeLogDiv  = document.getElementById("timeLogDiv");
-var timeLog     = document.getElementById("timeLog");
-var solveCount  = document.getElementById("solveCount");
-var static_time = document.getElementById("static-time");
-var static_ao5  = document.getElementById("static-ao5");
-var static_ao12 = document.getElementById("static-ao12");
+var staticLog     = document.getElementById("staticLog");
+var timeLogDiv    = document.getElementById("timeLogDiv");
+var timeLog       = document.getElementById("timeLog");
+var sessionStatic = document.getElementById("sessionStatic");
+var solveCount    = sessionStatic.getElementsByTagName("h1")[0];
+var solveMean     = sessionStatic.getElementsByTagName("h2")[0];
+var sessionSelect = sessionStatic.getElementsByTagName("select")[0];
+var static_time   = document.getElementById("static-time");
+var static_ao5    = document.getElementById("static-ao5");
+var static_ao12   = document.getElementById("static-ao12");
 
 var TMD            = document.getElementById("TMD");
 var TMD_Close      = document.getElementById("TMD-Close");
@@ -46,9 +55,17 @@ var TMD_idx;
 var hold = false;
 var started = false; // *timer
 var startS;
-var all_times = (JSON.parse(localStorage.getItem("all_times")) || []);
 var sc;
 var dialog_shown = false;
+
+var sessions  = (JSON.parse(localStorage.getItem("sessions")) || {});
+var session_length = Object.keys(sessions).length;
+var current_session = (localStorage.getItem("current_session") || 0);
+if (typeof(sessions[current_session])=="string") {
+    all_times = (JSON.parse(sessions[current_session]) || []);
+} else {
+    all_times = (sessions[current_session]);
+}
 
 const PLUS2 = "+2";
 const DNF   = "DNF";
@@ -65,7 +82,7 @@ const show_display = () => {
 
 var setScramble = async () => {
     var sc = ""
-    cube = cubes[cube_select.value];
+    cube = cubes[cubeSelect.value];
     localStorage.setItem("selected_cube", cube);
     switch (cube) {
         case ("2x2"):
@@ -234,7 +251,15 @@ var endTimer = () => {
     now = new Date();
     date = [now.getFullYear(), now.getMonth()+1, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds()];
 
-    all_times.push({"cube": cubes[cube_select.value], "scramble": sc, "time": result, "punish": null, "date": date, "comment": ""});
+    all_times.push({
+        "cube": cubes[cubeSelect.value],
+        "scramble": sc,
+        "time": result,
+        "punish": null,
+        "date": date,
+        "comment": "",
+        "tags": [],
+    });
     logLocalStorage();
     logTime();
 
@@ -285,12 +310,19 @@ var logTime = () => {
     }
 
     if (all_times.length>1) { static_time.innerHTML = getBest(); }
-    all_times.reverse();
-    if (all_times.length>= 5) { static_ao5 .innerHTML = getAvg(all_times.slice(0,  6)); }
-    if (all_times.length>=12) { static_ao12.innerHTML = getAvg(all_times.slice(0, 13)); }
+    else { static_time.innerHTML = `Solve more!`; }
     all_times.reverse();
 
-    solveCount.innerHTML = `<h1>Solves: ${all_times.length}</h1><br><h2>Mean: ${getMean()}</h2>`
+    if (all_times.length>= 5) { static_ao5 .innerHTML = getAvg(all_times.slice(0,  6)); }
+    else { static_ao5 .innerHTML = `Solve more!`; }
+
+    if (all_times.length>=12) { static_ao12.innerHTML = getAvg(all_times.slice(0, 13)); }
+    else { static_ao12.innerHTML = `Solve more!`; }
+
+    all_times.reverse();
+
+    solveCount.innerHTML = `Solves: ${all_times.length}`;
+    solveMean.innerHTML  = `Mean: ${getMean()}`;
 
 
     // add show TMD event to table
@@ -303,7 +335,7 @@ var logTime = () => {
 
 var punish = (type) => {
     if (timer.innerHTML!=formatTime(all_times[all_times.length-1].time)) {
-        return [`Start a solve first!`, BAD];
+        return [`Start a solve first!`, PROB];
     }
 
     if (all_times[all_times.length-1].punish!=type) {
@@ -360,7 +392,6 @@ var close_dialog = (dialog) => {
     dialog_shown = false;
 }
 
-
 // bind
 window.addEventListener('keydown', function(e) {
     node = e.target.nodeName;
@@ -372,8 +403,20 @@ punish_DNF.addEventListener("click", () => { punish(DNF) })
 TMD_punish_2.addEventListener("click"  , () => { edit_punish(PLUS2) })
 TMD_punish_DNF.addEventListener("click", () => { edit_punish(DNF) })
 
-cube_select.addEventListener("change", () => { setScramble().then(((result)=>{ sc = result; })) })
+cubeSelect.addEventListener("change", () => { setScramble().then(((result)=>{ sc = result; })) })
 next_sc.addEventListener("click"     , () => { setScramble().then(((result)=>{ sc = result; })) })
+
+sessionSelect.addEventListener("change", () => {
+    current_session = sessionSelect.value;
+    localStorage.setItem("current_session", current_session);
+    if (typeof(sessions[current_session])=="string") {
+        all_times = (JSON.parse(sessions[current_session]) || []);
+    } else {
+        all_times = (sessions[current_session]);
+    }
+    logLocalStorage();
+    logTime();
+});
 
 TMD_Close.addEventListener("click", () => { close_dialog(TMD); })
 document.addEventListener("keydown", (e) => { if (e.code == "Escape") { close_dialog(TMD); } })
@@ -385,7 +428,6 @@ TMD_Delete.addEventListener("click", () => {
     close_dialog(TMD);
 });
 
-
 // copy
 scramble.addEventListener("click", ()=> { copy(scramble.value) })
 timer.addEventListener("click", ()=> { copy(timer.value || "0:00.000") })
@@ -396,17 +438,26 @@ TMD_Scramble.addEventListener("click", ()=> { copy(TMD_Scramble.value) })
 TMD_Date.addEventListener("click", ()=> { copy(TMD_Date.value) })
 
 // main
-for (let i=0; i<cubes.length; i++) {
-    opt = document.createElement("option");
-    opt.value = i;
-    opt.innerHTML = cubes[i];
-    if (cubes[i]==(localStorage.getItem("selected_cube") || "3x3")) { opt.toggleAttribute("selected"); }
-    cube_select.add(opt);
-}
+const main = async () => {
+    // cube select
+    for (let i=0; i<cubes.length; i++) {
+        opt = document.createElement("option");
+        opt.value = i;
+        opt.innerHTML = cubes[i];
+        if (cubes[i]==(localStorage.getItem("selected_cube") || "3x3")) { opt.toggleAttribute("selected"); }
+        cubeSelect.add(opt);
+    }
+    // session select
+    for (let i=0; i<session_length; i++) {
+        opt = document.createElement("option");
+        opt.value = i;
+        opt.innerHTML = `${i+1}`;
+        sessionSelect.add(opt);
+        if (i==(localStorage.getItem("current_session") || "0")) { opt.toggleAttribute("selected"); }
+    }
 
-const main = async() => {
     logTime();
-    if (cubes[cube_select.value]=="4x4") {
+    if (cubes[cubeSelect.value]=="4x4") {
         scramble.innerHTML = "loading scramble";
         hide_display();
         await delay(200);
