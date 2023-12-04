@@ -17,14 +17,18 @@ const GOOD = "#0f0";
 const PROB = "#ff0";
 const BAD  = "#f00";
 
+var fadeInID;
+var fadeOutID;
 const set_status = async (text, color) => {
     kbstatus.style["color"] = color;
     kbstatus.innerHTML = text;
     block(kbstatus);
-    fadeIn(kbstatus);
+    clearInterval(fadeInID);
+    fadeInID = fadeIn(kbstatus);
     await delay(text.length*100);
     if (getStyle(kbstatus, "display")) {
-        fadeOut(kbstatus);
+        clearInterval(fadeOutID);
+        fadeOutID = fadeOut(kbstatus);
         hide(kbstatus);
     }
 };
@@ -47,13 +51,30 @@ const execute = (input, commands=$commands) => {
                     x = v(...input.slice(1));
                     if (x != null) { set_status(x[0], x[1]) }
                 }
-                if (typeof(v)=="object") {
-                    if (input.length == 1) { return; }
-                    else { execute(input.slice(1), v) }
-                }
+
                 if (typeof(v)=="string") {
                     x = commands[v](...input.slice(1));
                     if (x != null) { set_status(x[0], x[1]) }
+                }
+
+                if (typeof(v)=="object") {
+                    if (input.length == 1) {
+                        try { v[null](); }
+                        catch { return; }
+                    } else {
+                        if (Object.keys(v).includes(input[1])) {
+                            execute(input.slice(1), v);
+                        } else {
+                            if (typeof(v[null])=="function") {
+                                x = v[null](...input.slice(1));
+                                if (x != null) { set_status(x[0], x[1]) }
+                            }
+                            if (typeof(v[null]=="string")) {
+                                x = v[v[null]](...input.slice(1));
+                                if (x != null) { set_status(x[0], x[1]) }
+                            }
+                        }
+                    }
                 }
             }
         }

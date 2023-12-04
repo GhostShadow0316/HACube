@@ -3,3 +3,4 @@ test/
 .vscode/
 TODO.md
 kbctrl/
+RUN.ps1

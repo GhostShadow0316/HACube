@@ -13,7 +13,13 @@
 .kbctrl>input {
     font-family: var(--alt-font);
     font-size: 45px;
+    background: var(--btn-bg);
+    color: var(--text-fg);
+    padding: 5px;
     height: 50px;
+    border-radius: 5px;
+    border: 0;
+    outline: 0;
 }
 
 .kbstatus {

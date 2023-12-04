@@ -9,14 +9,21 @@ const num = (n, digit, replacement="") => {
 }
 
 const logLocalStorage = () => {
-    sessions[current_session] = all_times;
+    sessions[s_idxs[current_session]] = JSON.stringify(all_times);
+    localStorage.setItem("session_idxs", JSON.stringify(s_idxs));
     localStorage.setItem("sessions", JSON.stringify(sessions));
+    localStorage.setItem("current_session", JSON.stringify(current_session));
 }
 
-const clearAllTimes = () => {
-    sessions[current_session] = null;
-    localStorage.setItem("sessions", JSON.stringify(sessions));
+const logs = () => {
+    logLocalStorage();
+    logTime();
 }
+
+// const clearAllTimes = () => {
+//     sessions[current_session] = null;
+//     localStorage.setItem("sessions", JSON.stringify(sessions));
+// }
 
 var cubeSelect  = document.getElementById("cube-select");
 var scramble    = document.getElementsByTagName("scramble")[0];
@@ -58,14 +65,18 @@ var startS;
 var sc;
 var dialog_shown = false;
 
-var sessions  = (JSON.parse(localStorage.getItem("sessions")) || {});
-var session_length = Object.keys(sessions).length;
+var sessions = (JSON.parse(localStorage.getItem("sessions")) || {});
+var s_idxs = (JSON.parse(localStorage.getItem("session_idxs")));
+var s_length = s_idxs.length;
 var current_session = (localStorage.getItem("current_session") || 0);
-if (typeof(sessions[current_session])=="string") {
-    all_times = (JSON.parse(sessions[current_session]) || []);
-} else {
-    all_times = (sessions[current_session]);
-}
+
+const getSession = () => {
+    s = sessions[s_idxs[current_session]];
+    if (typeof(s)=="string") { return JSON.parse(s); }
+    else { return s; }
+};
+
+all_times = getSession();
 
 const PLUS2 = "+2";
 const DNF   = "DNF";
@@ -260,8 +271,7 @@ var endTimer = () => {
         "comment": "",
         "tags": [],
     });
-    logLocalStorage();
-    logTime();
+    logs();
 
     setScramble().then(((result)=>{ sc = result }));
 
@@ -322,7 +332,9 @@ var logTime = () => {
     all_times.reverse();
 
     solveCount.innerHTML = `Solves: ${all_times.length}`;
-    solveMean.innerHTML  = `Mean: ${getMean()}`;
+
+    if (all_times.length>0) { solveMean.innerHTML  = `Mean: ${getMean()}`; }
+    else { solveMean.innerHTML = `Mean: solve more!`; }
 
 
     // add show TMD event to table
@@ -344,8 +356,7 @@ var punish = (type) => {
         all_times[all_times.length-1].punish = null
     }
 
-    logLocalStorage();
-    logTime();
+    logs();
 
     if (type != null) { return [`Punish set to ${type}!`, GOOD]; }
     else { return [`Punish cleared!`, GOOD]; }
@@ -357,8 +368,7 @@ var edit_punish = (idx, type) => {
     if (item.punish!=type) { item.punish = type }
     else { item.punish = null }
 
-    logLocalStorage();
-    logTime();
+    logs();
     TMD_SolveT.innerHTML = formatTime(item["time"], item["punish"]);
 
     if (type != null) { return [`Punish of index ${idx+1} set to ${type}!`, GOOD]; }
@@ -409,21 +419,15 @@ next_sc.addEventListener("click"     , () => { setScramble().then(((result)=>{ s
 sessionSelect.addEventListener("change", () => {
     current_session = sessionSelect.value;
     localStorage.setItem("current_session", current_session);
-    if (typeof(sessions[current_session])=="string") {
-        all_times = (JSON.parse(sessions[current_session]) || []);
-    } else {
-        all_times = (sessions[current_session]);
-    }
-    logLocalStorage();
-    logTime();
+    all_times = getSession();
+    logs();
 });
 
 TMD_Close.addEventListener("click", () => { close_dialog(TMD); })
 document.addEventListener("keydown", (e) => { if (e.code == "Escape") { close_dialog(TMD); } })
 TMD_Delete.addEventListener("click", () => {
     all_times.splice(TMD_idx, 1);
-    logLocalStorage();
-    logTime();
+    logs();
 
     close_dialog(TMD);
 });
@@ -437,24 +441,26 @@ TMD_Cube.addEventListener("click", ()=> { copy(TMD_Cube.value) })
 TMD_Scramble.addEventListener("click", ()=> { copy(TMD_Scramble.value) })
 TMD_Date.addEventListener("click", ()=> { copy(TMD_Date.value) })
 
+
+const createSelect = (length_, inners, container, default_) => {
+    for (let i=0; i<length_; i++) {
+        opt = document.createElement("option");
+        opt.value = i;
+        opt.innerHTML = inners[i];
+        if (default_(i, opt)) { opt.toggleAttribute("selected"); }
+        container.add(opt);
+    }
+}
+
 // main
 const main = async () => {
     // cube select
-    for (let i=0; i<cubes.length; i++) {
-        opt = document.createElement("option");
-        opt.value = i;
-        opt.innerHTML = cubes[i];
-        if (cubes[i]==(localStorage.getItem("selected_cube") || "3x3")) { opt.toggleAttribute("selected"); }
-        cubeSelect.add(opt);
-    }
+    createSelect(cubes.length, cubes, cubeSelect,
+        (i, opt) => { return cubes[i]==(localStorage.getItem("selected_cube") || "3x3") });
+
     // session select
-    for (let i=0; i<session_length; i++) {
-        opt = document.createElement("option");
-        opt.value = i;
-        opt.innerHTML = `${i+1}`;
-        sessionSelect.add(opt);
-        if (i==(localStorage.getItem("current_session") || "0")) { opt.toggleAttribute("selected"); }
-    }
+    createSelect(s_length, s_idxs, sessionSelect,
+        (i, opt) => { return i==(current_session) });
 
     logTime();
     if (cubes[cubeSelect.value]=="4x4") {

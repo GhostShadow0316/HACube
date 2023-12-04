@@ -38,8 +38,7 @@ const $cube_commands = {
     "remove": (idx) => {
         if (isIdxValid(idx)) {
             all_times.splice(idx-1, 1);
-            logLocalStorage();
-            logTime();
+            logs();
             return [`Removed time on index ${idx}`, PROB];
         } else {
             return [`Invalid index: ${idx}`, BAD];
@@ -62,26 +61,67 @@ const $cube_commands = {
     // session controls
     "session": {
         // change current session
+        null: "change",
         "=": "change",
-        "change": (idx) => {
-            if (!((idx-1 <session_length) && (0 <= idx-1))) {
-                return [`Invalid Session: ${idx}`, BAD];
+        "change": (name) => {
+            if (!(s_idxs.includes(name))) {
+                return [`Invalid Session: ${name}`, BAD];
             }
-            sessionSelect.value = idx-1;
 
-            current_session = sessionSelect.value;
+            current_session = s_idxs.indexOf(name);
+            sessionSelect.value = current_session;
             localStorage.setItem("current_session", current_session);
-            if (typeof(sessions[current_session])=="string") {
-                all_times = (JSON.parse(sessions[current_session]) || []);
-            } else {
-                all_times = (sessions[current_session]);
-            }
-            logLocalStorage();
-            logTime();
 
-            return [`Session ${idx} Selected`, GOOD];
-        }
-    }
+            all_times = getSession();
+
+            logs();
+
+            return [`Session "${name}" Selected`, GOOD];
+        },
+
+        // add new session
+        "+": "add",
+        "add": (name) => {
+            sessions[name] = [];
+            s_idxs.push(name);
+
+            // session select
+            s_length = s_idxs.length;
+            sessionSelect.innerHTML = "";
+            createSelect(s_length, s_idxs, sessionSelect,
+                (i, opt) => { return i==(current_session) });
+
+            logs();
+
+            return [`Added new session: ${name}`, GOOD];
+        },
+
+        // remove a session
+        "-": "remove",
+        "remove": (name) => {
+            if (!(s_idxs.includes(name))) {
+                return [`Invalid Session: ${name}`, BAD];
+            }
+
+            current_session = 0;
+            all_times = getSession();
+
+            delete sessions[name];
+            s_idxs[s_idxs.indexOf(name)] = null;
+            s_idxs = s_idxs.filter(i => i);
+
+
+            // session select
+            s_length = s_idxs.length;
+            sessionSelect.innerHTML = "";
+            createSelect(s_length, s_idxs, sessionSelect,
+                (i, opt) => { return i==(current_session) });
+
+            logs();
+
+            return [`Removed session: ${name}`, PROB];
+        },
+    },
 };
 
 const $other_commands = {
@@ -89,12 +129,18 @@ const $other_commands = {
     "reload": "refresh",
 
     "fix": () => {
-        localStorage.setItem("sessions", JSON.stringify({"0": localStorage.getItem("all_times"), "1": `"[]"`, "2": `"[]"`}));
+        localStorage.setItem("sessions", JSON.stringify({"default": localStorage.getItem("all_times"), "second": `[]`, "third": `[]`}));
+        localStorage.setItem("session_idxs", JSON.stringify(["default", "second", "third"]));
         localStorage.setItem("current_session", 0);
 
         // refresh the page
         location.href = location.href;
-    }
+    },
+
+    "test": {
+        null: () => { console.log("default") },
+        "hi": () => { console.log("hello") },
+    },
 };
 
 const $commands = mergeObjects($cube_commands, $other_commands);
