@@ -40,8 +40,8 @@ var staticLog     = document.getElementById("staticLog");
 var timeLogDiv    = document.getElementById("timeLogDiv");
 var timeLog       = document.getElementById("timeLog");
 var sessionStatic = document.getElementById("sessionStatic");
-var solveCount    = sessionStatic.getElementsByTagName("h1")[0];
-var solveMean     = sessionStatic.getElementsByTagName("h2")[0];
+var solveCount    = sessionStatic.getElementsByTagName("h3")[0];
+var solveMean     = sessionStatic.getElementsByTagName("h3")[1];
 var sessionSelect = sessionStatic.getElementsByTagName("select")[0];
 var static_time   = document.getElementById("static-time");
 var static_ao5    = document.getElementById("static-ao5");
@@ -65,10 +65,10 @@ var startS;
 var sc;
 var dialog_shown = false;
 
-var sessions = (JSON.parse(localStorage.getItem("sessions")) || {});
-var s_idxs = (JSON.parse(localStorage.getItem("session_idxs")));
+var sessions = (JSON.parse(localStorage.getItem("sessions")) || {"default": [], "second": []});
+var s_idxs = (JSON.parse(localStorage.getItem("session_idxs")) || Object.keys(sessions));
 var s_length = s_idxs.length;
-var current_session = (localStorage.getItem("current_session") || 0);
+var current_session = (JSON.parse(localStorage.getItem("current_session")) || 0);
 
 const getSession = () => {
     s = sessions[s_idxs[current_session]];
@@ -410,8 +410,8 @@ window.addEventListener('keydown', function(e) {
 
 punish_2.addEventListener("click"  , () => { punish(PLUS2) })
 punish_DNF.addEventListener("click", () => { punish(DNF) })
-TMD_punish_2.addEventListener("click"  , () => { edit_punish(PLUS2) })
-TMD_punish_DNF.addEventListener("click", () => { edit_punish(DNF) })
+TMD_punish_2.addEventListener("click"  , () => { edit_punish(TMD_idx, PLUS2) })
+TMD_punish_DNF.addEventListener("click", () => { edit_punish(TMD_idx, DNF) })
 
 cubeSelect.addEventListener("change", () => { setScramble().then(((result)=>{ sc = result; })) })
 next_sc.addEventListener("click"     , () => { setScramble().then(((result)=>{ sc = result; })) })

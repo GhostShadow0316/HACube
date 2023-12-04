@@ -6,6 +6,7 @@
 :root {
     --main-font: "jf";
     --alt-font: "Fira Code";
+    --cubic-font: "Cubic";
 
     /* color */
     --text-fg: #fff;
@@ -16,7 +17,7 @@
     --btn-bg: #404040;
     --top-bg: #151515;
     --side-bg: #202020;
-    --sc-display-bg: #808080;
+    --sc-display-bg: rgba(128, 128, 128, 0.3);
 
     /* hover&click */
     --main-hover: #404040;
@@ -49,14 +50,17 @@ html {
 }
 
 select {
-    appearance:none;
+    appearance: none;
 
     font-size: 18px;
+    font-family: var(--cubic-font);
+    letter-spacing: 1px;
+
     padding: 2px;
     border-radius: 5px;
     height: 40px;
-    width:  100px;
-    color: #fff;
+    width:  120px;
+    color: var(--text-fg);
     background: var(--btn-bg);
     border: none;
     text-align: center;
@@ -133,32 +137,32 @@ scramble>a:active { background: var(--main-click); }
     display: block;
 }
 
-#title {
-    color: #818181;
-    background: #202020;
-    font-size: 40px;
-    cursor: pointer;
-    user-select: none;
-    margin-top: -5px;
-    margin-bottom: -5px;
-}
-
-/* #title:hover { background: #101010; } */
-
-#side>twisty-player {
-    width: 90%;
+twisty-player {
+    width: 20%;
     /* margin-left: 11px; */
     padding: 5px;
     background: var(--sc-display-bg);
     border-radius: 5px;
 
     position: absolute;
-    bottom: 3.5%;
+    bottom: 1%;
 
-    left: 50%;
-    right: 50%;
-    transform: translate(-50%, 0%);
+    right: 1%;
+    transform: translate(0%, 0%);
 }
+
+#title {
+    color: #818181;
+    background: #202020;
+    font-size: 40px;
+    height: 5%;
+    cursor: pointer;
+    user-select: none;
+    margin-top: -5px;
+    margin-bottom: -5px;
+}
+/* #title:hover { background: #101010; } */
+
 
 table, td, tr, th {
     border-collapse: collapse;
@@ -173,33 +177,40 @@ table, td, tr, th {
 }
 
 #table-head {
+    height: 5%;
     margin-bottom: -1px;
+}
+
+#staticLog {
+    height: 10%;
 }
 
 #sessionStatic {
     border: 1px solid #fff;
-    /* height: 30px; */
+    height: 15%;
     width: 307px;
-    padding: 5px 0px;
     margin-top: 15px;
     margin-bottom: -1px;
-    padding: 10px 0px;
+    padding: 0px 0px;
 
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
 
-#sessionStatic>* {
+#sessionStatic>h2 {
     height: 40px;
-    margin-top: -1px;
-    margin-bottom: -1px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
-/* #timeLog, #staticLog { margin-left: 8px; } */
+#session-select {
+    height: 30px;
+    width: 100px;
+    margin-top: 0px;
+}
 
 th, td { height: 45px; }
-
 
 .idx, .th-idx  { width: 40px; padding: 0px 3px; }
 .th-time, .th-ao5, .th-ao12, .px80 {
@@ -213,7 +224,7 @@ th, td { height: 45px; }
 #timeLogDiv::-webkit-scrollbar { display: none; }
 #timeLogDiv {
     width: 100%;
-    height: 28vh;
+    height: 60%;
     overflow: auto;
 
     display: block;

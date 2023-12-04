@@ -7,6 +7,11 @@
 	url(https://cdn.jsdelivr.net/gh/marsnow/open-huninn-font@1.1/font/jf-openhuninn.svg#SealmemoryHeader) format("svg"); /* Legacy iOS */
 }
 
+@font-face {
+	font-family: 'Cubic';
+	src: url(../font/Cubic_11_1.010_R.woff) format("woff");
+}
+
 /* @import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css); */
 
 @font-face {

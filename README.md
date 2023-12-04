@@ -6,8 +6,8 @@
 ---
 
 ### Features
-- [x] Support ***2x2*** - ***7x7***, ***Pyraminx***, ***Megaminx***, ***Skewb***, ***Square-1***, ***Clock***
-- [x] Support ***+2*** and ***DNF***
+- [x] Support _**2x2**_ - _**7x7**_ _**Pyraminx**_, _**Megaminx**_, _**Skewb**_, _**Square-1**_, _**Clock**_
+- [x] Support _**\+2**_ and _**DNF**_
 - [x] Draw Scramble
 
 ---
@@ -22,7 +22,7 @@ follow these steps:
 1. goto [chrome://settings/clearBrowserData](chrome://settings/clearBrowserData)
 1. ONLY select **CACHE** then press clear
 1. refresh HAC-Cube
-1. press <kbd>ctrl+shift+p</kbd> then type `fix`
+1. press <kbd>ctrl+shift+p</kbd> then type `update`
 1. this might fix the problem
 1. but if it's not, submit it to [Issues](https://github.com/GhostShadow0316/HAC-Cube/issues)
 
@@ -33,7 +33,7 @@ follow these steps:
 > press <kbd>ctrl+shift+p</kbd> to open up command palette
 
 commands:
-- `fix`: if there's any problem, try this command!
+- `update`: if there's any problem, try this command!
 <br><br>
 
 - `cube [cube]`: change cube
@@ -42,16 +42,25 @@ commands:
 
 - `punish [+2/DNF]`: set punish to current solve (leave empty for clear punish)
 
-- `view [index]`: view solve to no. ***[index]***
+- `view [index]`: view solve to no. _**[index]**_
 
-- `edit punish [index] [+2/DNF]`: set punish to solve no. ***[index]*** (leave empty for clear punish)
+- `edit punish [index] [+2/DNF]`: set punish to solve no. _**[index]**_ (leave empty for clear punish)
 
-- `remove [idx]`: remove solve no. ***[index]***
+- `remove [idx]`: remove solve no. _**[index]**_
 
 - `copy`
     - `scramble` or `sc`: copy current scramble
 
     - `time`: copy current solve time
+
+- `session`
+    - `[name]` or ` = [name]` or `change [name]`: switch between sessions
+    
+    - ` + [name]` or `add [name]`: add new session
+    
+    - ` - [name]` or `remove [name]`: remove existed session
+
+- `reset`: the old _**fix**_ command, use it will remove all your progress
 
 ---
 
@@ -70,4 +79,4 @@ or you can use the command:
 
 <br><br><br>
 
-latest update on 2023-12-4
+- latest update on 2023-12-04
