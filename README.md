@@ -34,6 +34,8 @@ follow these steps:
 
 commands:
 - `update`: if there's any problem, try this command!
+
+- `help`: show a command help page
 <br><br>
 
 - `cube [cube]`: change cube

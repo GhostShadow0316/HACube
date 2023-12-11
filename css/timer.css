@@ -1,42 +1,7 @@
 /* import */
+@import url(base.css);
 @import url(font.css);
 @import url(kbctrl.css);
-
-/* variable */
-:root {
-    --main-font: "jf";
-    --alt-font: "Fira Code";
-    --cubic-font: "Cubic";
-
-    /* color */
-    --text-fg: #fff;
-    --sc-fg: #fff;
-
-    /* background */
-    --bg: #000;
-    --btn-bg: #404040;
-    --top-bg: #151515;
-    --side-bg: #202020;
-    --sc-display-bg: rgba(128, 128, 128, 0.3);
-
-    /* hover&click */
-    --main-hover: #404040;
-    --main-click: #303030;
-    --alt-hover: #303030;
-    --alt-click: #202020;
-
-    --idx-hover: #151515;
-
-    --copy-hover: #404040;
-    --copy-click: #202020;
-}
-
-html {
-    font-feature-settings: "cv01", "cv02";
-    color: var(--text-fg);
-    background: #000;
-    font-family: var(--main-font);
-}
 
 #top {
     height: 16%;
@@ -53,8 +18,7 @@ select {
     appearance: none;
 
     font-size: 18px;
-    font-family: var(--cubic-font);
-    letter-spacing: 1px;
+    font-family: var(--alt-font);
 
     padding: 2px;
     border-radius: 5px;
@@ -162,13 +126,6 @@ twisty-player {
     margin-bottom: -5px;
 }
 /* #title:hover { background: #101010; } */
-
-
-table, td, tr, th {
-    border-collapse: collapse;
-    border: 1px solid #fff;
-    text-align: center;
-}
 
 #side>table, #timeLogDiv>table {
     position: block;

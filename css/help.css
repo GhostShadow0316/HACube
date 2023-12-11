@@ -1,0 +1,38 @@
+
+@import url(base.css);
+
+body {
+    text-align: center;
+}
+
+table {
+    width: 90%;
+    position: relative;
+    left: 5%;
+    right: 5%;
+}
+
+th, td { height: 50%; }
+
+th {
+    font-size: 50px;
+    padding-top:    10px;
+    padding-bottom: 10px;
+    color: #fff;
+    background: #111111;
+}
+
+td {
+    font-size: 30px;
+    padding-top:    20px;
+    padding-bottom: 20px;
+}
+
+td.command {
+    font-family: "Fira Code";
+    background: #222222;
+}
+
+td.sep {
+    background: #444;
+}

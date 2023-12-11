@@ -19,11 +19,8 @@ const block = (elem) => { elem.style["display"] = "block"; }
 const grid  = (elem) => { elem.style["display"] = "grid"; }
 
 const toggle_shown = (elem, type=block) => {
-    if (getStyle(elem, "display") == "none") {
-        type();
-    } else {
-        hide();
-    }
+    if (getStyle(elem, "display") == "none") { type(); }
+    else { hide(); }
 }
 
 const fadeIn = (elem, delay=10) => {
@@ -57,13 +54,9 @@ const fadeOut = (elem, delay=10) => {
 }
 
 // Format
-const str = (inp) => {
-    return ("" + inp);
-}
+const str = (inp) => { return ("" + inp); }
 
-const mergeObjects = (...objs) => {
-    return Object.assign({}, ...objs);
-}
+const mergeObjects = (...objs) => { return Object.assign({}, ...objs); }
 
 
 // Array

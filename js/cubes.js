@@ -15,16 +15,27 @@ var cubes = [
 
 var command_cubes = {
     "2x2": "2x2",
+    "2": "2x2",
     "22": "2x2",
+
     "3x3": "3x3",
+    "3": "3x3",
     "33": "3x3",
+
     "4x4": "4x4",
+    "4": "4x4",
     "44": "4x4",
+
     "5x5": "5x5",
+    "5": "5x5",
     "55": "5x5",
+
     "6x6": "6x6",
+    "6": "6x6",
     "66": "6x6",
+
     "7x7": "7x7",
+    "7": "7x7",
     "77": "7x7",
 
     "pyraminx": "Pyraminx",
@@ -56,11 +67,36 @@ var puzzles = {
     "Clock": "clock",
 }
 
-var sc222 = scramble_222;
+var sc2 = scramble_222;
+var sc222 = {
+    getRandomScramble:  sc2["getRandomScramble"] (),
+    getOptimalScramble: sc2["getOptimalScramble"](),
+};
 // for (let k in sc222) { console.log(k); }
 // for (let k in sc222) { console.log(sc222[k]()); }
 
-var sc333 = scramble_333;
+var sc3 = scramble_333;
+var sc333 = {
+    getRandomScramble:    () => { return sc3["getRandomScramble"]() },
+
+    getEdgeScramble:      () => { return sc3["getEdgeScramble"]() },
+    getCornerScramble:    () => { return sc3["getCornerScramble"]() },
+    getLLScramble:        () => { return sc3["getLLScramble"]() },
+    getLSLLScramble:      () => { return sc3["getLSLLScramble"]() },
+    getZBLLScramble:      () => { return sc3["getZBLLScramble"]() },
+    getZZLLScramble:      () => { return sc3["getZZLLScramble"]() },
+    getF2LScramble:       () => { return sc3["getF2LScramble"]() },
+    getLSEScramble:       () => { return sc3["getLSEScramble"]() },
+    getCMLLScramble:      () => { return sc3["getCMLLScramble"]() },
+    getCLLScramble:       () => { return sc3["getCLLScramble"]() },
+    getELLScramble:       () => { return sc3["getELLScramble"]() },
+    getAnyScramble:       () => { return sc3["getAnyScramble"]() },
+    getEasyCrossScramble: () => { return sc3["getEasyCrossScramble"]() },
+
+    getEOLineScramble:    () => { return sc3["getEOLineScramble"]() },
+    getZBLSScramble:      () => { return sc3["getZBLSScramble"]() },
+    get3BLDScramble:      () => { return sc3["getRandomOriScramble"]() },
+};
 // for (let k in sc333) { console.log(k); }
 // for (let k in sc333) { console.log(sc333[k]()); }
 
@@ -97,7 +133,11 @@ var sc777 = {
 // for (let k in sc777) { console.log(k); }
 // for (let k in sc777) { console.log(sc777[k]()); }
 
-var scPyra = pyra_scrambler;
+var scPyra_ = pyra_scrambler;
+var scPyra = {
+    getPyraWCAScramble:     () => { return scPyra_["getPyraWCAScramble"]    () },
+    getPyraOptimalScramble: () => { return scPyra_["getPyraOptimalScramble"]() },
+}
 // for (let k in scPyra) { console.log(k); }
 // for (let k in scPyra) { console.log(scPyra[k]()); }
 
@@ -119,7 +159,9 @@ var scSq1 = {
 // for (let k in scSq1) { console.log(k); }
 // for (let k in scSq1) { console.log(scSq1[k]()); }
 
-var scSkewb = skewb_scrambler;
+var scSkewb = {
+    getSkewbWCAScramble: skewb_scrambler["getSkewbWCAScramble"],
+}
 // for (let k in scSkewb) { console.log(k); }
 // for (let k in scSkewb) { console.log(scSkewb[k]()); }
 

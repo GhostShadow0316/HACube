@@ -22,6 +22,19 @@
     outline: 0;
 }
 
+.kbctrl>p {
+    text-align: center;
+    font-family: var(--alt-font);
+    font-size: 20px;
+    background: var(--top-bg);
+    color: var(--text-fg);
+    padding: 10px 0px;
+    /* height: 50px; */
+    border-radius: 5px;
+    border: 0;
+    outline: 0;
+}
+
 .kbstatus {
     font-family: var(--alt-font);
     font-size: 30px;
@@ -37,8 +50,8 @@
     position: absolute;
     z-index: 99;
 
-    bottom: 0%;
-    right:  1%;
+    top: 15%;
+    right: 1%;
     /* transform: translate(-50%, 0%); */
 
     display: none;

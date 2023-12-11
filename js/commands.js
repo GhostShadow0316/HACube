@@ -4,7 +4,7 @@ const $cube_commands = {
     // set cube
     "cube": (cube) => {
         if (Object.keys(command_cubes).includes(cube)) {
-            cube_select.value = cubes.indexOf(command_cubes[cube]);
+            cubeSelect.value = cubes.indexOf(command_cubes[cube]);
             setScramble().then(((result)=>{ sc = result }));
             return [`Cube selected to ${command_cubes[cube]}!`, GOOD];
         } else {
@@ -174,6 +174,10 @@ const $other_commands = {
 
         // refresh the page
         location.href = location.href;
+    },
+
+    "help": () => {
+        window.open("help.html", "_blank")
     },
 
     "test": {
