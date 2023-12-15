@@ -1,3 +1,4 @@
+// hactool.js
 
 // Element
 const getElement = (by, elem) => {
@@ -83,6 +84,23 @@ const copy = (text) => { navigator.clipboard.writeText(text); }
 
 const equalsIgnoringCase = (text1, text2) => {
     return text1.localeCompare(text2, undefined, { sensitivity: 'base' }) === 0;
+}
+
+const upload = () => {
+    const inp = document.createElement("input");
+    inp.type = "file";
+    inp.click();
+
+    return inp;
+}
+
+const download = (type, txt, fname) => {
+    const blob = new Blob([txt], {type: type});
+    const fileUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.download = fname;
+    link.href = fileUrl;
+    link.click();
 }
 
 // const addHotkey = (scope=document, key, modifier="", preventdefault=true) => {

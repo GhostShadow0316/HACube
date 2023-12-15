@@ -1,5 +1,7 @@
 // timer.js
 
+last_update = "2023-12-15";
+
 const num = (n, digit, replacement="") => {
     if (("" + n).length < digit) {
         return (replacement.repeat(digit - ("" + n).length) + n);
@@ -346,7 +348,7 @@ var logTime = () => {
 }
 
 var punish = (type) => {
-    if (timer.innerHTML!=formatTime(all_times[all_times.length-1].time)) {
+    if (timer.value!=formatTime(all_times[all_times.length-1].time)) {
         return [`Start a solve first!`, PROB];
     }
 
@@ -357,6 +359,12 @@ var punish = (type) => {
     }
 
     logs();
+
+    const current = all_times[all_times.length-1].punish;
+
+    if (current==PLUS2)  { timer.innerHTML = `${timer.value} +2` }
+    if (current==DNF)    { timer.innerHTML = `${timer.value} (DNF)` }
+    if (current==null)   { timer.innerHTML = `${timer.value}` }
 
     if (type != null) { return [`Punish set to ${type}!`, GOOD]; }
     else { return [`Punish cleared!`, GOOD]; }

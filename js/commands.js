@@ -8,6 +8,7 @@ const $cube_commands = {
             setScramble().then(((result)=>{ sc = result }));
             return [`Cube selected to ${command_cubes[cube]}!`, GOOD];
         } else {
+            if (cube==undefined) { return [`Invalid Cube`, BAD]; }
             return [`Invalid Cube: ${cube}`, BAD];
         }
     },
@@ -122,6 +123,9 @@ const $cube_commands = {
             if (!(s_idxs.includes(name))) {
                 return [`Session "${name}" not found`, BAD];
             }
+            if (s_idxs.length <= 1) {
+                return [`There has to be AT LEAST one session!`, PROB];
+            }
 
             current_session = 0;
             all_times = getSession();
@@ -142,6 +146,53 @@ const $cube_commands = {
             return [`Removed session: ${name}`, PROB];
         },
     },
+
+    // export session
+    "export": () => {
+        var now = new Date();
+        var time = `${now.getFullYear()}${now.getMonth()+1}${now.getDate()}_` +
+                  `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
+
+        download("application/json", JSON.stringify(sessions), `sessions_${time}`);
+
+        return [`Downloaded all sessions as "sessions_${time}.json"`, GOOD];
+    },
+
+    // import session
+    "import": () => {
+        let status = "";
+        var input = upload();
+
+        input.onchange = (e) => {
+            let file = e.target.files[0];
+
+            var reader = new FileReader();
+            reader.readAsText(file, 'UTF-8');
+
+            reader.onload = (readerEvent) => {
+                content = readerEvent.target.result;
+
+                try {
+                    json = JSON.parse(content);
+                    console.log(json);
+
+                    sessions = json;
+                    s_idxs = Object.keys(sessions);
+                    s_length = s_idxs.length;
+                    current_session = 0;
+
+                    all_times = getSession();
+
+                    logs();
+
+                    status = [`Imported!`, GOOD];
+
+                } catch (E) {
+                    status = [`Invalid file!`, BAD];
+                }
+            }
+        }
+    },
 };
 
 const unknown = "unknown";
@@ -149,6 +200,7 @@ var list     = ["cube", "scramble", "time", "punish", "date", "comment", "tags"]
 var defaults = [unknown, "freedom", unknown, null, unknown, "",  []];
 
 const $other_commands = {
+    "version": () => { return [`last update: ${last_update}`, GOOD] },
     "refresh": () => { location.href = location.href; },
     "reload": "refresh",
 
@@ -159,7 +211,9 @@ const $other_commands = {
                 console.log(item);
 
                 list.forEach((elem, i) => {
-                    if (!item[elem]) { item[elem] = defaults[i]; }
+                    if (!item[elem]) {
+                        item[elem] = defaults[i];
+                    }
                 });
 
                 arr[idx] = item;
@@ -183,6 +237,11 @@ const $other_commands = {
     "test": {
         null: () => { console.log("default") },
         "hi": () => { console.log("hello") },
+        "return": () => {
+            localStorage.sessions = localStorage.session_backup;
+            sessions = localStorage.sessions;
+            s_idxs = Object.keys(sessions);
+        }
     },
 };
 

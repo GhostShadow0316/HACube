@@ -64,21 +64,23 @@ commands:
 
 - `reset`: the old _**fix**_ command, use it will remove all your progress
 
+- `export`: export sessions as a json file
+
+- `import`: import sessions from a json file
+
 ---
 
 ### !!! NEW FEATURE !!!
-#### Sessions
-> Save your solves in different sessions
+#### Import and Export Session
+> Save your session in different devices
 
-now there's a drop down menu to switch different sessions
+you can now use command `import` and `export` to **import** and **export** session
 
-![drop down menu](static/screeenshots/drop-down.png)
-
-or you can use the command:
-- `session change [session]` or `session = [session]`
+it now only supports files exported from here, 
+but it'll support more formats from other timers soon!
 
 ---
 
 <br><br><br>
 
-- latest update on 2023-12-04
+- latest update on 2023-12-15

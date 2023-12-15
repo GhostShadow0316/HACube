@@ -59,10 +59,10 @@ span.click:active { background: var(--main-click); }
 }
 
 scramble {
-    font-size: 2vw;
+    font-size: 2dvw;
     font-family: var(--alt-font);
     width: 90%;
-    padding-top: 0.5vw;
+    padding-top: 0.5dvw;
     text-align: center;
 
     display: block;
@@ -200,12 +200,13 @@ th, td { height: 45px; }
 }
 
 #timer {
-    font-size: 10vw;
+    font-size: 10dvw;
     cursor: pointer;
     user-select: none;
+    width: 80%;
 
     border-radius: 10px;
-    padding: 0px 2vw;
+    padding: 0px 2dvw;
 
     margin: 0;
     position: absolute;

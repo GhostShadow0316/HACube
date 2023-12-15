@@ -1,3 +1,4 @@
+// cubes.js
 
 var cubes = [
     "2x2",
@@ -69,8 +70,8 @@ var puzzles = {
 
 var sc2 = scramble_222;
 var sc222 = {
-    getRandomScramble:  sc2["getRandomScramble"] (),
-    getOptimalScramble: sc2["getOptimalScramble"](),
+    getRandomScramble:  () => { return sc2["getRandomScramble"] () },
+    getOptimalScramble: () => { return sc2["getOptimalScramble"]() },
 };
 // for (let k in sc222) { console.log(k); }
 // for (let k in sc222) { console.log(sc222[k]()); }

@@ -1,4 +1,5 @@
-# ignore test files
+# .gitignore
+
 test/
 .vscode/
 TODO.md

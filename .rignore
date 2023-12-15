@@ -1,0 +1,7 @@
+# .rignore
+
+.git/**
+.vscode/**
+kbctrl/**
+RUN.ps1
+desktop.ini
