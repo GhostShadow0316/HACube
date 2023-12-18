@@ -83,4 +83,4 @@ but it'll support more formats from other timers soon!
 
 <br><br><br>
 
-- latest update on 2023-12-15
+- latest update on 2023-12-18
