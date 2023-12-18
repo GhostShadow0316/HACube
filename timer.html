@@ -35,6 +35,7 @@
     </div>
 
     <div id="top">
+        <!-- <button id="menu-btn">&#9776;</button> -->
         <div class="center">
             <select id="cube-select"></select>
             <p id="change-scramble"><span class="click" id="next-sc">next</span> scramble</p>
@@ -42,18 +43,29 @@
         <scramble><a></a></scramble>
     </div>
 
+    <twisty-player id="sc-display" visualization="2D" background="none" control-panel="none"></twisty-player>
+
+    <div id="center">
+        <h1 id="timer">0:00.000</h1>
+        <div id="punishments">
+            <button class="punishment" id="+2" >+2</button>
+            <button class="punishment" id="DNF">DNF</button>
+            <!-- <button class="punishment">Delete</button> -->
+        </div>
+    </div>
+
     <div id="side">
         <h1 id="title">HAC CubeTimer</h1>
         <br>
         <table id="staticLog">
             <tr>
-                <th class="th-idx" > - </th>
+                <!-- <th class="th-idx" > - </th> -->
                 <th class="th-time">time</th>
                 <th class="th-ao5" >Ao5</th>
                 <th class="th-ao12">Ao12</th>
             </tr>
             <tr>
-                <td> BEST </td>
+              <!-- <td> BEST </td> -->
                 <td id="static-time"> - </td>
                 <td id="static-ao5"> - </td>
                 <td id="static-ao12"> - </td>
@@ -83,16 +95,6 @@
             </table>
         </div>
 
-    </div>
-    <twisty-player id="sc-display" visualization="2D" background="none" control-panel="none"></twisty-player>
-
-    <div id="center">
-        <h1 id="timer">0:00.000</h1>
-        <div id="punishments">
-            <button class="punishment" id="+2" >+2</button>
-            <button class="punishment" id="DNF">DNF</button>
-            <!-- <button class="punishment">Delete</button> -->
-        </div>
     </div>
 
     <div id="TMD">

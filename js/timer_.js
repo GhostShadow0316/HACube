@@ -1,61 +1,6 @@
 // timer.js
 
-const last_update = "2023-12-18";
-const PLUS2 = "+2";
-const DNF   = "DNF";
-
-var started = false;
-var startS;
-var sc;
-var dialog_shown = false;
-
-var cubeSelect    = document.getElementById("cube-select");
-var scramble      = document.getElementsByTagName("scramble")[0];
-var top_div       = document.getElementById("top");
-var next_sc       = document.getElementById("next-sc");
-var sc_display    = document.getElementById("sc-display");
-var title         = document.getElementById("title");
-var menu_btn      = document.getElementById("menu-btn");
-var side          = document.getElementById("side");
-var timer         = document.getElementById("timer");
-var punish_2      = document.getElementById("+2");
-var punish_DNF    = document.getElementById("DNF");
-
-var staticLog     = document.getElementById("staticLog");
-var timeLogDiv    = document.getElementById("timeLogDiv");
-var timeLog       = document.getElementById("timeLog");
-var sessionStatic = document.getElementById("sessionStatic");
-var solveCount    = sessionStatic.getElementsByTagName("h3")[0];
-var solveMean     = sessionStatic.getElementsByTagName("h3")[1];
-var sessionSelect = sessionStatic.getElementsByTagName("select")[0];
-var static_time   = document.getElementById("static-time");
-var static_ao5    = document.getElementById("static-ao5");
-var static_ao12   = document.getElementById("static-ao12");
-
-var TMD            = document.getElementById("TMD");
-var TMD_Close      = document.getElementById("TMD-Close");
-var TMD_SolveN     = document.getElementById("TMD-SolveN");
-var TMD_SolveT     = document.getElementById("TMD-SolveT");
-var TMD_punish_2   = document.getElementById("TMD-+2");
-var TMD_punish_DNF = document.getElementById("TMD-DNF");
-var TMD_Cube       = document.getElementById("TMD-Cube");
-var TMD_Scramble   = document.getElementById("TMD-Scramble");
-var TMD_Date       = document.getElementById("TMD-Date");
-var TMD_Delete     = document.getElementById("TMD-Delete");
-var TMD_idx;
-
-var sessions = (JSON.parse(localStorage.getItem("sessions"))     || {"default": [], "second": []});
-var s_idxs   = (JSON.parse(localStorage.getItem("session_idxs")) || Object.keys(sessions));
-var s_length = s_idxs.length;
-var current_session = (JSON.parse(localStorage.getItem("current_session")) || 0);
-
-const getSession = () => {
-    s = sessions[s_idxs[current_session]];
-    if (typeof(s)=="string") { return JSON.parse(s); }
-    else { return s; }
-};
-
-all_times = getSession();
+last_update = "2023-12-15";
 
 const num = (n, digit, replacement="") => {
     if (("" + n).length < digit) {
@@ -81,6 +26,65 @@ const logs = () => {
 //     sessions[current_session] = null;
 //     localStorage.setItem("sessions", JSON.stringify(sessions));
 // }
+
+var cubeSelect  = document.getElementById("cube-select");
+var scramble    = document.getElementsByTagName("scramble")[0];
+var top_div     = document.getElementById("top");
+var next_sc     = document.getElementById("next-sc");
+var sc_display  = document.getElementById("sc-display");
+var title       = document.getElementById("title");
+
+var menu_btn    = document.getElementById("menu-btn");
+var side        = document.getElementById("side");
+
+var timer       = document.getElementById("timer");
+var punish_2    = document.getElementById("+2");
+var punish_DNF  = document.getElementById("DNF");
+
+var staticLog     = document.getElementById("staticLog");
+var timeLogDiv    = document.getElementById("timeLogDiv");
+var timeLog       = document.getElementById("timeLog");
+var sessionStatic = document.getElementById("sessionStatic");
+var solveCount    = sessionStatic.getElementsByTagName("h3")[0];
+var solveMean     = sessionStatic.getElementsByTagName("h3")[1];
+var sessionSelect = sessionStatic.getElementsByTagName("select")[0];
+var static_time   = document.getElementById("static-time");
+var static_ao5    = document.getElementById("static-ao5");
+var static_ao12   = document.getElementById("static-ao12");
+
+var TMD            = document.getElementById("TMD");
+var TMD_Close      = document.getElementById("TMD-Close");
+var TMD_SolveN     = document.getElementById("TMD-SolveN");
+var TMD_SolveT     = document.getElementById("TMD-SolveT");
+var TMD_punish_2   = document.getElementById("TMD-+2");
+var TMD_punish_DNF = document.getElementById("TMD-DNF");
+var TMD_Cube       = document.getElementById("TMD-Cube");
+var TMD_Scramble   = document.getElementById("TMD-Scramble");
+var TMD_Date       = document.getElementById("TMD-Date");
+var TMD_Delete     = document.getElementById("TMD-Delete");
+var TMD_idx;
+
+var hold = false;
+var started = false; // *timer
+var startS;
+var sc;
+var dialog_shown = false;
+
+var sessions = (JSON.parse(localStorage.getItem("sessions")) || {"default": [], "second": []});
+var s_idxs = (JSON.parse(localStorage.getItem("session_idxs")) || Object.keys(sessions));
+var s_length = s_idxs.length;
+var current_session = (JSON.parse(localStorage.getItem("current_session")) || 0);
+
+const getSession = () => {
+    s = sessions[s_idxs[current_session]];
+    if (typeof(s)=="string") { return JSON.parse(s); }
+    else { return s; }
+};
+
+all_times = getSession();
+
+const PLUS2 = "+2";
+const DNF   = "DNF";
 
 const hide_display = () => {
     sc_display.style["display"] = "none";
@@ -162,58 +166,52 @@ const not_focused = () => {
     );
 }
 
-var keyState = {};
-document.addEventListener('keydown', (event) => { if (not_focused()) { keyState[event.key] = true ; } });
-document.addEventListener('keyup'  , (event) => { if (not_focused()) { keyState[event.key] = false; } });
 
-const isKeyHeld = (key) => { return keyState[key] === true; }
-const isntKeyHeld = async (key) => {
-    while (isKeyHeld(key)) { await delay(1); }
-    return true;
-}
 
-var detect = async () => {
+var pressedKeys = { "Space": 0, "Escape": 0 };
+window.onkeyup   = (e) => { if (not_focused()) { pressedKeys[e.code] = 0 } }
+window.onkeydown = (e) => { if (not_focused()) { pressedKeys[e.code] += 1 } }
+
+var detect = async function() {
     if (started) {
         var [resultStr, _] = getTime();
 
         timer.innerHTML = resultStr;
     }
 
-    if (isKeyHeld(" ")) {
+    await delay(1)
+
+    var spaceKey = pressedKeys["Space"];
+    var escKey = pressedKeys["Escape"];
+    if (spaceKey==0) { timer.style["color"] = "#fff"; }
+    else if (spaceKey==1) {
         if (started) {
             started = false;
             endTimer();
             return;
-        } else {
-            // console.log("1");
-            await delay(1);
-            if (isKeyHeld(" ")) {
-                // console.log("2");
-                timer.style["color"] = "green";
-
-                await delay(500);
-
-                if (isKeyHeld(" ")) {
-                    // console.log("3");
-                    timer.innerHTML = `0:00.000`;
-                    timer.style["color"] = "red";
-                    await isntKeyHeld(" ");
-                    // console.log("start");
-
-                    // start timer
-                    started = true;
-                    startS = new Date().getTime();
-                    timer.style["color"] = "white";
-                }
-            }
         }
-    } else {
+        timer.style["color"] = "green";
+    }
+    else if (spaceKey>=5) {
+        timer.innerHTML = `0:00.000`;
+        hold = true;
+        timer.style["color"] = "red";
+    }
+
+    if (hold && spaceKey==0) {
+        started = true;
+        startS = new Date().getTime();
+        hold = false;
+    }
+
+    if (escKey>0) {
+        hold = false;
         timer.style["color"] = "white";
-        await delay(1);
+        setTimeout(detect, 0);
+        return;
     }
 
     detect();
-
 }
 setTimeout(detect, 0);
 
@@ -336,7 +334,7 @@ var logTime = () => {
         </tr>` + timeLog.innerHTML;
     }
 
-    if (all_times.length>=1) { static_time.innerHTML = formatTime(best); }
+    if (all_times.length>1) { static_time.innerHTML = formatTime(best); }
     else { static_time.innerHTML = `Solve more!`; }
     all_times.reverse();
 
@@ -352,6 +350,7 @@ var logTime = () => {
 
     if (all_times.length>0) { solveMean.innerHTML  = `Mean: ${formatTime(getMean())}`; }
     else { solveMean.innerHTML = `Mean: solve more!`; }
+
 
     // add show TMD event to table
     let idxs = document.getElementsByClassName("idx");

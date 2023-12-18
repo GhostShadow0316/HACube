@@ -1,5 +1,17 @@
 // commands.js
 
+const punish_type = (type) => {
+    if (["+2", "+", "2"].includes(type)) {
+        return PLUS2;
+    } else if (["DNF", "dnf", "D", "d"].includes(type)) {
+        return DNF;
+    } else if ([null, " "].includes(type)) {
+        return null;
+    } else {
+        return null;
+    }
+}
+
 const $cube_commands = {
     // set cube
     "cube": (cube) => {
@@ -18,15 +30,7 @@ const $cube_commands = {
 
     // punish
     "punish": (type=null) => {
-        if (["+2", "+", "2"].includes(type)) {
-            return punish(PLUS2);
-        } else if (["DNF", "D"].includes(type)) {
-            return punish(DNF);
-        } else if ([null, " "].includes(type)) {
-            return punish(null);
-        } else {
-            return [`Invalid punishment: ${type}`, BAD];
-        }
+        return punish(punish_type(type));
     },
 
     // view time log
@@ -38,17 +42,7 @@ const $cube_commands = {
     // edit time log
     "edit": {
         "punish": (idx, type) => {
-            if (isIdxValid(idx)) {
-                if (["+2", "+", "2"].includes(type)) {
-                    return edit_punish(idx-1, PLUS2);
-                } else if (["DNF", "dnf", "D", "d"].includes(type)) {
-                    return edit_punish(idx-1, DNF);
-                } else if ([null, " "].includes(type)) {
-                    return edit_punish(idx-1, null);
-                } else {
-                    return [`Invalid punishment: ${type}`, BAD];
-                }
-            }
+            if (isIdxValid(idx)) { return edit_punish(idx-1, punish_type(type)); }
             else { return [`Invalid index: ${idx}`, BAD]; }
         },
     },
@@ -65,6 +59,7 @@ const $cube_commands = {
 
     // copy
     "copy": {
+        null: () => { return [`Copy what?`, PROB] },
         "sc": "scramble",
         "scramble": () => {
             copy(scramble.value);
@@ -99,7 +94,8 @@ const $cube_commands = {
 
         // add new session
         "+": "add",
-        "add": (name) => {
+        "add": (name=null) => {
+            if (name=null) { return [`Session name?`, PROB]; }
             if (s_idxs.includes(name)) {
                 return [`Session "${name}" exist`, BAD];
             }
@@ -120,6 +116,7 @@ const $cube_commands = {
         // remove a session
         "-": "remove",
         "remove": (name) => {
+            if (name=null) { return [`Session name?`, PROB]; }
             if (!(s_idxs.includes(name))) {
                 return [`Session "${name}" not found`, BAD];
             }
@@ -145,6 +142,9 @@ const $cube_commands = {
 
             return [`Removed session: ${name}`, PROB];
         },
+
+        // rename a session
+        // TODO
     },
 
     // export session
@@ -160,7 +160,8 @@ const $cube_commands = {
 
     // import session
     "import": () => {
-        let status = "";
+        localStorage.session_backup = localStorage.sessions;
+
         var input = upload();
 
         input.onchange = (e) => {
@@ -185,13 +186,20 @@ const $cube_commands = {
 
                     logs();
 
-                    status = [`Imported!`, GOOD];
+                    set_status(`Imported!`, GOOD);
 
                 } catch (E) {
-                    status = [`Invalid file!`, BAD];
+                    set_status(`Invalid file!`, BAD);
                 }
             }
         }
+    },
+
+    // restore sessions from backup
+    "restore": async () => {
+        localStorage.sessions = localStorage.session_backup;
+
+        location.href = location.href;
     },
 };
 
@@ -222,26 +230,19 @@ const $other_commands = {
     },
 
     "reset": () => {
-        localStorage.setItem("sessions", JSON.stringify({"default": `[]`, "second": `[]`, "third": `[]`}));
-        localStorage.setItem("session_idxs", JSON.stringify(Object.keys(sessions)));
-        localStorage.setItem("current_session", '0');
+       localStorage.clear();
 
         // refresh the page
         location.href = location.href;
     },
 
     "help": () => {
-        window.open("help.html", "_blank")
+        window.open("help.html", "_blank");
     },
 
     "test": {
         null: () => { console.log("default") },
         "hi": () => { console.log("hello") },
-        "return": () => {
-            localStorage.sessions = localStorage.session_backup;
-            sessions = localStorage.sessions;
-            s_idxs = Object.keys(sessions);
-        }
     },
 };
 

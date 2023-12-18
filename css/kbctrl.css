@@ -56,3 +56,11 @@
 
     display: none;
 }
+
+@media screen and (max-width: 1080px) {
+    .kbctrl {
+        top:  20%;
+        left: 50%;
+    }
+}
+s

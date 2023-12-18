@@ -18,9 +18,10 @@ const getStyle = (elem, style) => {
 const hide  = (elem) => { elem.style["display"] = "none" ; }
 const block = (elem) => { elem.style["display"] = "block"; }
 const grid  = (elem) => { elem.style["display"] = "grid"; }
+const fixed = (elem) => { elem.style["display"] = "fixed"; }
 
 const toggle_shown = (elem, type=block) => {
-    if (getStyle(elem, "display") == "none") { type(); }
+    if (getStyle(elem, "display") == "none") { type(elem); }
     else { hide(); }
 }
 
@@ -75,7 +76,22 @@ Object.defineProperties(Array.prototype, {
             return this;
         }
     },
+    replace: {
+        value: function (from, to) {
+            this.splice(this.indexOf(from), 1, to)
+        }
+    },
 });
+
+// Object
+Object.prototype.renameKey = function (oldName, newName) {
+    if (oldName === newName) { return this; }
+   if (this.hasOwnProperty(oldName)) {
+       this[newName] = this[oldName];
+       delete this[oldName];
+   }
+   return this;
+};
 
 // Other
 const delay = (ms=0) => new Promise(res => setTimeout(res, ms));

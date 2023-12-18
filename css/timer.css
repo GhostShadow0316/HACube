@@ -178,6 +178,8 @@ th, td { height: 45px; }
 .idx { cursor: pointer; }
 .idx:hover  { background: var(--idx-hover); }
 
+.best { color: #ff0; }
+
 #timeLogDiv::-webkit-scrollbar { display: none; }
 #timeLogDiv {
     width: 100%;
@@ -378,3 +380,41 @@ th, td { height: 45px; }
 
 #TMD-Delete:hover  { background: var(--alt-hover); }
 #TMD-Delete:active { background: var(--alt-click); }
+
+#menu-btn {
+    display: none;
+
+    background: transparent;
+    color: #fff;
+    font-size: 40px;
+    position: absolute;
+    border: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1080px) {
+    #menu-btn { display: block; }
+    /* #side { display: none; } */
+
+    #top {
+        width: 100%;
+        display: block;
+    }
+    #center {
+        width: 100%;
+        height: 70%;
+        display: block;
+    }
+    twisty-player { width: 30%; }
+
+    #side {
+        display: none;
+        height: 100%;
+        width: 100%;
+        /* position: relative; */
+        z-index: 1;
+        bottom: 0px;
+        /* left: 0; */
+        /* overflow-x: hidden; */
+    }
+}
