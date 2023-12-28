@@ -1,5 +1,5 @@
 # HAC-Cube
-> A cube timer project
+> A cube timer project supports keyboard control
 
 ### Use directly on [https://cube.hac.rf.gd](https://cube.hac.rf.gd)
 
@@ -9,6 +9,7 @@
 - [x] Support _**2x2**_ - _**7x7**_ _**Pyraminx**_, _**Megaminx**_, _**Skewb**_, _**Square-1**_, _**Clock**_
 - [x] Support _**\+2**_ and _**DNF**_
 - [x] Draw Scramble
+- [x] Keyboard Control
 
 ---
 
@@ -68,6 +69,8 @@ commands:
 
 - `import`: import sessions from a json file
 
+more on the [help page](https://cube.hac.rf.gd/help.html)
+
 ---
 
 ### !!! NEW FEATURE !!!
@@ -81,6 +84,13 @@ but it'll support more formats from other timers soon!
 
 ---
 
+# Contributor
+> People ever Contributed this project
+
+[Yugveer06](https://github.com/Yugveer06)
+
+[lgarron](https://github.com/lgarron)
+
 <br><br><br>
 
-- latest update on 2023-12-18
+- latest update on 2023-12-28

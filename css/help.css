@@ -15,24 +15,36 @@ table {
 th, td { height: 50%; }
 
 th {
-    font-size: 50px;
-    padding-top:    10px;
-    padding-bottom: 10px;
+    font-size: 5dvh;
+    padding-top:    1dvh;
+    padding-bottom: 1dvh;
     color: #fff;
     background: #111111;
 }
 
 td {
-    font-size: 30px;
+    font-size: 3dvh;
     padding-top:    20px;
     padding-bottom: 20px;
 }
 
 td.command {
     font-family: "Fira Code";
-    background: #222222;
+    background: #333;
+}
+
+td.example {
+    display: none;
+    font-family: "Fira Code";
+    background: #333;
+    color: #ccc;
 }
 
 td.sep {
-    background: #444;
+    background: #555;
+}
+
+@media screen and (max-width: 1080px) {
+    th { font-size: 5dvw; }
+    td { font-size: 3dvw; }
 }

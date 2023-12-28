@@ -1,12 +1,12 @@
 // timer.js
 
-const last_update = "2023-12-18";
+const last_update = "2023-12-28";
 const PLUS2 = "+2";
 const DNF   = "DNF";
 
 var started = false;
 var startS;
-var sc;
+var sc = "";
 var dialog_shown = false;
 
 var cubeSelect    = document.getElementById("cube-select");
@@ -93,66 +93,69 @@ const show_display = () => {
 }
 
 var setScramble = async () => {
-    var sc = ""
+    // var sc = "";
     cube = cubes[cubeSelect.value];
     localStorage.setItem("selected_cube", cube);
     switch (cube) {
         case ("2x2"):
-            sc = sc222.getRandomScramble();
+            scram = sc222.getRandomScramble();
             scramble.style["font-size"] = "2vw";
             break;
         case ("3x3"):
-            sc = sc333.getRandomScramble();
+            scram = sc333.getRandomScramble();
             scramble.style["font-size"] = "1.8vw";
             break;
         case ("4x4"):
             scramble.innerHTML = "loading scramble";
             hide_display();
             await delay(0);
-            sc = sc444.getRandomScramble();
+            scram = sc444.getRandomScramble();
             show_display();
             scramble.style["font-size"] = "1.5vw";
             break;
         case ("5x5"):
-            sc = sc555.get555WCAScramble();
+            scram = sc555.get555WCAScramble();
             scramble.style["font-size"] = "1.1vw";
             break;
         case ("6x6"):
-            sc = sc666.get666WCAScramble();
+            scram = sc666.get666WCAScramble();
             scramble.style["font-size"] = "1vw";
             break;
         case ("7x7"):
-            sc = sc777.get777WCAScramble();
+            scram = sc777.get777WCAScramble();
             scramble.style["font-size"] = "0.9vw";
             break;
         case ("Pyraminx"):
-            sc = scPyra.getPyraWCAScramble();
+            scram = scPyra.getPyraWCAScramble();
             scramble.style["font-size"] = "2vw";
             break;
         case ("Megaminx"):
-            sc = scMega.getMegaminxWCAScramble();
+            scram = scMega.getMegaminxWCAScramble();
             scramble.style["font-size"] = "1vw";
             break;
         case ("Skewb"):
-            sc = scSkewb.getSkewbWCAScramble();
+            scram = scSkewb.getSkewbWCAScramble();
             scramble.style["font-size"] = "2vw";
             break;
         case ("Square-1"):
-            sc = scSq1.getRandomScramble();
+            scram = scSq1.getRandomScramble();
             scramble.style["font-size"] = "1.1vw";
             break;
         case ("Clock"):
-            sc = scClock.getClockWCAScramble();
+            scram = scClock.getClockWCAScramble();
             scramble.style["font-size"] = "1.5vw";
             break;
     }
 
-    scramble.innerHTML = `<a>${sc}</a>`;
-    scramble.value = sc;
-    sc_display.setAttribute("puzzle", puzzles[cube]);
-    sc_display.setAttribute("alg", sc.replaceAll("/", " / "));
+    scramble.innerHTML = `<a>${scram}</a>`;
+    scramble.value = scram;
 
-    return sc;
+    console.log(puzzles[cube]);
+    console.log(scram);
+    sc_display.setAttribute("puzzle", puzzles[cube]);
+    sc_display.setAttribute("alg", scram.replaceAll("/", " / "));
+
+    return scram;
 }
 
 const not_focused = () => {
@@ -183,7 +186,6 @@ var detect = async () => {
         if (started) {
             started = false;
             endTimer();
-            return;
         } else {
             // console.log("1");
             await delay(1);

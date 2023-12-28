@@ -15,59 +15,75 @@
         <tr>
             <th>command</th>
             <th>description</th>
+            <!-- <th>example</th> -->
         </tr>
 
-        <tr><td class="sep" colspan="2"></td></tr>
+        <tr><td class="sep" colspan="3"></td></tr>
 
         <tr>
             <td class="command">cube [cube]</td>
             <td>change cube</td>
+            <td class="example">cube 3</td>
         </tr>
 
         <tr>
             <td class="command">next</td>
             <td>next scramble</td>
+            <td class="example">next</td>
         </tr>
 
         <tr>
             <td class="command">punish [+2 / DNF]</td>
             <td>set punish to current solve <br> leave empty for clear punish</td>
+            <td class="example">punish dnf</td>
         </tr>
 
-        <tr><td class="sep" colspan="2"></td></tr>
+        <tr><td class="sep" colspan="3"></td></tr>
 
         <tr>
             <td class="command">view [index]</td>
             <td>view solve to no. [index]</td>
+            <td class="example">view 13</td>
         </tr>
 
         <tr>
             <td class="command">edit punish [index] [+2 / DNF]</td>
             <td>set punish to solve no. [index] <br> leave empty for clear punish</td>
+            <td class="example">edit punish 13 dnf</td>
         </tr>
 
         <tr>
             <td class="command">remove [idx]</td>
-            <td>remove solve no. [index]</td>
+            <td>remove solve no. [idx] (support negative index)</td>
+            <td class="example">remove 13</td>
         </tr>
 
-        <tr><td class="sep" colspan="2"></td></tr>
+        <tr>
+            <td class="command">remove [idx1]~[idx2]</td>
+            <td>remove solve from [idx1] to [idx2]</td>
+            <td class="example">remove 7~13</td>
+        </tr>
+
+        <tr><td class="sep" colspan="3"></td></tr>
 
         <tr>
             <td class="command">copy { scramble / sc }</td>
             <td>copy current scramble</td>
+            <td class="example">copy sc</td>
         </tr>
 
         <tr>
             <td class="command">copy time</td>
             <td>copy current solve time</td>
+            <td class="example">copy time</td>
         </tr>
 
-        <tr><td class="sep" colspan="2"></td></tr>
+        <tr><td class="sep" colspan="3"></td></tr>
 
         <tr>
             <td class="command">session [name] <hr> session { change / = } [name]</td>
             <td>switch between sessions</td>
+            <td class="example">session default <hr> session = default</td>
         </tr>
 
         <tr>
@@ -80,7 +96,7 @@
             <td>remove existed session</td>
         </tr>
 
-        <tr><td class="sep" colspan="2"></td></tr>
+        <tr><td class="sep" colspan="3"></td></tr>
 
         <tr>
             <td class="command">export</td>

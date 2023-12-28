@@ -48,13 +48,59 @@ const $cube_commands = {
     },
     // remove time
     "remove": (idx) => {
-        if (isIdxValid(idx)) {
-            all_times.splice(idx-1, 1);
+        const removeSingleIndex = (index) => {
+            all_times.splice(index-1, 1);
             logs();
-            return [`Removed time on index ${idx}`, PROB];
-        } else {
-            return [`Invalid index: ${idx}`, BAD];
+            return [`Removed time on index ${index}`, PROB];
+        };
+
+        const removeNegativeIndex = (index) => {
+            const positiveIndex = index * -1;
+            if (isIdxValid(positiveIndex)) {
+                all_times.splice(all_times.length+index, 1);
+                logs();
+                return [`Removed time on index ${all_times.length+2+index}`, PROB];
+            } else {
+                return [`Invalid index: ${idx}`, BAD];
+            }
+        };
+
+        if (idx === "*") {
+            const confirmation = confirm("Are you sure you want to remove all elements?");
+            if (confirmation) {
+                all_times = [];
+                logs();
+                return ["Removed all elements", PROB];
+            } else {
+                return ["Operation canceled", BAD];
+            }
         }
+
+        const rangeRegex = /^(\d+)~(\d+)$/;
+        const isValidRange = (start, end) => { return isIdxValid(start) && isIdxValid(end); };
+
+        const removeRange = (start, end) => {
+            if (start>end) {
+                _ = start;
+                start = end;
+                end = _;
+            }
+            all_times.splice(start-1, end-start+1);
+            logs();
+            return [`Removed elements from index ${start} to ${end}`, GOOD];
+        };
+
+        const rangeMatch = idx.toString().match(rangeRegex);
+        if (rangeMatch) {
+            const start = parseInt(rangeMatch[1]);
+            const end = parseInt(rangeMatch[2]);
+            return isValidRange(start, end) ? removeRange(start, end) : [`Invalid range: ${idx}`, BAD];
+        }
+
+        const index = parseInt(idx);
+        if (!isNaN(index) && index < 0) { return removeNegativeIndex(index); }
+        if (!isNaN(index) && isIdxValid(index)) { return removeSingleIndex(index); }
+        else { return [`Invalid index: ${idx}`, BAD]; }
     },
 
     // copy
@@ -95,7 +141,7 @@ const $cube_commands = {
         // add new session
         "+": "add",
         "add": (name=null) => {
-            if (name=null) { return [`Session name?`, PROB]; }
+            if (name===null) { return [`Session name?`, PROB]; }
             if (s_idxs.includes(name)) {
                 return [`Session "${name}" exist`, BAD];
             }
@@ -116,7 +162,7 @@ const $cube_commands = {
         // remove a session
         "-": "remove",
         "remove": (name) => {
-            if (name=null) { return [`Session name?`, PROB]; }
+            if (name===null) { return [`Session name?`, PROB]; }
             if (!(s_idxs.includes(name))) {
                 return [`Session "${name}" not found`, BAD];
             }

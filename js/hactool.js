@@ -84,14 +84,17 @@ Object.defineProperties(Array.prototype, {
 });
 
 // Object
-Object.prototype.renameKey = function (oldName, newName) {
-    if (oldName === newName) { return this; }
-   if (this.hasOwnProperty(oldName)) {
-       this[newName] = this[oldName];
-       delete this[oldName];
-   }
-   return this;
-};
+Object.defineProperty(Object.prototype, 'renameKey', {
+    value: function (oldName, newName) {
+        if (oldName === newName) { return this; }
+        if (this.hasOwnProperty(oldName)) {
+            this[newName] = this[oldName];
+            delete this[oldName];
+        }
+        return this;
+    },
+    enumerable: false,
+});
 
 // Other
 const delay = (ms=0) => new Promise(res => setTimeout(res, ms));

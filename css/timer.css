@@ -101,7 +101,7 @@ scramble>a:active { background: var(--main-click); }
     display: block;
 }
 
-twisty-player {
+#sc-display {
     width: 20%;
     /* margin-left: 11px; */
     padding: 5px;

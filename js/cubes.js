@@ -41,10 +41,12 @@ var command_cubes = {
 
     "pyraminx": "Pyraminx",
     "py": "Pyraminx",
+
     "megaminx": "Megaminx",
     "mega": "Megaminx",
 
     "skewb": "Skewb",
+    "sk": "Skewb",
 
     "square-1": "Square-1",
     "square1": "Square-1",
