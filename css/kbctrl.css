@@ -1,5 +1,5 @@
 
-.kbctrl {
+#kbctrl {
     position: absolute;
     z-index: 99;
 
@@ -10,7 +10,7 @@
     display: none;
 }
 
-.kbctrl>input {
+#kbctrl>input {
     font-family: var(--alt-font);
     font-size: 45px;
     background: var(--btn-bg);
@@ -22,7 +22,7 @@
     outline: 0;
 }
 
-.kbctrl>p {
+#kbctrl>p {
     text-align: center;
     font-family: var(--alt-font);
     font-size: 20px;
@@ -35,7 +35,7 @@
     outline: 0;
 }
 
-.kbstatus {
+#kbstatus {
     font-family: var(--alt-font);
     font-size: 30px;
     min-width: 400px;
@@ -58,9 +58,8 @@
 }
 
 @media screen and (max-width: 1080px) {
-    .kbctrl {
+    #kbctrl {
         top:  20%;
         left: 50%;
     }
 }
-s

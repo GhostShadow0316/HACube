@@ -44,7 +44,12 @@ td.sep {
     background: #555;
 }
 
+td>hr {
+    width: 90%;
+}
+
 @media screen and (max-width: 1080px) {
     th { font-size: 5dvw; }
-    td { font-size: 3dvw; }
+    td { font-size: 2dvw; }
+    bbr { display: block; }
 }

@@ -1,10 +1,9 @@
 # .gitignore
 
-test/
 .vscode/
-TODO.md
-kbctrl/
-RUN.ps1
+bak/
+font/
+test/
 desktop.ini
 *.bak
-.rignore
+r.ignore

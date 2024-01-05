@@ -86,12 +86,13 @@ scramble>a:active { background: var(--main-click); }
     top: 0;
     left: 0;
     overflow-x: hidden;
-    padding-top: 20px;
     text-align: center;
     background: var(--side-bg);
 
     /* border: 1px solid #fff; */
 }
+
+#side::-webkit-scrollbar { display: none; }
 
 #side>div>p, #side>div>a {
     padding: 6px 8px 6px 16px;
@@ -118,12 +119,9 @@ scramble>a:active { background: var(--main-click); }
 #title {
     color: #818181;
     background: #202020;
-    font-size: 40px;
-    height: 5%;
+    font-size: 4dvh;
     cursor: pointer;
     user-select: none;
-    margin-top: -5px;
-    margin-bottom: -5px;
 }
 /* #title:hover { background: #101010; } */
 
@@ -183,7 +181,7 @@ th, td { height: 45px; }
 #timeLogDiv::-webkit-scrollbar { display: none; }
 #timeLogDiv {
     width: 100%;
-    height: 60%;
+    height: 55%;
     overflow: auto;
 
     display: block;

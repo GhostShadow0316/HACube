@@ -1,174 +1,197 @@
 // commands.js
 
-const punish_type = (type) => {
-    if (["+2", "+", "2"].includes(type)) {
-        return PLUS2;
-    } else if (["DNF", "dnf", "D", "d"].includes(type)) {
-        return DNF;
-    } else if ([null, " "].includes(type)) {
-        return null;
-    } else {
-        return null;
-    }
+// define
+const PLUS2_TYPES = ["+2", "+", "2"];
+const DNF_TYPES   = ["DNF", "dnf", "D", "d"];
+
+const rangeRegex = /^(\d+)~(\d+)$/;
+
+const getPunishType = (type) => {
+    if (!type || type === " ") { return null; }
+    if (PLUS2_TYPES.includes(type)) { return PLUS2; }
+    if (DNF_TYPES  .includes(type)) { return DNF; }
 }
 
+const absIdx = (idx) => {
+    idx = Number(idx);
+    return (idx > 0) ? (idx - 1) : (all_times.length + idx);
+}
+
+const isIdxValid = (idx) => {
+    return (
+        ( (isInteger(Number(idx))) && (idx > 0) && ( idx <= all_times.length) )
+     || ( (isInteger(Number(idx))) && (idx < 0) && (-idx <= all_times.length) )
+    );
+}
+
+const isRangeValid = (start, end) => {
+    return ( isIdxValid(start) && isIdxValid(end) );
+}
+
+const removeRange = (start, end) => {
+    if (start > end) { [start, end] = vars(end, start); }
+    all_times.splice(start - 1, end - start + 1);
+}
+
+// commands
+
 const $cube_commands = {
-    // set cube
-    "cube": (cube) => {
-        if (Object.keys(command_cubes).includes(cube)) {
-            cubeSelect.value = cubes.indexOf(command_cubes[cube]);
+    "cube": (cube) => { // set cube
+        if (cube === undefined) { return setStatus(`What cube?`, Y); }
+
+        if (commandCubeKeys.includes(cube)) {
+            cubeSelect.value = cubes.indexOf(commandCubes[cube]);
             setScramble().then(((result)=>{ sc = result }));
-            return [`Cube selected to ${command_cubes[cube]}!`, GOOD];
+            return setStatus(`Cube selected to ${commandCubes[cube]}`, G);
         } else {
-            if (cube==undefined) { return [`Invalid Cube`, BAD]; }
-            return [`Invalid Cube: ${cube}`, BAD];
+            return setStatus(`Invalid Cube: ${commandCubes[cube]}`, R);
         }
     },
 
-    // next scramble
-    "next": () => { setScramble().then(((result)=>{ sc = result; })) },
-
-    // punish
-    "punish": (type=null) => {
-        return punish(punish_type(type));
+    "next": () => { // next scramble
+        setScramble().then(((result)=>{ sc = result; }))
     },
 
-    // view time log
-    "view": (idx) => {
-        if (isIdxValid(idx)) { ShowTimeModifyDialog(idx-1); }
-        else { return [`Invalid index: ${idx}`, BAD]; }
-    },
+    "punish": (type) => { // punish current time
+        if (type === undefined) { return setStatus(`What punish?`, Y); }
 
-    // edit time log
-    "edit": {
-        "punish": (idx, type) => {
-            if (isIdxValid(idx)) { return edit_punish(idx-1, punish_type(type)); }
-            else { return [`Invalid index: ${idx}`, BAD]; }
-        },
-    },
-    // remove time
-    "remove": (idx) => {
-        const removeSingleIndex = (index) => {
-            all_times.splice(index-1, 1);
-            logs();
-            return [`Removed time on index ${index}`, PROB];
-        };
+        let p = getPunishType(type);
+        if (p === undefined) { return setStatus(`Unknown punish: ${type}`, Y); }
+        p = punish(p);
 
-        const removeNegativeIndex = (index) => {
-            const positiveIndex = index * -1;
-            if (isIdxValid(positiveIndex)) {
-                all_times.splice(all_times.length+index, 1);
-                logs();
-                return [`Removed time on index ${all_times.length+2+index}`, PROB];
-            } else {
-                return [`Invalid index: ${idx}`, BAD];
-            }
-        };
-
-        if (idx === "*") {
-            const confirmation = confirm("Are you sure you want to remove all elements?");
-            if (confirmation) {
-                all_times = [];
-                logs();
-                return ["Removed all elements", PROB];
-            } else {
-                return ["Operation canceled", BAD];
-            }
+        if (p === null) {
+            return setStatus(`Punish cleared`, G);
+        } else if (!p) {
+            return setStatus(`Start a solve first`, Y);
+        } else {
+            return setStatus(`Punish set to ${p}!`, G);
         }
+    },
 
-        const rangeRegex = /^(\d+)~(\d+)$/;
-        const isValidRange = (start, end) => { return isIdxValid(start) && isIdxValid(end); };
+    "view": (idx) => { // view time log
+        if (idx === undefined) { return setStatus(`View what?`, Y); }
 
-        const removeRange = (start, end) => {
-            if (start>end) {
-                _ = start;
-                start = end;
-                end = _;
+        if (isIdxValid(idx)) {
+            idx = absIdx();
+            ShowTimeModifyDialog(idx);
+        } else {
+            return setStatus(`Invalid index: ${idx}`, R);
+        }
+    },
+
+    "edit": { // edit times
+        null: () => { setStatus(`Edit what?`, Y); },
+        "punish": (idx, type) => { // edit punish
+            if (idx  === undefined) { return setStatus(`Punish which time?`, Y); }
+            if (type === undefined) { return setStatus(`What punish?` , Y); }
+
+            if (isIdxValid(idx)) {
+                idx = absIdx();
+
+                let p = getPunishType(type);
+                if (p === undefined) { return setStatus(`Unknown punish: ${type}`, Y); }
+
+                p = edit_punish(idx, p);
+                if (p === null) {
+                    return setStatus(`Punish at cleared`, G);
+                } else {
+                    return setStatus(`Punish at ${idx} set to ${p}!`, G);
+                }
             }
-            all_times.splice(start-1, end-start+1);
-            logs();
-            return [`Removed elements from index ${start} to ${end}`, GOOD];
-        };
+            else { return setStatus(`Invalid index: ${idx}`, R); }
+        }
+    },
 
-        const rangeMatch = idx.toString().match(rangeRegex);
+    "remove": (idx) => { // remove time
+        if (idx === undefined) { return setStatus(`Remove what?`, Y); }
+
+        const rangeMatch = idx.match(rangeRegex);
         if (rangeMatch) {
-            const start = parseInt(rangeMatch[1]);
-            const end = parseInt(rangeMatch[2]);
-            return isValidRange(start, end) ? removeRange(start, end) : [`Invalid range: ${idx}`, BAD];
+            const [_, start, end] = rangeMatch.map(Number);
+            if (isRangeValid(start, end)) {
+                removeRange(start, end);
+                setStatus(`Removed times from ${start} to ${end}`, G);
+            }
+            else {
+                setStatus(`Invalid range: ${idx}`, R);
+            }
+        } else if (idx === "*") {
+            if (confirm("Are you sure you want to remove all elements?")) {
+                all_times = [];
+                setStatus(`Removed all elements`, G);
+            } else {
+                setStatus(`Operation canceled`, R);
+            }
+        } else {
+            if (isIdxValid(idx)) {
+                idx = absIdx(idx);
+                all_times.splice(idx, 1);
+                setStatus(`Removed time on index: ${idx}`, G);
+            } else {
+                setStatus(`Invalid index: ${idx}`, R);
+            }
         }
 
-        const index = parseInt(idx);
-        if (!isNaN(index) && index < 0) { return removeNegativeIndex(index); }
-        if (!isNaN(index) && isIdxValid(index)) { return removeSingleIndex(index); }
-        else { return [`Invalid index: ${idx}`, BAD]; }
+        logs();
     },
 
-    // copy
-    "copy": {
-        null: () => { return [`Copy what?`, PROB] },
+    "copy": { // copy
+        null: () => { setStatus(`Copy what?`, Y); },
         "sc": "scramble",
-        "scramble": () => {
+        "scramble": () => { // copy scramble
             copy(scramble.value);
-            return [`Copied Scramble!`, GOOD];
+            return setStatus(`Copied Scramble`, G);
         },
-        "time": () => {
-            copy(timer.value || "0:00.000")
-            return [`Copied Solve Time!`, GOOD];
-        },
+        "tm": "time",
+        "time": () => { // copy time
+            copy(timer.value || "0:00.000");
+            return setStatus(`Copied current time`, G);
+        }
     },
 
-    // session controls
-    "session": {
-        // change current session
-        null: "change",
+    "session": { // session control
+        null: () => { setStatus(`What do you want to do?`, Y); },
         "=": "change",
-        "change": (name) => {
+        "change": (name) => { // change session
+            if (name === undefined) { return setStatus(`What session?`, Y); }
+
             if (!(s_idxs.includes(name))) {
-                return [`Invalid Session: ${name}`, BAD];
+                return setStatus(`Session "${name}" not found`, Y);
             }
 
             current_session = s_idxs.indexOf(name);
             sessionSelect.value = current_session;
-            localStorage.setItem("current_session", current_session);
+            localStorage.current_session = current_session;
 
             all_times = getSession();
-
             logs();
 
-            return [`Session "${name}" Selected`, GOOD];
+            return setStatus(`Session "${name}" selected`, G);
         },
 
-        // add new session
         "+": "add",
-        "add": (name=null) => {
-            if (name===null) { return [`Session name?`, PROB]; }
-            if (s_idxs.includes(name)) {
-                return [`Session "${name}" exist`, BAD];
-            }
+        "add": (name) => { // add new session
+            if (name === undefined) { return setStatus(`Session name?`, Y); }
+            if (s_idxs.includes(name)) { return setStatus(`Session "${name}" exist`, Y); }
+
             sessions[name] = [];
             s_idxs.push(name);
+            s_length = s_idxs.length;
 
             // session select
-            s_length = s_idxs.length;
             sessionSelect.innerHTML = "";
-            createSelect(s_length, s_idxs, sessionSelect,
-                (i, opt) => { return i==(current_session) });
+            createSelect(s_length, s_idxs, sessionSelect, (i => i === (current_session)) );
 
             logs();
 
-            return [`Added new session: ${name}`, GOOD];
+            return setStatus(`Added new session: ${name}`, G);
         },
 
-        // remove a session
         "-": "remove",
-        "remove": (name) => {
-            if (name===null) { return [`Session name?`, PROB]; }
-            if (!(s_idxs.includes(name))) {
-                return [`Session "${name}" not found`, BAD];
-            }
-            if (s_idxs.length <= 1) {
-                return [`There has to be AT LEAST one session!`, PROB];
-            }
+        "remove": (name) => { // remove session
+            if (name === undefined) { return setStatus(`Session name?`, Y); }
+            if (!(s_idxs.includes(name))) { return setStatus(`Session "${name}" not exist`, Y); }
+            if (s_length <= 1) { return setStatus(`There has to be AT LEAST one session`, Y); }
 
             current_session = 0;
             all_times = getSession();
@@ -176,120 +199,91 @@ const $cube_commands = {
             delete sessions[name];
             s_idxs[s_idxs.indexOf(name)] = null;
             s_idxs = s_idxs.filter(i => i);
-
+            s_length = s_idxs.length;
 
             // session select
-            s_length = s_idxs.length;
             sessionSelect.innerHTML = "";
-            createSelect(s_length, s_idxs, sessionSelect,
-                (i, opt) => { return i==(current_session) });
+            createSelect(s_length, s_idxs, sessionSelect, (i => i === (current_session)) );
 
             logs();
 
-            return [`Removed session: ${name}`, PROB];
+            return setStatus(`Removed session: ${name}`, G);
         },
-
-        // rename a session
-        // TODO
     },
 
-    // export session
-    "export": () => {
-        var now = new Date();
-        var time = `${now.getFullYear()}${now.getMonth()+1}${now.getDate()}_` +
-                  `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
+    "export": { // export sessions
+        null: () => {
+            const now = new Date();
+            const time = `${now.getFullYear()}${now.getMonth()+1}${now.getDate()}_` +
+                         `${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
 
-        download("application/json", JSON.stringify(sessions), `sessions_${time}`);
+            download("application/json", JSON.stringify(sessions), `sessions_${time}`);
 
-        return [`Downloaded all sessions as "sessions_${time}.json"`, GOOD];
+            return setStatus(`Downloaded all sessions as "sessions_${time}.json"`, G);
+        }
     },
 
-    // import session
-    "import": () => {
-        localStorage.session_backup = localStorage.sessions;
+    "import": { // import sessions
+        null: () => {
+            localStorage.session_backup = localStorage.sessions;
 
-        var input = upload();
+            let input = upload();
 
-        input.onchange = (e) => {
-            let file = e.target.files[0];
+            input.onchange = (e) => {
+                const reader = new FileReader();
+                reader.readAsText(e.target.files[0], "UTF-8");
 
-            var reader = new FileReader();
-            reader.readAsText(file, 'UTF-8');
+                reader.onload = (re) => {
+                    const content = re.target.result;
 
-            reader.onload = (readerEvent) => {
-                content = readerEvent.target.result;
+                    try {
+                        const json = JSON.parse(content);
 
-                try {
-                    json = JSON.parse(content);
-                    console.log(json);
+                        sessions = json;
+                        s_idxs = Object.keys(sessions);
+                        s_length = s_idxs.length;
+                        current_session = 0;
+                        all_times = getSession();
 
-                    sessions = json;
-                    s_idxs = Object.keys(sessions);
-                    s_length = s_idxs.length;
-                    current_session = 0;
+                        logs();
 
-                    all_times = getSession();
+                        // session select
+                        sessionSelect.innerHTML = "";
+                        createSelect(s_length, s_idxs, sessionSelect, (i => i === (current_session)) );
 
-                    logs();
-
-                    set_status(`Imported!`, GOOD);
-
-                } catch (E) {
-                    set_status(`Invalid file!`, BAD);
+                        setStatus(`Imported`, G);
+                    } catch (E) {
+                        setStatus(`Invalid file`, R);
+                    }
                 }
             }
         }
     },
 
-    // restore sessions from backup
-    "restore": async () => {
+    "restore": () => { // restore from last import backup
         localStorage.sessions = localStorage.session_backup;
 
         location.href = location.href;
     },
-};
-
-const unknown = "unknown";
-var list     = ["cube", "scramble", "time", "punish", "date", "comment", "tags"];
-var defaults = [unknown, "freedom", unknown, null, unknown, "",  []];
+}
 
 const $other_commands = {
-    "version": () => { return [`last update: ${last_update}`, GOOD] },
+    // get now version
+    "version": () => { setStatus(`last update: ${last_update}`, G) },
+
+    // refresh the page
     "refresh": () => { location.href = location.href; },
     "reload": "refresh",
 
-    "update": () => {
-        s_idxs.forEach((name) => {
-            console.log(name);
-            JSON.parse(sessions[name]).forEach((item, idx, arr) => {
-                console.log(item);
+    "reset": () => { // reset everything
+        localStorage.clear();
 
-                list.forEach((elem, i) => {
-                    if (!item[elem]) {
-                        item[elem] = defaults[i];
-                    }
-                });
-
-                arr[idx] = item;
-            })
-        })
-    },
-
-    "reset": () => {
-       localStorage.clear();
-
-        // refresh the page
         location.href = location.href;
     },
 
-    "help": () => {
+    "help": () => { // open help page
         window.open("help.html", "_blank");
     },
+}
 
-    "test": {
-        null: () => { console.log("default") },
-        "hi": () => { console.log("hello") },
-    },
-};
-
-const $commands = mergeObjects($cube_commands, $other_commands);
+const $commands = Object.assign({}, $cube_commands, $other_commands);

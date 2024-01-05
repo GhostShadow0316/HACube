@@ -60,6 +60,7 @@ const str = (inp) => { return ("" + inp); }
 
 const mergeObjects = (...objs) => { return Object.assign({}, ...objs); }
 
+const isInteger = (num) => { return Number.isInteger(num); }
 
 // Array
 Object.defineProperties(Array.prototype, {
@@ -122,10 +123,4 @@ const download = (type, txt, fname) => {
     link.click();
 }
 
-// const addHotkey = (scope=document, key, modifier="", preventdefault=true) => {
-//     scope.addEventListener("keydown", (e) => {
-//         if (e.code==key) {
-//              
-//         }
-//     });
-// }
+const vars = (...v) => { return v; }

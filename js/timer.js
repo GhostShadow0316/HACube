@@ -1,6 +1,7 @@
 // timer.js
 
-const last_update = "2023-12-28";
+const last_update = "2024-01-05";
+
 const PLUS2 = "+2";
 const DNF   = "DNF";
 
@@ -48,6 +49,12 @@ var sessions = (JSON.parse(localStorage.getItem("sessions"))     || {"default": 
 var s_idxs   = (JSON.parse(localStorage.getItem("session_idxs")) || Object.keys(sessions));
 var s_length = s_idxs.length;
 var current_session = (JSON.parse(localStorage.getItem("current_session")) || 0);
+
+for (let s in sessions) {
+    if (typeof(sessions[s])=="string") {
+        sessions[s] = JSON.parse(sessions[s]);
+    }
+}
 
 const getSession = () => {
     s = sessions[s_idxs[current_session]];
@@ -150,8 +157,6 @@ var setScramble = async () => {
     scramble.innerHTML = `<a>${scram}</a>`;
     scramble.value = scram;
 
-    console.log(puzzles[cube]);
-    console.log(scram);
     sc_display.setAttribute("puzzle", puzzles[cube]);
     sc_display.setAttribute("alg", scram.replaceAll("/", " / "));
 
@@ -364,8 +369,8 @@ var logTime = () => {
 }
 
 var punish = (type) => {
-    if (timer.value!=formatTime(all_times[all_times.length-1].time)) {
-        return [`Start a solve first!`, PROB];
+    if (timer.value != formatTime(all_times[all_times.length-1].time)) {
+        return false;
     }
 
     if (all_times[all_times.length-1].punish!=type) {
@@ -382,11 +387,12 @@ var punish = (type) => {
     if (current==DNF)    { timer.innerHTML = `${timer.value} (DNF)` }
     if (current==null)   { timer.innerHTML = `${timer.value}` }
 
-    if (type != null) { return [`Punish set to ${type}!`, GOOD]; }
-    else { return [`Punish cleared!`, GOOD]; }
+    if (type != null) { return current; }
+    else { return null; }
 }
 
 var edit_punish = (idx, type) => {
+
     item = all_times[idx] || all_times[TMD_idx];
 
     if (item.punish!=type) { item.punish = type }
@@ -394,9 +400,10 @@ var edit_punish = (idx, type) => {
 
     logs();
     TMD_SolveT.innerHTML = formatTime(item["time"], item["punish"]);
+    const current = all_times[all_times.length-1].punish;
 
-    if (type != null) { return [`Punish of index ${idx+1} set to ${type}!`, GOOD]; }
-    else { return [`Punish of index ${idx+1} cleared!`, GOOD]; }
+    if (type != null) { return current; }
+    else { return null; }
 }
 
 var ShowTimeModifyDialog = (idx) => {
