@@ -27,8 +27,8 @@ const toggle_shown = (elem, type=block) => {
 
 const fadeIn = (elem, delay=10) => {
     elem.style["opacity"] = "0";
-    var opacity = 0;
-    var intervalID = setInterval(() => {
+    let opacity = 0;
+    const intervalID = setInterval(() => {
         if (opacity < 1) {
             opacity = opacity + 0.1
             elem.style["opacity"] = opacity;
@@ -42,13 +42,14 @@ const fadeIn = (elem, delay=10) => {
 
 const fadeOut = (elem, delay=10) => {
     elem.style["opacity"] = "1";
-    var opacity = 1;
-    var intervalID = setInterval(() => {
+    let opacity = 1;
+    const intervalID = setInterval(() => {
         if (opacity > 0) {
             opacity = opacity - 0.1
             elem.style["opacity"] = opacity;
         } else {
             clearInterval(intervalID);
+            hide(elem);
         }
     }, delay);
 
@@ -122,5 +123,3 @@ const download = (type, txt, fname) => {
     link.href = fileUrl;
     link.click();
 }
-
-const vars = (...v) => { return v; }

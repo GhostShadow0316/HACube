@@ -29,13 +29,15 @@ const isRangeValid = (start, end) => {
 }
 
 const removeRange = (start, end) => {
-    if (start > end) { [start, end] = vars(end, start); }
+    if (start > end) { [start, end] = [end, start]; }
     all_times.splice(start - 1, end - start + 1);
 }
 
 // commands
 
 const $cube_commands = {
+    null: (input) => { setStatus(`Invalid Command: ${input || `" "`}`, R); },
+
     "cube": (cube) => { // set cube
         if (cube === undefined) { return setStatus(`What cube?`, Y); }
 

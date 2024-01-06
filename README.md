@@ -1,4 +1,6 @@
-# HAC-Cube
+<!-- README.md -->
+
+# HACube
 > A cube timer project supports keyboard control
 
 ### Use directly on [https://cube.hac.rf.gd](https://cube.hac.rf.gd)
@@ -56,4 +58,6 @@ but it'll support more formats from other timers soon!
 
 <br><br><br>
 
-- latest update on 2024-01-05
+---
+
+- latest update on 2024-01-07
