@@ -51,7 +51,7 @@ const $cube_commands = {
     },
 
     "next": () => { // next scramble
-        setScramble().then(((result)=>{ sc = result; }))
+        setScramble()
     },
 
     "punish": (type) => { // punish current time
@@ -59,7 +59,7 @@ const $cube_commands = {
 
         let p = getPunishType(type);
         if (p === undefined) { return setStatus(`Unknown punish: ${type}`, Y); }
-        p = punish(p);
+        p = punish(p, "command");
 
         if (p === null) {
             return setStatus(`Punish cleared`, G);

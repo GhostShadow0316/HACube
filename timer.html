@@ -26,6 +26,7 @@
 
     <script src="https://cdn.cubing.net/js/cubing/twisty" type="module"></script>
     <script src="js/lib/json2.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/GhostShadow0316/HacTags/hactags.js"></script>
 </head>
 <body>
     <p id="kbstatus">status</p>
@@ -38,18 +39,18 @@
         <!-- <button id="menu-btn">&#9776;</button> -->
         <div class="center">
             <select id="cube-select"></select>
-            <p id="change-scramble"><span class="click" id="next-sc">next</span> scramble</p>
+            <p id="change-scramble"><span class="click" id="next-sc" clickA="setScramble();">next</span> scramble</p>
         </div>
-        <scramble><a></a></scramble>
+        <scramble clickA="copyB(scramble.value, 'scramble');"><a></a></scramble>
     </div>
 
     <twisty-player id="sc-display" visualization="2D" background="none" control-panel="none"></twisty-player>
 
     <div id="center">
-        <h1 id="timer">0:00.000</h1>
+        <h1 id="timer" clickA="copyB(timer.value, 'current time');">0:00.000</h1>
         <div id="punishments">
-            <button class="punishment" id="+2" >+2</button>
-            <button class="punishment" id="DNF">DNF</button>
+            <button class="punishment" id="+2"  clickA="punish(PLUS2);">+2</button>
+            <button class="punishment" id="DNF" clickA="punish(DNF);">DNF</button>
             <!-- <button class="punishment">Delete</button> -->
         </div>
     </div>
@@ -101,14 +102,14 @@
         <button id="TMD-Close">✕</button>
 
         <h1 id="TMD-SolveN">No. 1</h1>
-        <h1 id="TMD-SolveT">0:00.000</h1>
+        <h1 id="TMD-SolveT" clickA="copyB(TMD_SolveT.value, 'solve time');">0:00.000</h1>
         <div id="TMD-Punishes">
-            <button class="TMD-Punish" id="TMD-+2" >+2</button>
-            <button class="TMD-Punish" id="TMD-DNF">DNF</button>
+            <button class="TMD-Punish" id="TMD-PLUS2" clickA="edit_punish(TMD_idx, PLUS2);">+2</button>
+            <button class="TMD-Punish" id="TMD-DNF"   clickA="edit_punish(TMD_idx, DNF);"  >DNF</button>
         </div>
-        <p id="TMD-Cube">Cube: <a>3x3</a></p>
-        <p id="TMD-Scramble">Scramble: <a>placeholder</a></p>
-        <p id="TMD-Date">Date: <a>2023/10/9 16:57:56</a></p>
+        <p id="TMD-Cube"     clickA="copyB(TMD_Cube.value, 'cube');"    >Cube: <a>3x3</a></p>
+        <p id="TMD-Scramble" clickA="copyB(TMD_Scramble.value, 'scramble');">Scramble: <a>placeholder</a></p>
+        <p id="TMD-Date"     clickA="copyB(TMD_Date.value, 'date');"    >Date: <a>2023/10/9 16:57:56</a></p>
 
         <br><br><br>
         <button id="TMD-Delete">Delete</button>
@@ -119,6 +120,5 @@
     <script src="js/timer.js"></script>
     <script src="js/commands.js"></script>
     <script src="js/kbctrl.js"></script>
-    <!-- <script src="js/timer_kbctrl.js"></script> -->
 </body>
 </html>

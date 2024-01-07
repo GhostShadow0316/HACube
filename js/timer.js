@@ -13,14 +13,13 @@ var dialog_shown = false;
 var cubeSelect    = document.getElementById("cube-select");
 var scramble      = document.getElementsByTagName("scramble")[0];
 var top_div       = document.getElementById("top");
-var next_sc       = document.getElementById("next-sc");
 var sc_display    = document.getElementById("sc-display");
 var title         = document.getElementById("title");
-var menu_btn      = document.getElementById("menu-btn");
 var side          = document.getElementById("side");
 var timer         = document.getElementById("timer");
 var punish_2      = document.getElementById("+2");
 var punish_DNF    = document.getElementById("DNF");
+timer.value = "0:00.000";
 
 var staticLog     = document.getElementById("staticLog");
 var timeLogDiv    = document.getElementById("timeLogDiv");
@@ -37,8 +36,6 @@ var TMD            = document.getElementById("TMD");
 var TMD_Close      = document.getElementById("TMD-Close");
 var TMD_SolveN     = document.getElementById("TMD-SolveN");
 var TMD_SolveT     = document.getElementById("TMD-SolveT");
-var TMD_punish_2   = document.getElementById("TMD-+2");
-var TMD_punish_DNF = document.getElementById("TMD-DNF");
 var TMD_Cube       = document.getElementById("TMD-Cube");
 var TMD_Scramble   = document.getElementById("TMD-Scramble");
 var TMD_Date       = document.getElementById("TMD-Date");
@@ -64,13 +61,7 @@ const getSession = () => {
 
 all_times = getSession();
 
-const num = (n, digit, replacement="") => {
-    if (("" + n).length < digit) {
-        return (replacement.repeat(digit - ("" + n).length) + n);
-    } else {
-        return ("" + n);
-    }
-}
+const num = (n, digit, replacement="") => { return ("" + n).padStart(digit, replacement); }
 
 const logLocalStorage = () => {
     sessions[s_idxs[current_session]] = JSON.stringify(all_times);
@@ -84,86 +75,70 @@ const logs = () => {
     logTime();
 }
 
-// const clearAllTimes = () => {
-//     sessions[current_session] = null;
-//     localStorage.setItem("sessions", JSON.stringify(sessions));
-// }
-
-const hide_display = () => {
-    sc_display.style["display"] = "none";
-    // timeLogDiv.style["height"] = "55vh";
-}
-
-const show_display = () => {
-    sc_display.style["display"] = "grid";
-    // timeLogDiv.style["height"] = "28vh";
-}
-
 var setScramble = async () => {
-    // var sc = "";
     cube = cubes[cubeSelect.value];
     localStorage.setItem("selected_cube", cube);
     switch (cube) {
         case ("2x2"):
-            scram = sc222.getRandomScramble();
+            sc = sc222.getRandomScramble();
             scramble.style["font-size"] = "2vw";
             break;
         case ("3x3"):
-            scram = sc333.getRandomScramble();
+            sc = sc333.getRandomScramble();
             scramble.style["font-size"] = "1.8vw";
             break;
         case ("4x4"):
             scramble.innerHTML = "loading scramble";
-            hide_display();
+            sc_display.style["display"] = "none";
             await delay(0);
-            scram = sc444.getRandomScramble();
-            show_display();
+            sc = sc444.getRandomScramble();
+            sc_display.style["display"] = "grid";
             scramble.style["font-size"] = "1.5vw";
             break;
         case ("5x5"):
-            scram = sc555.get555WCAScramble();
+            sc = sc555.get555WCAScramble();
             scramble.style["font-size"] = "1.1vw";
             break;
         case ("6x6"):
-            scram = sc666.get666WCAScramble();
+            sc = sc666.get666WCAScramble();
             scramble.style["font-size"] = "1vw";
             break;
         case ("7x7"):
-            scram = sc777.get777WCAScramble();
+            sc = sc777.get777WCAScramble();
             scramble.style["font-size"] = "0.9vw";
             break;
         case ("Pyraminx"):
-            scram = scPyra.getPyraWCAScramble();
+            sc = scPyra.getPyraWCAScramble();
             scramble.style["font-size"] = "2vw";
             break;
         case ("Megaminx"):
-            scram = scMega.getMegaminxWCAScramble();
+            sc = scMega.getMegaminxWCAScramble();
             scramble.style["font-size"] = "1vw";
             break;
         case ("Skewb"):
-            scram = scSkewb.getSkewbWCAScramble();
+            sc = scSkewb.getSkewbWCAScramble();
             scramble.style["font-size"] = "2vw";
             break;
         case ("Square-1"):
-            scram = scSq1.getRandomScramble();
+            sc = scSq1.getRandomScramble();
             scramble.style["font-size"] = "1.1vw";
             break;
         case ("Clock"):
-            scram = scClock.getClockWCAScramble();
+            sc = scClock.getClockWCAScramble();
             scramble.style["font-size"] = "1.5vw";
             break;
     }
 
-    scramble.innerHTML = `<a>${scram}</a>`;
-    scramble.value = scram;
+    scramble.innerHTML = `<a>${sc}</a>`;
+    scramble.value = sc;
 
     sc_display.setAttribute("puzzle", puzzles[cube]);
-    sc_display.setAttribute("alg", scram.replaceAll("/", " / "));
+    sc_display.setAttribute("alg", sc.replaceAll("/", " / "));
 
-    return scram;
+    return sc;
 }
 
-const not_focused = () => {
+const notFocused = () => {
     return (
         !dialog_shown &&
         getStyle(kbctrl, "display") == "none"
@@ -171,8 +146,8 @@ const not_focused = () => {
 }
 
 var keyState = {};
-document.addEventListener('keydown', (event) => { if (not_focused()) { keyState[event.key] = true ; } });
-document.addEventListener('keyup'  , (event) => { if (not_focused()) { keyState[event.key] = false; } });
+document.addEventListener('keydown', (event) => { if (notFocused()) { keyState[event.key] = true ; } });
+document.addEventListener('keyup'  , (event) => { if (notFocused()) { keyState[event.key] = false; } });
 
 const isKeyHeld = (key) => { return keyState[key] === true; }
 const isntKeyHeld = async (key) => {
@@ -232,7 +207,7 @@ var getTime = () => {
     return [resultStr, result];
 }
 
-var add_punish = (time, punish) => {
+var addPunish = (time, punish) => {
     switch (punish) {
         case null:
             return `${time}`
@@ -262,7 +237,7 @@ var formatTime = (time, punish=null) => {
         result = `${resultM}:${resultS}.${resultMS}`;
     }
 
-    return add_punish(result, punish);
+    return addPunish(result, punish);
 }
 
 var formatDate = (date=["2023", "10", "09", "16", "57", "56"]) => {
@@ -302,7 +277,7 @@ var time_to_list = (l=all_times) => {
     })
 }
 
-var getBest = (l=all_times.map((x)=>{ return x["time"] })) =>  { return Math.min.apply(Math, l); }
+var getBest = (l=all_times.map((x)=>{ return x["time"] })) =>  { return Math.min(...l); }
 
 var getMean  = (l=time_to_list()) => {
     l.removeAll(DNF);
@@ -321,13 +296,10 @@ var getAvg  = (l=all_times) => {
     return getMean(l);
 }
 
-let is_best = (best, cur) => {
-    if (best==cur) { return "best"; }
-    else { return ""; }
-}
+let isBest = (best, cur) => { return ((best === cur) ? "best" : ""); }
 
 var logTime = () => {
-    let best = getBest();
+    let best  = getBest();
 
     timeLog.innerHTML = ``;
     for (let i=0; i<all_times.length; i++) {
@@ -337,7 +309,7 @@ var logTime = () => {
         timeLog.innerHTML =
         `<tr>
             <td class="idx"> ${i+1}</td>
-            <td class="px80 ${is_best(best, cur)}">${formatTime(cur, all_times[i]["punish"])}</td>
+            <td class="px80 ${isBest(best, cur)}">${formatTime(cur, all_times[i]["punish"])}</td>
             <td class="px80">${ao5}</td>
             <td class="px80">${ao12}</td>
         </tr>` + timeLog.innerHTML;
@@ -368,9 +340,10 @@ var logTime = () => {
     }
 }
 
-var punish = (type) => {
+var punish = (type, from) => {
     if (timer.value != formatTime(all_times[all_times.length-1].time)) {
-        return false;
+        if (from === "command") { return false; }
+        else { return setStatus(`Start a solve first`, Y); }
     }
 
     if (all_times[all_times.length-1].punish!=type) {
@@ -387,8 +360,10 @@ var punish = (type) => {
     if (current==DNF)    { timer.innerHTML = `${timer.value} (DNF)` }
     if (current==null)   { timer.innerHTML = `${timer.value}` }
 
-    if (type != null) { return current; }
-    else { return null; }
+    if (from === "command") {
+        if (type != null) { return current; }
+        else { return null; }
+    }
 }
 
 var edit_punish = (idx, type) => {
@@ -439,13 +414,7 @@ window.addEventListener('keydown', function(e) {
     if (e.code=="Space" && node!="TEXTAREA" && node!="INPUT") { e.preventDefault(); }
 });
 
-punish_2.addEventListener("click"  , () => { punish(PLUS2) })
-punish_DNF.addEventListener("click", () => { punish(DNF) })
-TMD_punish_2.addEventListener("click"  , () => { edit_punish(TMD_idx, PLUS2) })
-TMD_punish_DNF.addEventListener("click", () => { edit_punish(TMD_idx, DNF) })
-
-cubeSelect.addEventListener("change", () => { setScramble().then(((result)=>{ sc = result; })) })
-next_sc.addEventListener("click"     , () => { setScramble().then(((result)=>{ sc = result; })) })
+cubeSelect.addEventListener("change", () => { setScramble() })
 
 sessionSelect.addEventListener("change", () => {
     current_session = sessionSelect.value;
@@ -463,22 +432,17 @@ TMD_Delete.addEventListener("click", () => {
     close_dialog(TMD);
 });
 
-// copy
-scramble.addEventListener("click", ()=> { copy(scramble.value) })
-timer.addEventListener("click", ()=> { copy(timer.value || "0:00.000") })
-
-TMD_SolveT.addEventListener("click", ()=> { copy(TMD_SolveT.value) })
-TMD_Cube.addEventListener("click", ()=> { copy(TMD_Cube.value) })
-TMD_Scramble.addEventListener("click", ()=> { copy(TMD_Scramble.value) })
-TMD_Date.addEventListener("click", ()=> { copy(TMD_Date.value) })
-
+const copyB = (value, txt) => {
+    copy(value);
+    setStatus(`${txt} Copied!`, G);
+}
 
 const createSelect = (length_, inners, container, default_) => {
     for (let i=0; i<length_; i++) {
         opt = document.createElement("option");
         opt.value = i;
         opt.innerHTML = inners[i];
-        if (default_(i, opt)) { opt.toggleAttribute("selected"); }
+        if (default_(i)) { opt.toggleAttribute("selected"); }
         container.add(opt);
     }
 }
@@ -487,11 +451,11 @@ const createSelect = (length_, inners, container, default_) => {
 const main = async () => {
     // cube select
     createSelect(cubes.length, cubes, cubeSelect,
-        (i, opt) => { return cubes[i]==(localStorage.getItem("selected_cube") || "3x3") });
+        (i) => { return cubes[i]==(localStorage.getItem("selected_cube") || "3x3") });
 
     // session select
     createSelect(s_length, s_idxs, sessionSelect,
-        (i, opt) => { return i==(current_session) });
+        (i) => { return i==(current_session) });
 
     logTime();
     if (cubes[cubeSelect.value]=="4x4") {
@@ -499,7 +463,7 @@ const main = async () => {
         hide_display();
         await delay(200);
     }
-    setScramble().then(((result)=>{ sc = result; }));
+    setScramble();
 }
 
 main();
