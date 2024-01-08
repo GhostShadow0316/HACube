@@ -402,7 +402,7 @@ table { width: 90%; }
     /* appearance */
 
     /* display */
-    height: 0;
+    height: 1dvh;
 
     /* other */
 }
@@ -468,6 +468,7 @@ table { width: 90%; }
     border-radius: 3px;
 
     /* display */
+    padding: 0 0.5rem;
 
     /* other */
     cursor: pointer;
@@ -485,6 +486,7 @@ table { width: 90%; }
     border-radius: var(--bdrs);
 
     /* display */
+    padding: 0 0.5rem;
 
     /* other */
     cursor: pointer;
@@ -502,6 +504,7 @@ table { width: 90%; }
     border-radius: var(--bdrs);
 
     /* display */
+    padding: 0 0.5rem;
 
     /* other */
     cursor: pointer;
@@ -524,3 +527,26 @@ table { width: 90%; }
     /* other */
     cursor: pointer;
 }
+
+#TMD-Close:hover  { background: var(--alt-hover); }
+#TMD-Close:active { background: var(--alt-click); }
+
+#TMD-SolveT > a:hover  { background: var(--copy-hover); }
+#TMD-SolveT > a:active { background: var(--copy-click); }
+
+#TMD-Cube > a:hover  { background: var(--copy-hover); }
+#TMD-Cube > a:active { background: var(--copy-click); }
+
+#TMD-Scramble > a:hover  { background: var(--copy-hover); }
+#TMD-Scramble > a:active { background: var(--copy-click); }
+
+#TMD-Date > a:hover  { background: var(--copy-hover); }
+#TMD-Date > a:active { background: var(--copy-click); }
+
+.TMD-PunishB:hover  { background: var(--alt-hover); }
+.TMD-PunishB:active { background: var(--alt-click); }
+
+#TMD-Delete:hover  { background: var(--alt-hover); }
+#TMD-Delete:active { background: var(--alt-click); }
+
+
