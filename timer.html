@@ -38,22 +38,17 @@
     <div id="top">
         <!-- <button id="menu-btn">&#9776;</button> -->
         <div class="center">
-            <select id="cube-select"></select>
-            <p id="change-scramble"><span class="click" id="next-sc" clickA="setScramble();">next</span> scramble</p>
+            <p id="change-scramble">
+                <select id="cube-select"></select>
+                <l class="click"
+                   clickA="setScramble();">next</l>
+                scramble
+            </p>
         </div>
         <scramble clickA="copyB(scramble.value, 'scramble');"><a></a></scramble>
     </div>
 
     <twisty-player id="sc-display" visualization="2D" background="none" control-panel="none"></twisty-player>
-
-    <div id="center">
-        <h1 id="timer" clickA="copyB(timer.value, 'current time');">0:00.000</h1>
-        <div id="punishments">
-            <button class="punishment" id="+2"  clickA="punish(PLUS2);">+2</button>
-            <button class="punishment" id="DNF" clickA="punish(DNF);">DNF</button>
-            <!-- <button class="punishment">Delete</button> -->
-        </div>
-    </div>
 
     <div id="side">
         <h1 id="title">HACube Timer</h1>
@@ -73,45 +68,59 @@
             </tr>
         </table>
         <div id="sessionStatic">
-            <h3>Solves: 20</h3>
-            <h3>Mean: 17.5</h3>
+            <h2>Solves: 20</h2>
+            <h2>Mean: 17.5</h2>
             <select id="session-select"></select>
         </div>
-        <table id="table-head">
-            <tr>
-                <th class="th-idx" >idx</th>
-                <th class="th-time">time</th>
-                <th class="th-ao5" >Ao5</th>
-                <th class="th-ao12">Ao12</th>
+        <table id="head">
+            <tr style="width: 100%;">
+                <th style="width: 16%;">idx</th>
+                <th style="width: 28%;">time</th>
+                <th style="width: 28%;">Ao5</th>
+                <th style="width: 28%;">Ao12</th>
             </tr>
         </table>
+
         <div id="timeLogDiv">
             <table id="timeLog">
-                <tr>
+                <tr style="width: 100%">
                     <td class="idx"> - </td>
-                    <td> - </td>
-                    <td> - </td>
-                    <td> - </td>
+                    <td class=""> - </td>
+                    <td > - </td>
+                    <td > - </td>
                 </tr>
             </table>
         </div>
 
     </div>
 
+    <div id="center">
+        <h1 id="timer"
+            clickA="copyB(timer.value, 'current time');"
+            hoverB="var(--main-hover)"
+            clickB="var(--main-click)">0:00.000</h1>
+        <div id="punishDiv">
+            <button class="punishBtn" id="+2"  clickA="punish(PLUS2);">+2</button>
+            <button class="punishBtn" id="DNF" clickA="punish(DNF);">DNF</button>
+            <!-- <button class="punishment">Delete</button> -->
+        </div>
+    </div>
+
     <div id="TMD">
         <button id="TMD-Close">✕</button>
 
         <h1 id="TMD-SolveN">No. 1</h1>
-        <h1 id="TMD-SolveT" clickA="copyB(TMD_SolveT.value, 'solve time');">0:00.000</h1>
+        <h1 id="TMD-SolveT"
+            clickA="copyB(TMD_SolveT.value, 'solve time');">0:00.000</h1>
         <div id="TMD-Punishes">
-            <button class="TMD-Punish" id="TMD-PLUS2" clickA="edit_punish(TMD_idx, PLUS2);">+2</button>
-            <button class="TMD-Punish" id="TMD-DNF"   clickA="edit_punish(TMD_idx, DNF);"  >DNF</button>
+            <button class="TMD-PunishB" id="TMD-PLUS2" clickA="edit_punish(TMD_idx, PLUS2);">+2</button>
+            <button class="TMD-PunishB" id="TMD-DNF"   clickA="edit_punish(TMD_idx, DNF);"  >DNF</button>
         </div>
         <p id="TMD-Cube"     clickA="copyB(TMD_Cube.value, 'cube');"    >Cube: <a>3x3</a></p>
         <p id="TMD-Scramble" clickA="copyB(TMD_Scramble.value, 'scramble');">Scramble: <a>placeholder</a></p>
         <p id="TMD-Date"     clickA="copyB(TMD_Date.value, 'date');"    >Date: <a>2023/10/9 16:57:56</a></p>
 
-        <br><br><br>
+        <br><br>
         <button id="TMD-Delete">Delete</button>
     </div>
 
@@ -120,5 +129,6 @@
     <script src="js/timer.js"></script>
     <script src="js/commands.js"></script>
     <script src="js/kbctrl.js"></script>
+
 </body>
 </html>

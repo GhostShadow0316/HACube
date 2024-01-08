@@ -1,6 +1,6 @@
 // timer.js
 
-const last_update = "2024-01-07";
+const last_update = "2024-01-08";
 
 const PLUS2 = "+2";
 const DNF   = "DNF";
@@ -25,8 +25,8 @@ var staticLog     = document.getElementById("staticLog");
 var timeLogDiv    = document.getElementById("timeLogDiv");
 var timeLog       = document.getElementById("timeLog");
 var sessionStatic = document.getElementById("sessionStatic");
-var solveCount    = sessionStatic.getElementsByTagName("h3")[0];
-var solveMean     = sessionStatic.getElementsByTagName("h3")[1];
+var solveCount    = sessionStatic.getElementsByTagName("h2")[0];
+var solveMean     = sessionStatic.getElementsByTagName("h2")[1];
 var sessionSelect = sessionStatic.getElementsByTagName("select")[0];
 var static_time   = document.getElementById("static-time");
 var static_ao5    = document.getElementById("static-ao5");
@@ -61,7 +61,7 @@ const getSession = () => {
 
 all_times = getSession();
 
-const num = (n, digit, replacement="") => { return ("" + n).padStart(digit, replacement); }
+const num = (n, digit, replacement="") => { return ("" + n).padEnd(digit, replacement); }
 
 const logLocalStorage = () => {
     sessions[s_idxs[current_session]] = JSON.stringify(all_times);
@@ -229,12 +229,12 @@ var formatTime = (time, punish=null) => {
     let result;
     if (resultM==0) {
         if (resultS==0) {
-            result = `0.${resultMS}`;
+            result = `0.${resultMS.padEnd(3, "0")}`;
         } else {
-            result = `${resultS}.${resultMS}`;
+            result = `${resultS}.${resultMS.padEnd(3, "0")}`;
         }
     } else {
-        result = `${resultM}:${resultS}.${resultMS}`;
+        result = `${resultM}:${resultS}.${resultMS.padEnd(3, "0")}`;
     }
 
     return addPunish(result, punish);
@@ -309,9 +309,9 @@ var logTime = () => {
         timeLog.innerHTML =
         `<tr>
             <td class="idx"> ${i+1}</td>
-            <td class="px80 ${isBest(best, cur)}">${formatTime(cur, all_times[i]["punish"])}</td>
-            <td class="px80">${ao5}</td>
-            <td class="px80">${ao12}</td>
+            <td class="${isBest(best, cur)}">${formatTime(cur, all_times[i]["punish"])}</td>
+            <td >${ao5}</td>
+            <td >${ao12}</td>
         </tr>` + timeLog.innerHTML;
     }
 

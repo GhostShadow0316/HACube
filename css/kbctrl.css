@@ -3,7 +3,7 @@
     position: absolute;
     z-index: 99;
 
-    top:  20%;
+    top:  25%;
     left: 60%;
     transform: translate(-50%, 0%);
 
@@ -45,12 +45,12 @@
     border: 1px solid #fff;
     padding: 5px 30px;
     text-align: center;
-    background: rgba(0, 0, 0, 0.3);
+    background: #222222;
 
     position: absolute;
     z-index: 99;
 
-    top: 15%;
+    top: 18%;
     right: 1%;
     /* transform: translate(-50%, 0%); */
 

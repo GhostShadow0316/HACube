@@ -1,418 +1,526 @@
+/* timer.css */
+
 /* import */
 @import url(base.css);
 @import url(font.css);
 @import url(kbctrl.css);
 
+/* variable */
+:root {
+    /* font */
+    --main-font: "jf";
+    --alt-font: "Fira Code";
+
+    /* color */
+    --text-fg: #fff;
+    --sc-fg: #fff;
+    --next-fg: #40eeee;
+    --title-fg: #818181;
+    --best: #ff0;
+    --TMD-fg: #ccc;
+
+    /* background */
+    --bg: #000;
+    --btn-bg: #404040;
+    --top-bg: #151515;
+    --side-bg: #202020;
+    --sc-display-bg: #606060;
+    --TMD-bg: #202020;
+
+    /* hover&click */
+    --main-hover: #404040;
+    --main-click: #303030;
+    --alt-hover: #303030;
+    --alt-click: #202020;
+
+    --idx-hover: #151515;
+
+    --copy-hover: #404040;
+    --copy-click: #202020;
+
+    /* bdrs */
+    --bdrs: 5px;
+}
+
+/* [ CENTER ] */
+
 #top {
-    height: 16%;
-    width: 80%;
-    position: fixed;
-    left: auto;
-    right: 0;
-    top: 0;
-    /* border: 1px solid #fff; */
+    /* font */
+
+    /* appearance */
     background: var(--top-bg);
+
+    /* display */
+    height: 18dvh;
+    width: 80dvw;
+
+    /* other */
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: auto;
 }
 
 select {
-    appearance: none;
-
-    font-size: 18px;
+    /* font */
     font-family: var(--alt-font);
+    text-align: center;
 
-    padding: 2px;
-    border-radius: 5px;
-    height: 40px;
-    width:  120px;
+    /* appearance */
     color: var(--text-fg);
     background: var(--btn-bg);
     border: none;
-    text-align: center;
-    margin: 15px 5px;
+    border-radius: var(--bdrs);
+    appearance: none;
 
-    /* display: table-cell;
-    margin: 20px auto; */
+    /* display */
+    /* min-height: 40px; */
+    height: 5dvh;
+
+    /* min-width: 120px; */
+    width: 8dvw;
+
+    padding: 2px;
 }
 
-select:hover { background: var(--alt-hover); }
+select:hover  { background: var(--alt-hover); }
 select:active { background: var(--alt-click); }
 
-p#change-scramble {
-    font-size: 28px;
-    margin: 15px 5px;
-}
 
-span.click {
-    color: #40eeee;
-    cursor: pointer;
+#change-scramble {
+    font-size: 2rem;
+    margin: 2dvh 1dvw;
+}
+#change-scramble > select { font-size: 2dvh; }
+
+.click {
+    /* font */
+
+    /* appearance */
+    color: var(--next-fg);
+    border-radius: var(--bdrs);
+
+    /* display */
     padding: 0px 10px;
-    border-radius: 5px;
+
+    /* other */
+    cursor: pointer;
     user-select: none;
 }
-span.click:hover { background: var(--main-hover); }
-span.click:active { background: var(--main-click); }
+
+.click:hover  { background: var(--main-hover); }
+.click:active { background: var(--main-click); }
 
 .center {
     display: flex;
-    /* align-items: center; */
     justify-content: center;
 }
 
 scramble {
-    font-size: 2dvw;
+    /* font */
+    font-size: 2rem;
     font-family: var(--alt-font);
-    width: 90%;
-    padding-top: 0.5dvw;
     text-align: center;
 
+    /* display */
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    width: 90%;
+    margin: 1dvh auto;
 }
-scramble>a {
+
+scramble > a {
+    /* font */
+
+    /* appearance */
+    border-radius: var(--bdrs);
+
+    /* display */
     padding: 0px 10px;
-    border-radius: 5px;
+
+    /* other */
     cursor: pointer;
 }
 
-scramble>a:hover  { background: var(--main-hover); }
-scramble>a:active { background: var(--main-click); }
+scramble > a:hover  { background: var(--main-hover); }
+scramble > a:active { background: var(--main-click); }
 
-#side {
-    height: 100%;
-    width: 20%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    overflow-x: hidden;
-    text-align: center;
-    background: var(--side-bg);
-
-    /* border: 1px solid #fff; */
-}
+/* [ SIDEBAR ] */
 
 #side::-webkit-scrollbar { display: none; }
 
-#side>div>p, #side>div>a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 25px;
-    /* color: #818181; */
-    display: block;
-}
+#side {
+    /* font */
+    font-size: 1rem;
+    text-align: center;
 
-#sc-display {
-    width: 20%;
-    /* margin-left: 11px; */
-    padding: 5px;
-    background: var(--sc-display-bg);
-    border-radius: 5px;
+    /* appearance */
+    background: var(--side-bg);
 
-    position: absolute;
-    bottom: 1%;
+    /* display */
+    position: fixed;
+    z-index: 1;
+    height: 100dvh;
+    width: 20dvw;
+    top: 0;
+    left: 0;
 
-    right: 1%;
-    transform: translate(0%, 0%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* other */
+    overflow-x: hidden;
 }
 
 #title {
-    color: #818181;
-    background: #202020;
-    font-size: 4dvh;
+    /* font */
+    font-size: 2.5rem;
+
+    /* appearance */
+    color: var(--title-fg);
+
+    /* display */
+
+    /* other */
     cursor: pointer;
     user-select: none;
-}
-/* #title:hover { background: #101010; } */
 
-#side>table, #timeLogDiv>table {
-    position: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#table-head {
-    height: 5%;
-    margin-bottom: -1px;
-}
-
-#staticLog {
-    height: 10%;
 }
 
 #sessionStatic {
+    /* font */
+
+    /* appearance */
     border: 1px solid #fff;
-    height: 15%;
-    width: 307px;
+
+    /* display */
+    display: block;
+    height: 22dvh;
+    width: 90%;
     margin-top: 15px;
     margin-bottom: -1px;
-    padding: 0px 0px;
 
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
+    padding: 0 0;
 
-#sessionStatic>h2 {
-    height: 40px;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    /* other */
 }
 
 #session-select {
-    height: 30px;
-    width: 100px;
-    margin-top: 0px;
+    font-size: 1.2rem;
 }
-
-th, td { height: 45px; }
-
-.idx, .th-idx  { width: 40px; padding: 0px 3px; }
-.th-time, .th-ao5, .th-ao12, .px80 {
-    width: 80px;
-    padding: 0px 3px;
-}
-
-.idx { cursor: pointer; }
-.idx:hover  { background: var(--idx-hover); }
-
-.best { color: #ff0; }
 
 #timeLogDiv::-webkit-scrollbar { display: none; }
 #timeLogDiv {
+    /* font */
+
+    /* appearance */
+
+    /* display */
+    display: flex;
     width: 100%;
     height: 55%;
-    overflow: auto;
+    flex-direction: column;
+    align-items: center;
 
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    /* other */
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
+#head { margin-bottom: -1px; }
+.best { color: var(--best); }
+
+th, td {
+    height: 5dvh;
+    width: 28%;
+}
+
+table { width: 90%; }
+.idx:hover { background: var(--idx-hover); }
+.idx  {
+    width: 16%;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* [ CENTER ] */
+
 #center {
-    width:  80%;
-    height: 84%;
+    /* font */
     text-align: center;
+
+    /* appearance */
+
+    /* display */
+    width: 80dvw;
+    height: 82dvh;
 
     position: absolute;
     bottom: 0%;
     right: 0%;
+
+    /* other */
 }
 
 #timer {
-    font-size: 10dvw;
-    cursor: pointer;
-    user-select: none;
+    /* font */
+    font-size: 10rem;
+
+    /* appearance */
+    border-radius: calc(var(--bdrs) * 2);
+
+    /* display */
     width: 80%;
-
-    border-radius: 10px;
-    padding: 0px 2dvw;
-
+    padding: 0 2dvw;
     margin: 0;
     position: absolute;
-    top: 45%;
+    top:  45%;
     left: 50%;
+
     -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    transform:     translate(-50%, -50%);
+
+    /* other */
+    cursor: pointer;
+    user-select: none;
 }
 
-#timer:hover { background: var(--main-hover); }
-#timer:active { background: var(--main-click); }
+#punishDiv {
+    /* font */
 
-#punishments {
+    /* appearance */
+
+    /* display */
+    position: absolute;
+    top:  60%;
+    left: 50%;
+
     display: flex;
-    align-items: center;
+    gap: 2dvw;
     justify-content: center;
 
-    position: absolute;
-    top: 60%;
-    left: 50%;
     -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, 0%);
+    transform:     translate(-50%, 0%);
+
+    /* other */
 }
 
-.punishment {
-    color: #fff;
-    background: var(--btn-bg);
-    font-size: 30px;
+.punishBtn {
+    /* font */
+    font-size: 2rem;
     font-family: var(--alt-font);
-    width: 100px;
-    height: 50px;
-    margin: 10px;
-    border-radius: 10px;
+
+    /* appearance */
+    color: var(--btn-fg);
+    background: var(--btn-bg);
     border: none;
+    border-radius: calc(var(--bdrs) * 2);
+
+    /* display */
+    width:  8dvw;
+    height: 8dvh;
+
+    /* other */
     cursor: pointer;
 }
 
-.punishment:hover { background: var(--alt-hover); }
-.punishment:active { background: var(--alt-click); }
+.punishBtn:hover  { background: var(--alt-hover); }
+.punishBtn:active { background: var(--alt-click); }
+
+#sc-display {
+    /* font */
+
+    /* appearance */
+    background: var(--sc-display-bg);
+    border-radius: var(--bdrs);
+
+    /* display */
+    width: 20%;
+    padding: 1dvh 1dvw;
+    position: absolute;
+    bottom: 1%;
+    right: 1%;
+    transform: translate(0%, 0%);
+
+    /* other */
+}
+
+/* [ TMD ] */
 
 #TMD {
-    display: none;
-
-    background: #101010;
-    border-radius: 10px;
-    opacity:0.99;
-    width:50%;
-    height: 50%;
+    /* font */
     text-align: center;
-    align-items: center;
 
+    /* appearance */
+    background: var(--TMD-bg);
+    border-radius: calc(var(--bdrs) * 2);
+    opacity: 0.99;
+
+    /* display */
+    display: none;
+    width:  50%;
+    height: 50%;
+    align-items: center;
     z-index: 5;
 
     position: absolute;
-    top: 50%;
+    top:  55%;
     left: 50%;
+
     -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    transform:     translate(-50%, -50%);
+
+    /* other */
 }
 
 #TMD-Close {
-    color: #fff;
-    background: var(--btn-bg);
-    width: 40px;
-    height: 40px;
-    font-size: 30px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
+    /* font */
+    font-size: 1.5rem;
 
-    margin: 10px;
+    /* appearance */
+    color: var(--text-fg);
+    background: var(--btn-bg);
+    border: none;
+    border-radius: 10px;
+
+    /* display */
+    width:  3rem;
+    height: 3rem;
+    margin: 1rem;
     position: absolute;
-    top: 0;
+    top:  0;
     left: 0;
+
+    /* other */
+    cursor: pointer;
 }
 
 #TMD-SolveN {
-    font-size: 30px;
-    height: 0px;
+    /* font */
+    font-size: 2rem;
+
+    /* appearance */
+
+    /* display */
+    height: 0;
+
+    /* other */
 }
 
-#TMD-SolveT { font-size: 50px; }
-#TMD-SolveT>a {
-    font-size: 50px;
-    padding: 0px 5px;
-    border-radius: 5px;
+#TMD-SolveT { font-size: 3rem; }
+#TMD-SolveT > a {
+    /* font */
+
+    /* appearance */
+    border-radius: var(--bdrs);
+
+    /* display */
+    padding: 0 1dvh;
+
+    /* other */
     cursor: pointer;
 }
 
 #TMD-Punishes {
-    margin-top: -20px;
-    margin-bottom: -20px;
+    /* font */
+
+    /* appearance */
+
+    /* display */
+    margin: -1dvh 0;
 
     display: flex;
-    align-items: center;
+    gap: 1dvw;
     justify-content: center;
+    align-items: center;
+
+    /* other */
 }
 
-.TMD-Punish {
-    color: #fff;
+.TMD-PunishB {
+    /* font */
+    font-size: 1.2rem;
+    font-family: var(--alt-font);
+
+    /* appearance */
+    color: var(--text-fg);
     background: var(--btn-bg);
-    font-size: 20px;
-    font-family: "Fira Code";
-    width: 60px;
-    height: 40px;
-    margin: 5px;
     border-radius: 5px;
     border: none;
+
+    /* display */
+    width:  4.5dvw;
+    height: 4.5dvh;
+
+    /* other */
     cursor: pointer;
 }
 
 #TMD-Cube {
-    font-size: 30px;
-    height: 0px;
-    padding-bottom: 20px;
+    font-size: 2rem;
+    height: 1rem;
 }
-#TMD-Cube>a {
-    font-size: 30px;
-    padding: 0px 5px;
+#TMD-Cube > a {
+    /* font */
+    font-size: 1.5rem;
+
+    /* appearance */
     border-radius: 3px;
+
+    /* display */
+
+    /* other */
     cursor: pointer;
 }
 
-#TMD-Scramble { font-size: 20px; }
-#TMD-Scramble>a {
-    font-size: 18px;
-    padding: 0px 5px;
-    border-radius: 3px;
+#TMD-Scramble {
+    font-size: 2rem;
+    height: 1rem;
+}
+#TMD-Scramble > a {
+    /* font */
+    font-size: 1.5rem;
+
+    /* appearance */
+    border-radius: var(--bdrs);
+
+    /* display */
+
+    /* other */
     cursor: pointer;
 }
 
-#TMD-Date { font-size: 20px; }
-#TMD-Date>a {
-    font-size: 18px;
-    padding: 0px 5px;
-    border-radius: 3px;
+#TMD-Date {
+    font-size: 2rem;
+    height: 1rem;
+}
+#TMD-Date > a {
+    /* font */
+    font-size: 1.5rem;
+
+    /* appearance */
+    border-radius: var(--bdrs);
+
+    /* display */
+
+    /* other */
     cursor: pointer;
 }
 
 #TMD-Delete {
-    color: #fff;
+    /* font */
+    font-size: 1.5rem;
+
+    /* appearance */
+    color: var(--text-fg);
     background: var(--btn-bg);
-    width: 100px;
-    height: 50px;
-    font-size: 30px;
-    margin: 10px;
-    border-radius: 5px;
     border: none;
+    border-radius: var(--bdrs);
+
+    /* display */
+    width:  6dvw;
+    height: 6dvh;
+
+    /* other */
     cursor: pointer;
-}
-
-#TMD-Close:hover  { background: var(--alt-hover); }
-#TMD-Close:active { background: var(--alt-click); }
-
-#TMD-SolveT>a:hover  { background: var(--copy-hover); }
-#TMD-SolveT>a:active { background: var(--copy-click); }
-
-#TMD-Cube>a:hover  { background: var(--copy-hover); }
-#TMD-Cube>a:active { background: var(--copy-click); }
-
-#TMD-Scramble>a:hover  { background: var(--copy-hover); }
-#TMD-Scramble>a:active { background: var(--copy-click); }
-
-#TMD-Date>a:hover  { background: var(--copy-hover); }
-#TMD-Date>a:active { background: var(--copy-click); }
-
-.TMD-Punish:hover  { background: var(--alt-hover); }
-.TMD-Punish:active { background: var(--alt-click); }
-
-#TMD-Delete:hover  { background: var(--alt-hover); }
-#TMD-Delete:active { background: var(--alt-click); }
-
-#menu-btn {
-    display: none;
-
-    background: transparent;
-    color: #fff;
-    font-size: 40px;
-    position: absolute;
-    border: none;
-    cursor: pointer;
-}
-
-@media screen and (max-width: 1080px) {
-    #menu-btn { display: block; }
-    /* #side { display: none; } */
-
-    #top {
-        width: 100%;
-        display: block;
-    }
-    #center {
-        width: 100%;
-        height: 70%;
-        display: block;
-    }
-    twisty-player { width: 30%; }
-
-    #side {
-        display: none;
-        height: 100%;
-        width: 100%;
-        /* position: relative; */
-        z-index: 1;
-        bottom: 0px;
-        /* left: 0; */
-        /* overflow-x: hidden; */
-    }
 }

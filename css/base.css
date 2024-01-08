@@ -1,32 +1,4 @@
 
-/* variable */
-:root {
-    --main-font: "jf";
-    --alt-font: "Fira Code";
-
-    /* color */
-    --text-fg: #fff;
-    --sc-fg: #fff;
-
-    /* background */
-    --bg: #000;
-    --btn-bg: #404040;
-    --top-bg: #151515;
-    --side-bg: #202020;
-    --sc-display-bg: rgba(128, 128, 128, 0.3);
-
-    /* hover&click */
-    --main-hover: #404040;
-    --main-click: #303030;
-    --alt-hover: #303030;
-    --alt-click: #202020;
-
-    --idx-hover: #151515;
-
-    --copy-hover: #404040;
-    --copy-click: #202020;
-}
-
 html {
     font-feature-settings: "cv01", "cv02";
     color: var(--text-fg);
@@ -40,7 +12,7 @@ table, td, tr, th {
     text-align: center;
 }
 
-th, td {
-    width: 45px;
-    height: 45px;
-}
+/* th, td {
+    min-width: 45px;
+    min-height: 45px;
+} */

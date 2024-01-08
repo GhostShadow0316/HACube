@@ -59,8 +59,10 @@ document.addEventListener("keydown", (e) => {
             hide(kbctrl);
             break;
         case ("Enter"): // enter -> send command
-            hide(kbctrl);
-            execute(parse(kbinput.value));
+            if (getStyle(kbctrl, "display") === "block") {
+                hide(kbctrl);
+                execute(parse(kbinput.value));
+            }
             break;
         case ("KeyP"): // ^+p -> show kbctrl
             if (e.shiftKey && (e.ctrlKey || e.metaKey)) {
