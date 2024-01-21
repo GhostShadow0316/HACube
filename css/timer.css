@@ -264,7 +264,7 @@ table { width: 90%; }
 
 #timer {
     /* font */
-    font-size: 10rem;
+    font-size: 10dvw;
 
     /* appearance */
     border-radius: calc(var(--bdrs) * 2);
@@ -335,7 +335,8 @@ table { width: 90%; }
     border-radius: var(--bdrs);
 
     /* display */
-    width: 20%;
+    height: 15dvw;
+    width:  15dvw;
     padding: 1dvh 1dvw;
     position: absolute;
     bottom: 1%;
@@ -550,3 +551,18 @@ table { width: 90%; }
 #TMD-Delete:active { background: var(--alt-click); }
 
 
+@media screen and (max-width: 1080px) {
+    #top {
+        width: 100%;
+        display: block;
+    }
+
+    #center {
+        width: 100%;
+        display: block;
+    }
+
+    #side {
+        display: none;
+    }
+}

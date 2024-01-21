@@ -1,65 +1,85 @@
+/* kbctrl.css */
 
 #kbctrl {
-    position: absolute;
-    z-index: 99;
+    /* font */
 
+    /* appearance */
+
+    /* display */
+    display: none;
     top:  25%;
     left: 60%;
     transform: translate(-50%, 0%);
-
-    display: none;
-}
-
-#kbctrl>input {
-    font-family: var(--alt-font);
-    font-size: 45px;
-    background: var(--btn-bg);
-    color: var(--text-fg);
-    padding: 5px;
-    height: 50px;
-    border-radius: 5px;
-    border: 0;
-    outline: 0;
-}
-
-#kbctrl>p {
-    text-align: center;
-    font-family: var(--alt-font);
-    font-size: 20px;
-    background: var(--top-bg);
-    color: var(--text-fg);
-    padding: 10px 0px;
-    /* height: 50px; */
-    border-radius: 5px;
-    border: 0;
-    outline: 0;
-}
-
-#kbstatus {
-    font-family: var(--alt-font);
-    font-size: 30px;
-    min-width: 400px;
-    min-height: 40px;
-
-    border-radius: 5px;
-    border: 1px solid #fff;
-    padding: 5px 30px;
-    text-align: center;
-    background: #222222;
-
     position: absolute;
     z-index: 99;
 
-    top: 18%;
-    right: 1%;
-    /* transform: translate(-50%, 0%); */
+    /* other */
+}
 
+#kbctrl > input {
+    /* font */
+    font-family: var(--alt-font);
+    font-size: 3dvw;
+
+    /* appearance */
+    color: var(--text-fg);
+    background: var(--btn-bg);
+    border: none;
+    border-radius: var(--bdrs);
+    outline: none;
+
+    /* display */
+    padding: 1dvh 1dvw;
+    height: 3.5dvw;
+
+    /* other */
+}
+
+#kbctrl > p {
+    /* font */
+    text-align: center;
+    font-family: var(--alt-font);
+    font-size: 2dvw;
+
+    /* appearance */
+    color: var(--text-fg);
+    background: var(--btn-bg);
+    border: none;
+    border-radius: var(--bdrs);
+    outline: none;
+
+    /* display */
+    padding: 1dvh 1dvw;
+
+    /* other */
+}
+
+#kbstatus {
+    /* font */
+    font-family: var(--alt-font);
+    font-size: 2dvw;
+    text-align: center;
+
+    /* appearance */
+    background: #222222;
+    border: 1px solid #fff;
+    border-radius: var(--bdrs);
+
+    /* display */
     display: none;
+
+    min-width: 25dvw;
+    min-height: 2dvw;
+    padding: 1dvh 2dvw;
+
+    position: absolute;
+    z-index: 99;
+    top:  18%;
+    right: 1%;
+
+    /* other */
 }
 
 @media screen and (max-width: 1080px) {
-    #kbctrl {
-        top:  20%;
-        left: 50%;
-    }
+    #kbctrl { left: 50%; }
 }
